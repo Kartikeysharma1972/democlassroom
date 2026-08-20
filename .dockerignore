@@ -1,0 +1,10 @@
+.git
+**/node_modules
+frontend/dist
+frontend/.vite
+**/__pycache__
+**/*.db
+**/*.log
+reading-comprehension-tool-main
+vocabulary-mastery-tool-main
+*.zip

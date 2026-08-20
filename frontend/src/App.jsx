@@ -47,7 +47,7 @@ function ProtectedLayout() {
           height: 36, background: '#0d1f3a', color: 'rgba(255,255,255,.85)', fontSize: 12,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px',
         }}>
-          <a href="http://localhost:3000/" style={{ color: 'inherit', textDecoration: 'none' }}>◂ Codevidhya <b>AI</b> Platform</a>
+          <a href={import.meta.env.VITE_PORTAL_URL || 'http://localhost:3000/'} style={{ color: 'inherit', textDecoration: 'none' }}>◂ Codevidhya <b>AI</b> Platform</a>
           <span style={{ color: 'rgba(255,255,255,.55)' }}>Classroom AI · Teaching Assistant</span>
         </div>
         <Header />
