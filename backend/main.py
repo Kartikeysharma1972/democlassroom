@@ -114,7 +114,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-OPENAI_MODEL   = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+OPENAI_MODEL   = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 
 # ─── Groq API key pool with automatic rotation ─────────────────────────────
 # Multiple keys so a rate-limit / quota / capacity error on one key
@@ -3104,9 +3104,7 @@ def _vocab_validate(data: dict, min_items: int = 8) -> "str | None":
 # Groq fallback model list (shared by both tools)
 _TOOL_FALLBACK_MODELS = [
     OPENAI_MODEL,
-    "llama-3.1-8b-instant",
-    "deepseek-r1-distill-llama-70b",
-    "meta-llama/llama-4-scout-17b-16e-instruct",
+    "openai/gpt-oss-20b",
 ]
 
 

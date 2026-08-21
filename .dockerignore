@@ -8,3 +8,4 @@ frontend/.vite
 reading-comprehension-tool-main
 vocabulary-mastery-tool-main
 *.zip
+.claude
