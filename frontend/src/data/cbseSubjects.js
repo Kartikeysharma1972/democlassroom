@@ -124,8 +124,8 @@ export function getCoreSubjects(grade) {
 }
 
 export function getMiscSubjects(grade) {
-  const core = new Set(getCoreSubjects(grade).map(s => s.toLowerCase()))
-  return miscSubjectsFor(grade).filter(s => !core.has(s.toLowerCase()))
+  // Coding-only platform — no non-coding "misc" subjects.
+  return []
 }
 
 export function getCoreTopics(grade, subject) {
