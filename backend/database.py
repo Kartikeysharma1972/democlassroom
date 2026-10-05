@@ -4,12 +4,16 @@ ClassroomAI Database Module
 - Manages daily usage limits (50 per tool)
 """
 
+import os
 import sqlite3
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "classroomai.db"
+# Kept beside this file by default. CLASSROOM_DB_PATH moves it onto a shared
+# volume in Docker, where the School Admin Portal reads it (read-only) and the
+# data survives a rebuild.
+DB_PATH = Path(os.environ.get("CLASSROOM_DB_PATH") or Path(__file__).parent / "classroomai.db")
 
 class ChatDatabase:
     """Manage chat history and usage limits"""

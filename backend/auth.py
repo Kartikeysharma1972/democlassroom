@@ -1,11 +1,13 @@
 import hashlib
+import os
 import secrets
 import json
 import time
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "classroomai.db"
+# Same file as database.py — see the note there about CLASSROOM_DB_PATH.
+DB_PATH = Path(os.environ.get("CLASSROOM_DB_PATH") or Path(__file__).parent / "classroomai.db")
 TOKEN_EXPIRY = 60 * 60 * 24 * 30  # 30 days
 
 
