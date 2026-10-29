@@ -5,10 +5,9 @@ import DOMPurify from 'dompurify'
 import ToolSidebar from '../../components/shared/ToolSidebar'
 import ExportDropdown from '../../components/shared/ExportDropdown'
 import EditorToolbar from '../../components/shared/EditorToolbar'
-import HistoryPopup from '../../components/vocabulary/HistoryPopup'
 
 // Sanitize HTML before passing it to dangerouslySetInnerHTML. The HTML comes
-// from contentEditable serialization that includes LLM-generated text — a
+// from contentEditable serialization that includes LLM-generated text - a
 // poisoned source PDF/URL could prompt-inject the model into emitting
 // `<img src=x onerror=...>` inside a vocab definition; once the teacher
 // hits Save, the edited HTML becomes savedHTML and gets re-rendered on
@@ -25,9 +24,6 @@ export default function ResultPage({ worksheet, formData, tabs, onNewTab, onClos
   const [savedHTML, setSavedHTML] = useState(null)
   const editableRef = useRef(null)
   const [toast, setToast] = useState(null)
-  const [history, setHistory] = useState([])
-  const [showHistory, setShowHistory] = useState(false)
-  const [showAllHistory, setShowAllHistory] = useState(false)
   const contentRef = useRef(null)
 
   // When a different worksheet is loaded (from history or a new generation),
@@ -103,12 +99,6 @@ export default function ResultPage({ worksheet, formData, tabs, onNewTab, onClos
       setActiveSidebar(null)
       return
     }
-    if (label === 'History') {
-      // History now opens in a centered popup with a per-item Word-like editor + downloads.
-      setShowHistory(true)
-      setActiveSidebar('History')
-      return
-    }
   }
 
   const GRADE_WORD_LIMITS = {
@@ -125,14 +115,14 @@ export default function ResultPage({ worksheet, formData, tabs, onNewTab, onClos
 
   // Deterministic shuffle of the matching definitions. We previously did
   // [...items].sort(() => Math.random() - 0.5) inline in JSX, which reshuffled
-  // on every render — students would write "1=C", toggle the answer key, and
+  // on every render - students would write "1=C", toggle the answer key, and
   // come back to find "C" pointing at a different definition. Cache the
   // shuffled order in useMemo keyed by the items themselves so it only
   // changes when the underlying worksheet changes.
   const shuffledDefinitions = useMemo(() => {
     const items = matching.items || []
     const arr = items.map((item, i) => ({ ...item, _origIdx: i }))
-    // Fisher–Yates with a seed derived from the items so the order is stable
+    // Fisher-Yates with a seed derived from the items so the order is stable
     // for the same worksheet across renders.
     const seed = items.map(it => (it.word || '') + '|' + (it.definition || '')).join(';')
     let h = 0
@@ -165,7 +155,7 @@ export default function ResultPage({ worksheet, formData, tabs, onNewTab, onClos
       }
       showToast('Copied to clipboard')
     } catch (e) {
-      showToast('Copy failed — please select and copy manually')
+      showToast('Copy failed - please select and copy manually')
     }
   }
 
@@ -270,18 +260,11 @@ export default function ResultPage({ worksheet, formData, tabs, onNewTab, onClos
         </div>
       )}
 
-      {/* Editor toolbar — outside scroll area so it stays fixed while scrolling */}
+      {/* Editor toolbar - outside scroll area so it stays fixed while scrolling */}
       {isEditMode && (
         <EditorToolbar onDone={() => { setSavedHTML(editableRef.current?.innerHTML || editableHTML); setIsEditMode(false); setActiveSidebar(null) }} />
       )}
 
-      {/* Centered History popup with per-item Word-like editor + downloads */}
-      <HistoryPopup
-        open={showHistory}
-        onClose={() => { setShowHistory(false); setActiveSidebar(null) }}
-        api={api}
-        onLoadFromHistory={(item) => onLoadFromHistory?.(item)}
-      />
 
       {/* Main layout: Sidebar + Document */}
       <div className="flex flex-1 overflow-hidden">
@@ -349,7 +332,7 @@ export default function ResultPage({ worksheet, formData, tabs, onNewTab, onClos
                     ))}
                   </tbody>
                 </table>
-                {/* Definitions (shuffled — stable for the same worksheet) */}
+                {/* Definitions (shuffled - stable for the same worksheet) */}
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   {shuffledDefinitions.map((item, i) => (
                     <div key={item._origIdx} className="text-sm text-gray-600">

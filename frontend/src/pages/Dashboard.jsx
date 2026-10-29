@@ -14,7 +14,7 @@ const tools = [
     ),
     title: 'Lesson Planner',
     desc: 'Complete plans with worked examples, activities, differentiation, exit tickets.',
-    features: ['NCERT', 'Differentiated', 'Exit tickets'],
+    features: ['ICT', 'Differentiated', 'Exit tickets'],
     time: '~15s',
   },
   {
@@ -60,7 +60,7 @@ const tools = [
     ),
     title: 'Question Paper',
     desc: 'Full papers with sections, marks, watermark, answer keys.',
-    features: ['CBSE sections', 'MCQ', 'Subjective'],
+    features: ['Sections', 'MCQ', 'Subjective'],
     time: '~15s',
   },
   {
@@ -73,7 +73,7 @@ const tools = [
       </svg>
     ),
     title: 'Code Debugger',
-    desc: 'Paste student code — AI finds bugs and teaches the fix step-by-step.',
+    desc: 'Paste student code - AI finds bugs and teaches the fix step-by-step.',
     features: ['20+ langs', 'Step-by-step', 'CS-friendly'],
     time: '~20s',
     isNew: true,
@@ -87,8 +87,8 @@ const tools = [
       </svg>
     ),
     title: 'Feedback Writer',
-    desc: 'IB MYP–style narrative reports — criterion-based feedback, action steps & report export.',
-    features: ['Criteria 1–8', 'ATL & Learner Profile', 'Report export'],
+    desc: 'IB MYP-style narrative reports - criterion-based feedback, action steps & report export.',
+    features: ['Criteria 1-8', 'ATL & Learner Profile', 'Report export'],
     time: '~12s',
     isNew: true,
   },
@@ -129,12 +129,12 @@ const tools = [
 const stats = [
   { label: 'AI tools', value: '8', sub: 'Production-ready', color: '#1E88FF', bg: '#EEF6FF', icon: '🛠' },
   { label: 'Avg. time saved', value: '10h+', sub: 'every week', color: '#059669', bg: '#ecfdf5', icon: '⏱' },
-  { label: 'Grade coverage', value: 'K–12', sub: 'All Indian boards', color: '#d97706', bg: '#fffbeb', icon: '🎓' },
+  { label: 'Grade coverage', value: 'K-12', sub: 'All Indian boards', color: '#d97706', bg: '#fffbeb', icon: '🎓' },
   { label: 'Output speed', value: '<30s', sub: 'per generation', color: '#0E7CF0', bg: '#f5f3ff', icon: '⚡' },
 ]
 
 const quickTips = [
-  { icon: '💡', text: 'Use Lesson Planner first — it sets up everything else for your week.' },
+  { icon: '💡', text: 'Use Lesson Planner first - it sets up everything else for your week.' },
   { icon: '🎯', text: 'For revision week, pair Worksheet + Question Paper generators.' },
   { icon: '🐛', text: 'CS teachers: drop student code into Code Debugger for instant lesson material.' },
 ]
@@ -164,6 +164,19 @@ export default function Dashboard() {
           background: 'radial-gradient(circle, rgba(168,85,247,0.32) 0%, transparent 70%)',
           borderRadius: '50%',
         }} />
+        <div style={{
+          position: 'absolute', top: 22, right: 24, zIndex: 2,
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          background: '#fff', color: '#1E88FF',
+          fontSize: 16, fontWeight: 800,
+          letterSpacing: '1px', textTransform: 'uppercase',
+          padding: '11px 24px', borderRadius: 100,
+          boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
+          animation: 'blinkSoft 1.4s ease-in-out infinite',
+        }}>
+          Limited Access
+        </div>
+
         <div style={{
           position: 'absolute', top: 30, right: 110,
           width: 6, height: 6, borderRadius: '50%', background: '#fff',
@@ -200,7 +213,7 @@ export default function Dashboard() {
               fontSize: 15, opacity: 0.82, maxWidth: 520,
               lineHeight: 1.65, marginBottom: 22, fontWeight: 400,
             }}>
-              Eight AI tools designed exclusively for teachers — generate lesson plans, worksheets,
+              Eight AI tools designed exclusively for teachers - generate lesson plans, worksheets,
               vocabulary, comprehension, feedback, even debug student code. Pick a tool to start.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -308,7 +321,7 @@ export default function Dashboard() {
             letterSpacing: '-0.3px', marginBottom: 3,
           }}>Your Teaching Tools</h2>
           <p style={{ fontSize: 12.5, color: 'var(--text-3)', fontWeight: 500 }}>
-            Eight AI-powered tools, one place — pick any to get started.
+            Eight AI-powered tools, one place - pick any to get started.
           </p>
         </div>
         <span style={{

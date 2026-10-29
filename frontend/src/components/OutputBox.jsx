@@ -4,13 +4,13 @@ import katex from 'katex'
 import 'katex/dist/katex.min.css'
 import { elementToPdf } from '../utils/pdf'
 
-// Pictographic emojis/symbols to strip from output — keeps arrows (→), math
+// Pictographic emojis/symbols to strip from output - keeps arrows (→), math
 // operators, bullets and dashes intact so equations and mappings are unharmed.
 const EMOJI_RE = /([\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0E}\u{FE0F}\u{200D}\u{20E3}])[ \t]*/gu
 function stripEmojis(s) { return s ? s.replace(EMOJI_RE, '') : s }
 
 // ── MATH (KaTeX) ──────────────────────────────────────
-// Renders a LaTeX string to HTML. Never throws — on a parse error we fall back
+// Renders a LaTeX string to HTML. Never throws - on a parse error we fall back
 // to the raw source so the output is never blanked out.
 function katexHtml(tex, display) {
   try {
@@ -51,7 +51,7 @@ export function downloadTxt(content, filename) {
 // Render the markdown through the SAME on-screen engine (RenderedOutput) into
 // an off-screen container, then snapshot it to a multi-page PDF. This keeps
 // math, tables and styling intact AND makes every output language (Hindi,
-// Tamil, Urdu, …) export correctly — jsPDF's text fonts only cover Latin.
+// Tamil, Urdu, …) export correctly - jsPDF's text fonts only cover Latin.
 async function renderMarkdownToPdf(markdown, filename) {
   const holder = document.createElement('div')
   holder.style.cssText =
@@ -158,7 +158,7 @@ function DownloadMenu({ getText, toolName, showToast }) {
           background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12,
           width: 248, overflow: 'hidden', boxShadow: '0 12px 32px rgba(15,23,42,0.16)',
         }}>
-          <GroupLabel>PDF — ready to print</GroupLabel>
+          <GroupLabel>PDF - ready to print</GroupLabel>
           <ItemBtn icon="📄" accent="#2563eb" label="Worksheet (questions only)" onClick={() => run('questions', 'pdf')} />
           <ItemBtn icon="🔑" accent="#d97706" label="Answer Key (separate sheet)" onClick={() => run('answers', 'pdf')} />
           <ItemBtn icon="🗂️" accent="#0E7CF0" label="Full document (Q + Key)" onClick={() => run('full', 'pdf')} />
@@ -394,7 +394,7 @@ export function RichTextToolbar({ editorRef, onSave, onCancel }) {
         <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
 
-      {/* Save & Cancel — right side */}
+      {/* Save & Cancel - right side */}
       {onSave && (
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 6 }}>
           <button style={{
@@ -670,7 +670,7 @@ export default function OutputBox({ result, loading, toolName = 'output', icon, 
   const editRef = useRef(null)
   const timer = useRef()
 
-  // Emoji-free copy of the output — used for display, copy and downloads so the
+  // Emoji-free copy of the output - used for display, copy and downloads so the
   // generated content stays clean and professional everywhere.
   const cleanResult = stripEmojis(result)
 
@@ -823,7 +823,7 @@ export default function OutputBox({ result, loading, toolName = 'output', icon, 
           </div>
         </div>
 
-        {/* Rich text toolbar — only in edit mode */}
+        {/* Rich text toolbar - only in edit mode */}
         {editing && (
           <RichTextToolbar editorRef={editRef} onSave={saveEdit} onCancel={cancelEdit} />
         )}

@@ -1,410 +1,410 @@
 {
- "Grade 1": {
-  "Coding": [
-   {
-    "topic": "The Computer: A Smart Machine",
-    "chapter": "foundation / digital literacy",
-    "description": "Natural vs. man-made; what makes a computer smart; places where computers are used; Meet Sparky the bot Learning outcomes: Differentiate between natural things, man-made things, and machines. Identify a computer, its basic types, and their uses. Recognize places where computers are used in daily life."
-   },
-   {
-    "topic": "Parts of a Computer",
-    "chapter": "foundation / digital literacy",
-    "description": "Monitor, CPU, keyboard, mouse; connecting them together; basic care Learning outcomes: Identify the main parts of a computer. State the basic function of each part. Identify wired and wireless devices."
-   },
-   {
-    "topic": "Hello Desktop! and Magic Hands",
-    "chapter": "Creation / Organization",
-    "description": "Switching on safely; desktop, icons, taskbar, Start button; mouse practice (click, drag); keyboard practice (letters, numbers, Spacebar) Learning outcomes: Identify the Desktop and its parts. Switch the computer ON and OFF safely. Perform basic mouse actions. Identify important keyboard keys."
-   },
-   {
-    "topic": "Let’s Paint",
-    "chapter": "Creation / Organization",
-    "description": "Opening Paint from the Desktop; pencil, brush, eraser; drawing basic shapes; coloring Learning outcomes: Open the Paint program from the Desktop. Identify and correctly use the Pencil, Brush, Shapes, and Eraser tools Save a simple picture with an adult's help"
-   },
-   {
-    "topic": "Step-by-Step Thinking",
-    "chapter": "coding / application / project",
-    "description": "Everyday sequences; order of actions; simple patterns; giving exact instructions to Sparky Learning outcomes: Identify and arrange everyday activities in the correct order. Identify and continue a simple repeating pattern Understand that computers follow instructions exactly."
-   },
-   {
-    "topic": "Meet ScratchJr and My Story Machine",
-    "chapter": "coding / application / project",
-    "description": "ScratchJr interface; green flag; motion blocks; backgrounds; multiple characters; simple animated story Learning outcomes: Identify the main parts of the ScratchJr interface: Character Panel, Stage, and Block Palette. Use Motion Blocks to move a character, add and switch a background. Use Start on Green Flag, Start on Tap, and the End (Stop) block correctly"
-   }
-  ]
- },
- "Grade 2": {
-  "Coding": [
-   {
-    "topic": "The IPO Cycle",
-    "chapter": "foundation / digital literacy",
-    "description": "Input, Process, Output in daily life; how computers do it Learning outcomes: Explain what Input, Process, and Output mean. Identify the IPO cycle in everyday activities. Recognize how a computer follows the IPO cycle. Spot input devices, output devices, and the processing unit in a computer."
-   },
-   {
-    "topic": "Text Editing and Files & Folders",
-    "chapter": "foundation / digital literacy",
-    "description": "Blinking cursor; Backspace vs. Delete; Caps Lock; what is a file; creating a folder; saving, opening, and renaming work Learning outcomes: Use Notepad to type words and short sentences. Edit and save their work using basic keyboard keys and commands. Identify files and folders and explain their purpose. Create, organize, and delete files and folders safely using the Recycle Bin."
-   },
-   {
-    "topic": "Advanced Paint Tools and Digital Art",
-    "chapter": "Creation / Organization",
-    "description": "Fill with Color, brush sizes, text tool; drawing with labels; saving into a folder Learning outcomes: Undo and redo actions while drawing Explore extra colors using the color wheel and use the Color Picker to match colors already in a picture Change brush size and opacity for different effects Add text labels to a drawing using the Text tool Save a file into a folder with a clear, meaningful name"
-   },
-   {
-    "topic": "Safe Little Netizens",
-    "chapter": "Creation / Organization",
-    "description": "What is the Internet; never sharing passwords; screen time limits; safe online behavior Learning outcomes: Explain the Internet and its uses. Identify personal information and keep passwords safe. Practice safe and responsible online behaviour. Follow healthy screen-time habits and seek help from a trusted adult."
-   },
-   {
-    "topic": "Spot the Bug and Coding with ScratchJr",
-    "chapter": "coding / application / project",
-    "description": "What is a bug; finding mistakes in step-by-step instructions; ScratchJr repeat block; start on tap vs. green flag Learning outcomes: Explain what a \"bug\" is in coding Find and fix a mistake in a set of step-by-step instructions Use the Repeat block to make a character do something more than once Use Looks blocks (Grow, Shrink, Show, Hide, Say) to change how a character looks and make it speak"
-   },
-   {
-    "topic": "My Digital Project",
-    "chapter": "coding / application / project",
-    "description": "Adding multiple pages/scenes in ScratchJr; moving characters between pages; simple project planning Learning outcomes: Explain what a page is and add more than one page to a ScratchJr project Use the Go to Page block to move a character from one page to another Use the Broadcast block (Send Message / Start on Message) to make one character signal another Plan a story with a Beginning, Middle, and End"
-   }
-  ]
- },
- "Grade 3": {
-  "Coding": [
-   {
-    "topic": "Hardware, Software, and Devices",
-    "chapter": "foundation / digital literacy",
-    "description": "Hardware vs. software; system vs. application software; common devices Learning outcomes: Identify hardware and software with suitable examples. Classify hardware into input, output, processing, and storage devices. Differentiate between system software and application software. Explain how hardware and software work together to perform tasks on a computer."
-   },
-   {
-    "topic": "Safe Web Browsing and Digital Responsibility",
-    "chapter": "foundation / digital literacy",
-    "description": "Search engines; typing URLs; safe searching; privacy basics; respectful online habits Learning outcomes: Explain the Internet, websites, and web pages. Differentiate between a web browser and a search engine. Search for information using a URL or keywords. Practise safe and responsible Internet use. Explain the purpose of a computer virus and an antivirus."
-   },
-   {
-    "topic": "Word Processing Fundamentals",
-    "chapter": "Creation / Organization",
-    "description": "Typing; fonts; alignment; spacing; inserting and resizing images; WordArt; simple editing Learning outcomes: Open, type in, and save a document. Change font style, size, and colour, and use Bold, Italic, and Underline. Align text, adjust line spacing, and use Cut, Copy, Paste, and Undo. Insert and resize pictures, add WordArt, and create your own poster, card, or notice."
-   },
-   {
-    "topic": "Scratch Desktop Basics",
-    "chapter": "Creation / Organization",
-    "description": "Stage, sprites, costumes, motion blocks, green flag Learning outcomes: Identify the main parts of the Scratch Desktop interface Explain what sprites and costumes are Start and stop a project using the Green Flag and Stop button Use basic Motion and Looks blocks to move, turn, and make a sprite speak"
-   },
-   {
-    "topic": "Pattern Detectives",
-    "chapter": "coding / application / project",
-    "description": "Unplugged pattern recognition; sequencing; predicting the next step Learning outcomes: Identify patterns in shapes, numbers, and everyday life. Explain the rule followed by a pattern. Predict the next step in a pattern. Arrange everyday steps and computer steps in the correct sequence. Relate patterns and sequencing to how computers work."
-   },
-   {
-    "topic": "Drawing with Code and My First Catch Game",
-    "chapter": "coding / application / project",
-    "description": "Pen extension; loops; drawing shapes; motion and events; arrow key controls Learning outcomes: Draw shapes and lines using the Pen extension Use loops (Repeat, Forever) to repeat actions Control a sprite's position using x and y, and arrow keys Add sounds to a project Build a simple catch game using motion, loops, and sound"
-   }
-  ]
- },
- "Grade 4": {
-  "Coding": [
-   {
-    "topic": "Computer Memory & Storage",
-    "chapter": "foundation / digital literacy",
-    "description": "Primary vs. secondary memory; RAM, ROM; storage devices; units of memory Learning outcomes: Explain why a computer needs memory. Differentiate between primary and secondary memory. Identify common storage devices. Identify units used to measure memory. Choose suitable storage devices for different situations."
-   },
-   {
-    "topic": "Word Document Creation & Design",
-    "chapter": "foundation / digital literacy",
-    "description": "Tables; bulleted and numbered lists; page layout; headers; neat formatting Learning outcomes: Create and edit tables in a document. Use bulleted and numbered lists effectively. Apply page layout features such as orientation, margins, and page size. Format documents using headers, neat formatting, and Print Preview before printing."
-   },
-   {
-    "topic": "Introduction to Presentations and Spreadsheets",
-    "chapter": "Creation / Organization",
-    "description": "Slides; titles; visuals; transitions; rows, columns, cells; entering data Learning outcomes: Identify the basic parts of a presentation and a spreadsheet. Create and manage slides by adding, deleting, saving, and rearranging them. Format text and enhance slides using pictures, shapes, icons, themes, backgrounds, and transitions. Recognize rows, columns, cells, and cell references in a spreadsheet. Enter text, numbers, and simple formulas into spreadsheet cells correctly."
-   },
-   {
-    "topic": "Variables & Broadcasts in Scratch",
-    "chapter": "Creation / Organization",
-    "description": "Scratch 3.0: Variables (score, timer); Broadcast messages; multi-sprite communication; event-driven programming Learning outcomes: Explain what a variable is and use Score/Timer variables Set, change, and show/hide a variable Explain what a broadcast is and send/receive messages between sprites Build a mini project where sprites communicate using variables and broadcasts"
-   },
-   {
-    "topic": "Algorithms and Flowcharts",
-    "chapter": "coding / application / project",
-    "description": "Stepwise thinking; flowchart symbols; decision points; visualizing logic Learning outcomes: Understand algorithms and step-by-step instructions. Arrange steps in the correct sequence. Understand and read basic flowcharts. Create simple algorithms to solve problems."
-   },
-   {
-    "topic": "LOOPS & Decision Making in Code",
-    "chapter": "coding / application / project",
-    "description": "If-then logic; maze navigation; Scratch 3.0 Variables (score, timer); Broadcast messages; event-driven programming Learning outcomes: Use If-Then and If-Then-Else blocks to make decisions Use Operator and Sensing blocks to check conditions Combine loops with conditions, including Repeat Until Build a maze navigation game using movement and decision-making"
-   }
-  ]
- },
- "Grade 5": {
-  "Coding": [
-   {
-    "topic": "Smart Spreadsheets",
-    "chapter": "Foundation",
-    "description": "Excel / Sheets: Rows, Columns, SUM/AVERAGE, Bar & Pie Charts. Learning outcomes: Understand the fundamentals of spreadsheets Enter, organize, and manage data Use basic spreadsheet formulas and functions, such as SUM and AVERAGE Create, interpret, and compare Bar Charts and Pie Charts"
-   },
-   {
-    "topic": "Intro to 3D Space",
-    "chapter": "Foundation",
-    "description": "Tinkercad 3D: X, Y, Z axes; geometric solids; grouping tools. Learning outcomes: Explain what Tinkercad is and where it is used. Identify the main parts of the Tinkercad workspace. Create a simple first design using a basic shape. List real-life uses of 3D design."
-   },
-   {
-    "topic": "AI Creators & Ethics",
-    "chapter": "Creation",
-    "description": "Teachable Machine: Image classification; digital footprints. Learning outcomes: Understand Artificial Intelligence (AI) and its applications. Create and train AI models using Teachable Machine. Improve and test AI models using better examples. Understand Digital Citizenship and Ethical Use of AI."
-   },
-   {
-    "topic": "Mapping Complex Logic",
-    "chapter": "Creation",
-    "description": "Draw.io / Paper: Multi-step flowcharts; branching decisions. Learning outcomes: Understand the purpose of flowcharts and explain how they help solve problems step by step. Identify and use common flowchart symbols to create simple and multi-step flowcharts. Create flowcharts using Draw.io or paper and apply branching decisions where required. Identify and correct common flowchart errors (bugs) to improve logical thinking and problem-solving skills."
-   },
-   {
-    "topic": "My First Webpage (HTML)",
-    "chapter": "Text Coding",
-    "description": "HTML5 (Notepad): Structural tags (<html>, <body>, <h1>, <p>, <img>). Learning outcomes: Understand what HTML5 is and explain its importance in creating web pages. Create a simple HTML file using Notepad and save it with the correct file extension. Use basic HTML tags such as <html>, <body>, <h1>, <p>, and <img> to build a webpage. View a webpage in a web browser and identify the different parts of an HTML document."
-   },
-   {
-    "topic": "Hello Python & Turtle",
-    "chapter": "Text Coding",
-    "description": "Python (IDLE): The print() function; syntax; variables; Turtle graphics drawing. Learning outcomes: Understand what Python is and identify Python IDLE and Google Colab as tools used to write Python programs. Follow the basic syntax rules of Python while writing programs. Identify and use basic data types in Python: int, float, and char. Use variables to store and display information in Python. Write simple Python programs using the print() function. Create simple drawings using Turtle Graphics by writing basic Turtle commands."
-   }
-  ]
- },
- "Grade 6": {
-  "Coding": [
-   {
-    "topic": "Data in Action",
-    "chapter": "Foundation",
-    "description": "Excel / Sheets: Sorting (A-Z), Filtering, Conditional Formatting. Learning outcomes: What data is, and the different types of data How to spot trends, compare data, and find important values How to clean messy data and use Find & Replace and Freeze Panes How to sort and filter data in different ways How to use Conditional Formatting to make data easy to read"
-   },
-   {
-    "topic": "Smart Cities & AI",
-    "chapter": "Foundation",
-    "description": "AI Concepts: IoT, Smart Homes, recognizing AI bias and deepfakes. Learning outcomes: Identify examples of IoT (Internet of Things) devices used in daily life. Explain how IoT devices collect, send, and act on data using sensors and the internet. Differentiate between AI and IoT, and explain how they work together in smart devices. Describe how sensors and connected devices are used to build smart homes and smart cities. Recognize deepfakes and AI Bias."
-   },
-   {
-    "topic": "The Maker Lab: Circuits",
-    "chapter": "Creation",
-    "description": "Tinkercad Circuits: Breadboards, LEDs, Resistors (No code yet). Learning outcomes: Explain what an electric circuit is and describe the path electricity takes through a closed loop. Distinguish between conductors and insulators and explain why each behaves the way it does. Identify the parts of a breadboard and explain how its rows and rails are connected. Identify the two legs of an LED and explain why connecting it the correct way round matters. Explain why a resistor must be placed in series with an LED in a circuit. Explain the difference between a series circuit and a parallel circuit. Explain what voltage means and identify a battery's "
-   },
-   {
-    "topic": "Styling the Web (CSS)",
-    "chapter": "Creation",
-    "description": "CSS / HTML: Linking CSS, changing colors, fonts, and basic box layouts. Learning outcomes: Explain what CSS is and why a webpage needs it. Describe the parts of a CSS rule: the selector and the declaration block. Use class and id selectors to apply styles to specific elements. Link a CSS file to an HTML page using both the internal and external methods. Use CSS properties to change text colour, background colour, font, size and alignment. Write comments in a CSS file to document style rules. Build simple box layouts using width, padding, border, and margin. Save and preview a styled webpage correctly using Notepad and a browser. Apply visual "
-   },
-   {
-    "topic": "Python: Interactive Logic",
-    "chapter": "Text Coding",
-    "description": "Python: The input() function; Data types (Strings/arrays); if/else statements. Learning outcomes: Describe what makes a program interactive and apply the input() function to gather information from users. Accept multiple inputs within a single program. Recognise and work with four Python data types: Strings, Integers, Lists, and Booleans. Transform text input into numbers using the int() function and perform calculations with it. Apply comparison and logical operators to construct conditions. Implement if, if-else, and if-elif-else statements for decision-making. Store and execute a Python program file using IDLE. Develop an interactive Votin"
-   },
-   {
-    "topic": "Python: Loops",
-    "chapter": "Text Coding",
-    "description": "Python: for loops; while loops; Syntax debugging, turtle , sorting(bubble) Learning outcomes: Explain why loops are useful for repeating a task without writing the same code again and again. Use a for loop with the range() function to repeat a block a fixed number of times. Generate a multiplication table using a loop. Use a while loop to repeat a block as long as a condition stays True. Find and fix common syntax errors in loops (syntax debugging). Draw shapes and patterns using loops with Turtle graphics. Arrange a list of numbers in order using the bubble sort algorithm."
-   }
-  ]
- },
- "Grade 7": {
-  "Coding": [
-   {
-    "topic": "Advanced Data Processing",
-    "chapter": "Data & The Smart World",
-    "description": "MS Excel / Google Sheets: Multi-step formulas; VLOOKUP; Working across multiple sheets; Data validation. Learning outcomes: Explain what multi-step formulas are and use them to solve complex calculations in a spreadsheet. Use the VLOOKUP function to find and retrieve data from large tables. Work with multiple sheets in a single workbook and link data across sheets. Apply data validation rules to control what users can enter in a cell. Create dropdown lists and input messages for user-friendly data entry. Process and organize a large dataset using advanced spreadsheet techniques."
-   },
-   {
-    "topic": "How AI Speaks: Chatbots & NLP",
-    "chapter": "Data & The Smart World",
-    "description": "Dialogflow / AI Tools: Natural Language Processing (NLP); The AI Project Cycle; Training a chatbot to answer questions. Learning outcomes: Explain what a chatbot is and describe how it communicates with users. Differentiate between rule-based chatbots and AI-powered chatbots. Define Natural Language Processing (NLP) and explain why computers need it to understand human language. Identify intents and entities in user messages. Describe the process of training a chatbot using training phrases and responses. Use Google Dialogflow to create a simple chatbot with intents, entities, and responses. Apply the AI Project Cycle to plan, build, test, an"
-   },
-   {
-    "topic": "Advanced HTML & Web Forms",
-    "chapter": "Makers & Web Creators",
-    "description": "Web Compiler: Embedding media; creating input forms; building tables in HTML. Learning outcomes: Embed images, audio and video into a webpage using the <img>, <audio> and <video> tags. Embed another webpage inside an HTML page using the <iframe> tag. Build a table with <table>, <tr> and <td> to organise data into rows and columns. Add header cells to a table with <th>, and merge cells across columns or rows using colspan and rowspan. Create a form using <form> and <input> fields to collect input from a visitor. Link a <label> to its <input> using matching for and id attributes, and build a dropdown with <select>, <option> and <button>. Apply "
-   },
-   {
-    "topic": "Mobile App Development",
-    "chapter": "Makers & Web Creators",
-    "description": "MIT App Inventor: UI/UX basics; Drag-and-drop app design; Block-based logic for mobile devices; Event triggers. Learning outcomes: Explain what mobile applications are and how they differ from desktop software. Identify the key components of the MIT App Inventor interface. Design a user interface (UI) using buttons, labels, images, and text boxes. Understand basic User Experience (UX) principles for mobile apps. Use blocks to add functionality to app components. Create a simple interactive mobile application. Test and debug an app using the emulator or a connected device."
-   },
-   {
-    "topic": "The Maker Lab: Coding Arduino",
-    "chapter": "Advanced Text Coding",
-    "description": "Tinkercad Circuits / Arduino IDE: Microcontrollers; Writing C++ block/text code to blink LEDs and read basic sensors. Learning outcomes: Explain what a microcontroller is, and describe the Arduino board and the Arduino IDE. Identify the two required parts of an Arduino sketch, setup() and loop(), and explain what each one does. Write and run a sketch that blinks an LED using pinMode(), digitalWrite() and delay(). Wire a basic sensor to an Arduino and read its value using analogRead(). Use Serial.begin() and Serial.println() to view sensor readings on a computer's Serial Monitor. Explain how digital and analog signals let code sense and contro"
-   },
-   {
-    "topic": "Python: Lists & Functions",
-    "chapter": "Advanced Text Coding",
-    "description": "Python (IDLE): Libraries in Python; Defining and calling reusable def functions; Code modularity. Learning outcomes: Create a list to store many items together and read items using their index. Add and remove items in a list using methods such as append() and remove(). Loop through a list to process every item. Explain what a function is and why it makes code reusable and modular. Define a function using def and call it in a program. Send information into a function using parameters and get answers back using return. Combine lists and functions to build a \"Grade Average Calculator\"."
-   }
-  ]
- },
- "Grade 8": {
-  "Coding": [
-   {
-    "topic": "Introduction to Data Science",
-    "chapter": "Data & The Smart World (Foundation / Digital Literacy)",
-    "description": "Excel / Intro to Python: The Data Lifecycle; Reading arrays; Building interactive data dashboards; Visualizing complex patterns. Learning outcomes: Define Data Science and explain its importance in the modern world. Describe the stages of the Data Lifecycle and explain the purpose of each stage. Differentiate between structured and unstructured data with examples. Create and interpret interactive data dashboards using Excel and Power BI. Identify patterns and trends in datasets through visualization techniques. Explain how Python libraries like pandas and matplotlib are used for data analysis. Apply basic data science concepts to analyze real"
-   },
-   {
-    "topic": "AI Ethics & Cyber Law",
-    "chapter": "Data & The Smart World (Foundation / Digital Literacy)",
-    "description": "Theory / Case Studies: Deepfakes; AI bias; Data Privacy; Intellectual Property (IP); Copyrights; Creative Commons; FOSS. Learning outcomes: Explain why ethics and human responsibility matter in AI-based decision-making. Identify deepfakes and evaluate their responsible and irresponsible use. Explain how AI bias occurs and describe ways to reduce it. Apply safe data-sharing habits and describe key provisions of India's DPDP Act. Differentiate between copyright, patent, and trademark, and apply fair-use principles to school projects. Identify and use Creative Commons and open-source (FOSS) resources responsibly. Describe key provisions of India"
-   },
-   {
-    "topic": "The IoT World (Smart Hardware)",
-    "chapter": "Makers & Web Creators (Creation / Organization)",
-    "description": "Arduino IDE / Tinkercad: The Internet of Things (IoT); Connecting multiple sensors (temperature, ultrasonic) to trigger complex physical outputs. Learning outcomes: Explain what the Internet of Things (IoT) is, and describe how a smart device senses, decides and acts. Wire and read values from a temperature sensor and an ultrasonic distance sensor connected to a microcontroller. Use if/else logic, with comparison operators, to make a decision based on a sensor reading. Combine two sensor readings with && and || to trigger a complex output involving more than one actuator. Use the Serial Monitor to track more than one sensor’s readings side by"
-   },
-   {
-    "topic": "Interactive Web: Intro to JavaScript",
-    "chapter": "Makers & Web Creators (Creation / Organization)",
-    "description": "Web Compiler / Notepad: Completing the Web stack; JS basics; alert(); connecting JavaScript to HTML buttons to make pages interactive. Learning outcomes: After completing this chapter, students will be able to: Explain what JavaScript is, why it's called a scripting language, and how it completes the web stack alongside HTML and CSS. Add JavaScript to a page using inline, internal, and external methods, and use alert() and console.log() to display or check output. Declare and update variables using let, const, and var, and join text using the + operator. Write conditional logic with if/else, comparing values using relational operators and ==="
-   },
-   {
-    "topic": "Python: Dictionaries & Logic",
-    "chapter": "Advanced Text Coding (Coding / Application)",
-    "description": "Python (IDLE): Storing complex data using Key-Value pairs (Dictionaries); Nested logic; Advanced string manipulation. Learning outcomes: Explain what a key-value pair is and create a dictionary to store paired data. Access, add, change, and remove values in a dictionary using their keys. Loop through a dictionary to read every key and value. Use nested logic (a decision inside another decision) to handle layered conditions. Combine dictionaries with nested logic to model real data, such as an employee database. Use advanced string methods such as upper(), strip(), split(), and join(). Build an interactive \"Digital Glossary\" using a dictionary"
-   },
-   {
-    "topic": "Python Capstone: File Handling",
-    "chapter": "Advanced Text Coding (Coding / Application)",
-    "description": "Python (IDLE): Reading from and writing to external text files (.txt); Building a complete, persistent text-based application. Learning outcomes: Explain why data stored in variables is lost when a program ends, and how files keep data permanently. Open a file using the open() function and the correct file mode (read, write, or append). Write data to a text file using write() and add data safely using append mode. Use the with statement so files are always closed correctly. Read data back from a file using read() and by looping through its lines. Handle the situation where a file does not exist yet. Build a complete, persistent application - "
-   }
-  ]
- },
- "Grade 9": {
-  "Coding": [
-   {
-    "topic": "Computer Systems & Number Systems",
-    "chapter": "Foundation",
-    "description": "Hardware, software, CPU/memory, data representation and binary/decimal/hexadecimal number systems."
-   },
-   {
-    "topic": "Python Fundamentals",
-    "chapter": "Foundation",
-    "description": "Variables, data types, operators, expressions and simple programs with input()/print()."
-   },
-   {
-    "topic": "Web Development with HTML & CSS",
-    "chapter": "Web & Creation",
-    "description": "Semantic HTML5, forms, media; CSS box model, colours, fonts and responsive layouts."
-   },
-   {
-    "topic": "Introduction to JavaScript",
-    "chapter": "Web & Creation",
-    "description": "JavaScript variables, functions, events and basic DOM manipulation."
-   },
-   {
-    "topic": "Python Control Flow & Functions",
-    "chapter": "Coding & AI",
-    "description": "Conditionals, for/while loops, functions, parameters, return values and modular code."
-   },
-   {
-    "topic": "Introduction to AI & Data",
-    "chapter": "Coding & AI",
-    "description": "AI concepts, the AI project cycle, data handling, training a simple model and AI ethics."
-   }
-  ]
- },
- "Grade 10": {
-  "Coding": [
-   {
-    "topic": "Advanced Python: Lists, Tuples & Dictionaries",
-    "chapter": "Foundation",
-    "description": "Python collections, indexing, iteration and common methods for structured data."
-   },
-   {
-    "topic": "Databases & SQL Basics",
-    "chapter": "Foundation",
-    "description": "Relational DB concepts and SQL: SELECT, INSERT, UPDATE, DELETE, WHERE, ORDER BY."
-   },
-   {
-    "topic": "Dynamic Web with JavaScript",
-    "chapter": "Web & App",
-    "description": "DOM manipulation, forms, events and small interactive web apps."
-   },
-   {
-    "topic": "App Development",
-    "chapter": "Web & App",
-    "description": "UI/UX design and building a working interactive app."
-   },
-   {
-    "topic": "Data Science with Python",
-    "chapter": "Coding & AI",
-    "description": "Analysing data with pandas and visualising with matplotlib."
-   },
-   {
-    "topic": "AI Project & Ethics",
-    "chapter": "Coding & AI",
-    "description": "Build/test an end-to-end AI project; bias, privacy and responsible use; capstone."
-   }
-  ]
- },
- "Grade 11": {
-  "Coding": [
-   {
-    "topic": "Computer Systems & Organisation",
-    "chapter": "Computer Systems",
-    "description": "Computer organisation, hardware/software, memory, Boolean logic and number systems."
-   },
-   {
-    "topic": "Getting Started with Python",
-    "chapter": "Programming with Python",
-    "description": "Python tokens, data types (Number, String, List, Tuple, Dictionary), variables, operators, I/O."
-   },
-   {
-    "topic": "Conditional & Iterative Statements",
-    "chapter": "Programming with Python",
-    "description": "if/if-else/nested if; for/while loops; range(); break/continue; algorithms & flowcharts."
-   },
-   {
-    "topic": "Strings, Lists & Tuples",
-    "chapter": "Programming with Python",
-    "description": "String, list and tuple operations, traversal, slicing and built-in methods."
-   },
-   {
-    "topic": "Dictionaries & Functions",
-    "chapter": "Programming with Python",
-    "description": "Dictionaries; built-in/module/user-defined functions; parameters, return values and scope."
-   },
-   {
-    "topic": "Society, Law & Ethics",
-    "chapter": "Society, Law & Ethics",
-    "description": "Digital footprint, IP rights, plagiarism, FOSS/Creative Commons, cyber crime, safety and e-waste."
-   }
-  ]
- },
- "Grade 12": {
-  "Coding": [
-   {
-    "topic": "Functions & Recursion",
-    "chapter": "Programming with Python",
-    "description": "User-defined functions, argument passing, scope, recursion and program efficiency."
-   },
-   {
-    "topic": "Exception Handling & File Handling",
-    "chapter": "Programming with Python",
-    "description": "try-except-finally; text, binary and CSV files; relative/absolute paths; read/write."
-   },
-   {
-    "topic": "Data Structures: Stacks",
-    "chapter": "Programming with Python",
-    "description": "Stacks, push/pop, list-based implementation and applications."
-   },
-   {
-    "topic": "Computer Networks",
-    "chapter": "Computer Networks",
-    "description": "Network types, topologies, devices, protocols (TCP/IP, HTTP), web and security basics."
-   },
-   {
-    "topic": "Database Management & SQL",
-    "chapter": "Database Management",
-    "description": "DBMS, tables/keys, SQL queries, aggregate functions, GROUP BY, ORDER BY and joins."
-   },
-   {
-    "topic": "Python-SQL Connectivity & Project",
-    "chapter": "Database Management",
-    "description": "Interface Python with MySQL: connect, query, fetch; capstone project."
-   }
-  ]
- }
+  "Grade 1": {
+    "ICT": [
+      {
+        "topic": "The Computer: A Smart Machine",
+        "chapter": "foundation / digital literacy",
+        "description": "Natural vs. man-made; what makes a computer smart; places where computers are used; Meet Sparky the bot Learning outcomes: Differentiate between natural things, man-made things, and machines. Identify a computer, its basic types, and their uses. Recognize places where computers are used in daily life."
+      },
+      {
+        "topic": "Parts of a Computer",
+        "chapter": "foundation / digital literacy",
+        "description": "Monitor, CPU, keyboard, mouse; connecting them together; basic care Learning outcomes: Identify the main parts of a computer. State the basic function of each part. Identify wired and wireless devices."
+      },
+      {
+        "topic": "Hello Desktop! and Magic Hands",
+        "chapter": "Creation / Organization",
+        "description": "Switching on safely; desktop, icons, taskbar, Start button; mouse practice (click, drag); keyboard practice (letters, numbers, Spacebar) Learning outcomes: Identify the Desktop and its parts. Switch the computer ON and OFF safely. Perform basic mouse actions. Identify important keyboard keys."
+      },
+      {
+        "topic": "Let’s Paint",
+        "chapter": "Creation / Organization",
+        "description": "Opening Paint from the Desktop; pencil, brush, eraser; drawing basic shapes; coloring Learning outcomes: Open the Paint program from the Desktop. Identify and correctly use the Pencil, Brush, Shapes, and Eraser tools Save a simple picture with an adult's help"
+      },
+      {
+        "topic": "Step-by-Step Thinking",
+        "chapter": "coding / application / project",
+        "description": "Everyday sequences; order of actions; simple patterns; giving exact instructions to Sparky Learning outcomes: Identify and arrange everyday activities in the correct order. Identify and continue a simple repeating pattern Understand that computers follow instructions exactly."
+      },
+      {
+        "topic": "Meet ScratchJr and My Story Machine",
+        "chapter": "coding / application / project",
+        "description": "ScratchJr interface; green flag; motion blocks; backgrounds; multiple characters; simple animated story Learning outcomes: Identify the main parts of the ScratchJr interface: Character Panel, Stage, and Block Palette. Use Motion Blocks to move a character, add and switch a background. Use Start on Green Flag, Start on Tap, and the End (Stop) block correctly"
+      }
+    ]
+  },
+  "Grade 2": {
+    "ICT": [
+      {
+        "topic": "The IPO Cycle",
+        "chapter": "foundation / digital literacy",
+        "description": "Input, Process, Output in daily life; how computers do it Learning outcomes: Explain what Input, Process, and Output mean. Identify the IPO cycle in everyday activities. Recognize how a computer follows the IPO cycle. Spot input devices, output devices, and the processing unit in a computer."
+      },
+      {
+        "topic": "Text Editing and Files & Folders",
+        "chapter": "foundation / digital literacy",
+        "description": "Blinking cursor; Backspace vs. Delete; Caps Lock; what is a file; creating a folder; saving, opening, and renaming work Learning outcomes: Use Notepad to type words and short sentences. Edit and save their work using basic keyboard keys and commands. Identify files and folders and explain their purpose. Create, organize, and delete files and folders safely using the Recycle Bin."
+      },
+      {
+        "topic": "Advanced Paint Tools and Digital Art",
+        "chapter": "Creation / Organization",
+        "description": "Fill with Color, brush sizes, text tool; drawing with labels; saving into a folder Learning outcomes: Undo and redo actions while drawing Explore extra colors using the color wheel and use the Color Picker to match colors already in a picture Change brush size and opacity for different effects Add text labels to a drawing using the Text tool Save a file into a folder with a clear, meaningful name"
+      },
+      {
+        "topic": "Safe Little Netizens",
+        "chapter": "Creation / Organization",
+        "description": "What is the Internet; never sharing passwords; screen time limits; safe online behavior Learning outcomes: Explain the Internet and its uses. Identify personal information and keep passwords safe. Practice safe and responsible online behaviour. Follow healthy screen-time habits and seek help from a trusted adult."
+      },
+      {
+        "topic": "Spot the Bug and Coding with ScratchJr",
+        "chapter": "coding / application / project",
+        "description": "What is a bug; finding mistakes in step-by-step instructions; ScratchJr repeat block; start on tap vs. green flag Learning outcomes: Explain what a \"bug\" is in coding Find and fix a mistake in a set of step-by-step instructions Use the Repeat block to make a character do something more than once Use Looks blocks (Grow, Shrink, Show, Hide, Say) to change how a character looks and make it speak"
+      },
+      {
+        "topic": "My Digital Project",
+        "chapter": "coding / application / project",
+        "description": "Adding multiple pages/scenes in ScratchJr; moving characters between pages; simple project planning Learning outcomes: Explain what a page is and add more than one page to a ScratchJr project Use the Go to Page block to move a character from one page to another Use the Broadcast block (Send Message / Start on Message) to make one character signal another Plan a story with a Beginning, Middle, and End"
+      }
+    ]
+  },
+  "Grade 3": {
+    "ICT": [
+      {
+        "topic": "Hardware, Software, and Devices",
+        "chapter": "foundation / digital literacy",
+        "description": "Hardware vs. software; system vs. application software; common devices Learning outcomes: Identify hardware and software with suitable examples. Classify hardware into input, output, processing, and storage devices. Differentiate between system software and application software. Explain how hardware and software work together to perform tasks on a computer."
+      },
+      {
+        "topic": "Safe Web Browsing and Digital Responsibility",
+        "chapter": "foundation / digital literacy",
+        "description": "Search engines; typing URLs; safe searching; privacy basics; respectful online habits Learning outcomes: Explain the Internet, websites, and web pages. Differentiate between a web browser and a search engine. Search for information using a URL or keywords. Practise safe and responsible Internet use. Explain the purpose of a computer virus and an antivirus."
+      },
+      {
+        "topic": "Word Processing Fundamentals",
+        "chapter": "Creation / Organization",
+        "description": "Typing; fonts; alignment; spacing; inserting and resizing images; WordArt; simple editing Learning outcomes: Open, type in, and save a document. Change font style, size, and colour, and use Bold, Italic, and Underline. Align text, adjust line spacing, and use Cut, Copy, Paste, and Undo. Insert and resize pictures, add WordArt, and create your own poster, card, or notice."
+      },
+      {
+        "topic": "Scratch Desktop Basics",
+        "chapter": "Creation / Organization",
+        "description": "Stage, sprites, costumes, motion blocks, green flag Learning outcomes: Identify the main parts of the Scratch Desktop interface Explain what sprites and costumes are Start and stop a project using the Green Flag and Stop button Use basic Motion and Looks blocks to move, turn, and make a sprite speak"
+      },
+      {
+        "topic": "Pattern Detectives",
+        "chapter": "coding / application / project",
+        "description": "Unplugged pattern recognition; sequencing; predicting the next step Learning outcomes: Identify patterns in shapes, numbers, and everyday life. Explain the rule followed by a pattern. Predict the next step in a pattern. Arrange everyday steps and computer steps in the correct sequence. Relate patterns and sequencing to how computers work."
+      },
+      {
+        "topic": "Drawing with Code and My First Catch Game",
+        "chapter": "coding / application / project",
+        "description": "Pen extension; loops; drawing shapes; motion and events; arrow key controls Learning outcomes: Draw shapes and lines using the Pen extension Use loops (Repeat, Forever) to repeat actions Control a sprite's position using x and y, and arrow keys Add sounds to a project Build a simple catch game using motion, loops, and sound"
+      }
+    ]
+  },
+  "Grade 4": {
+    "ICT": [
+      {
+        "topic": "Computer Memory & Storage",
+        "chapter": "foundation / digital literacy",
+        "description": "Primary vs. secondary memory; RAM, ROM; storage devices; units of memory Learning outcomes: Explain why a computer needs memory. Differentiate between primary and secondary memory. Identify common storage devices. Identify units used to measure memory. Choose suitable storage devices for different situations."
+      },
+      {
+        "topic": "Word Document Creation & Design",
+        "chapter": "foundation / digital literacy",
+        "description": "Tables; bulleted and numbered lists; page layout; headers; neat formatting Learning outcomes: Create and edit tables in a document. Use bulleted and numbered lists effectively. Apply page layout features such as orientation, margins, and page size. Format documents using headers, neat formatting, and Print Preview before printing."
+      },
+      {
+        "topic": "Introduction to Presentations and Spreadsheets",
+        "chapter": "Creation / Organization",
+        "description": "Slides; titles; visuals; transitions; rows, columns, cells; entering data Learning outcomes: Identify the basic parts of a presentation and a spreadsheet. Create and manage slides by adding, deleting, saving, and rearranging them. Format text and enhance slides using pictures, shapes, icons, themes, backgrounds, and transitions. Recognize rows, columns, cells, and cell references in a spreadsheet. Enter text, numbers, and simple formulas into spreadsheet cells correctly."
+      },
+      {
+        "topic": "Variables & Broadcasts in Scratch",
+        "chapter": "Creation / Organization",
+        "description": "Scratch 3.0: Variables (score, timer); Broadcast messages; multi-sprite communication; event-driven programming Learning outcomes: Explain what a variable is and use Score/Timer variables Set, change, and show/hide a variable Explain what a broadcast is and send/receive messages between sprites Build a mini project where sprites communicate using variables and broadcasts"
+      },
+      {
+        "topic": "Algorithms and Flowcharts",
+        "chapter": "coding / application / project",
+        "description": "Stepwise thinking; flowchart symbols; decision points; visualizing logic Learning outcomes: Understand algorithms and step-by-step instructions. Arrange steps in the correct sequence. Understand and read basic flowcharts. Create simple algorithms to solve problems."
+      },
+      {
+        "topic": "LOOPS & Decision Making in Code",
+        "chapter": "coding / application / project",
+        "description": "If-then logic; maze navigation; Scratch 3.0 Variables (score, timer); Broadcast messages; event-driven programming Learning outcomes: Use If-Then and If-Then-Else blocks to make decisions Use Operator and Sensing blocks to check conditions Combine loops with conditions, including Repeat Until Build a maze navigation game using movement and decision-making"
+      }
+    ]
+  },
+  "Grade 5": {
+    "ICT": [
+      {
+        "topic": "Smart Spreadsheets",
+        "chapter": "Foundation",
+        "description": "Excel / Sheets: Rows, Columns, SUM/AVERAGE, Bar & Pie Charts. Learning outcomes: Understand the fundamentals of spreadsheets Enter, organize, and manage data Use basic spreadsheet formulas and functions, such as SUM and AVERAGE Create, interpret, and compare Bar Charts and Pie Charts"
+      },
+      {
+        "topic": "Intro to 3D Space",
+        "chapter": "Foundation",
+        "description": "Tinkercad 3D: X, Y, Z axes; geometric solids; grouping tools. Learning outcomes: Explain what Tinkercad is and where it is used. Identify the main parts of the Tinkercad workspace. Create a simple first design using a basic shape. List real-life uses of 3D design."
+      },
+      {
+        "topic": "AI Creators & Ethics",
+        "chapter": "Creation",
+        "description": "Teachable Machine: Image classification; digital footprints. Learning outcomes: Understand Artificial Intelligence (AI) and its applications. Create and train AI models using Teachable Machine. Improve and test AI models using better examples. Understand Digital Citizenship and Ethical Use of AI."
+      },
+      {
+        "topic": "Mapping Complex Logic",
+        "chapter": "Creation",
+        "description": "Draw.io / Paper: Multi-step flowcharts; branching decisions. Learning outcomes: Understand the purpose of flowcharts and explain how they help solve problems step by step. Identify and use common flowchart symbols to create simple and multi-step flowcharts. Create flowcharts using Draw.io or paper and apply branching decisions where required. Identify and correct common flowchart errors (bugs) to improve logical thinking and problem-solving skills."
+      },
+      {
+        "topic": "My First Webpage (HTML)",
+        "chapter": "Text Coding",
+        "description": "HTML5 (Notepad): Structural tags (<html>, <body>, <h1>, <p>, <img>). Learning outcomes: Understand what HTML5 is and explain its importance in creating web pages. Create a simple HTML file using Notepad and save it with the correct file extension. Use basic HTML tags such as <html>, <body>, <h1>, <p>, and <img> to build a webpage. View a webpage in a web browser and identify the different parts of an HTML document."
+      },
+      {
+        "topic": "Hello Python & Turtle",
+        "chapter": "Text Coding",
+        "description": "Python (IDLE): The print() function; syntax; variables; Turtle graphics drawing. Learning outcomes: Understand what Python is and identify Python IDLE and Google Colab as tools used to write Python programs. Follow the basic syntax rules of Python while writing programs. Identify and use basic data types in Python: int, float, and char. Use variables to store and display information in Python. Write simple Python programs using the print() function. Create simple drawings using Turtle Graphics by writing basic Turtle commands."
+      }
+    ]
+  },
+  "Grade 6": {
+    "ICT": [
+      {
+        "topic": "Data in Action",
+        "chapter": "Foundation",
+        "description": "Excel / Sheets: Sorting (A-Z), Filtering, Conditional Formatting. Learning outcomes: What data is, and the different types of data How to spot trends, compare data, and find important values How to clean messy data and use Find & Replace and Freeze Panes How to sort and filter data in different ways How to use Conditional Formatting to make data easy to read"
+      },
+      {
+        "topic": "Smart Cities & AI",
+        "chapter": "Foundation",
+        "description": "AI Concepts: IoT, Smart Homes, recognizing AI bias and deepfakes. Learning outcomes: Identify examples of IoT (Internet of Things) devices used in daily life. Explain how IoT devices collect, send, and act on data using sensors and the internet. Differentiate between AI and IoT, and explain how they work together in smart devices. Describe how sensors and connected devices are used to build smart homes and smart cities. Recognize deepfakes and AI Bias."
+      },
+      {
+        "topic": "The Maker Lab: Circuits",
+        "chapter": "Creation",
+        "description": "Tinkercad Circuits: Breadboards, LEDs, Resistors (No code yet). Learning outcomes: Explain what an electric circuit is and describe the path electricity takes through a closed loop. Distinguish between conductors and insulators and explain why each behaves the way it does. Identify the parts of a breadboard and explain how its rows and rails are connected. Identify the two legs of an LED and explain why connecting it the correct way round matters. Explain why a resistor must be placed in series with an LED in a circuit. Explain the difference between a series circuit and a parallel circuit. Explain what voltage means and identify a battery's "
+      },
+      {
+        "topic": "Styling the Web (CSS)",
+        "chapter": "Creation",
+        "description": "CSS / HTML: Linking CSS, changing colors, fonts, and basic box layouts. Learning outcomes: Explain what CSS is and why a webpage needs it. Describe the parts of a CSS rule: the selector and the declaration block. Use class and id selectors to apply styles to specific elements. Link a CSS file to an HTML page using both the internal and external methods. Use CSS properties to change text colour, background colour, font, size and alignment. Write comments in a CSS file to document style rules. Build simple box layouts using width, padding, border, and margin. Save and preview a styled webpage correctly using Notepad and a browser. Apply visual "
+      },
+      {
+        "topic": "Python: Interactive Logic",
+        "chapter": "Text Coding",
+        "description": "Python: The input() function; Data types (Strings/arrays); if/else statements. Learning outcomes: Describe what makes a program interactive and apply the input() function to gather information from users. Accept multiple inputs within a single program. Recognise and work with four Python data types: Strings, Integers, Lists, and Booleans. Transform text input into numbers using the int() function and perform calculations with it. Apply comparison and logical operators to construct conditions. Implement if, if-else, and if-elif-else statements for decision-making. Store and execute a Python program file using IDLE. Develop an interactive Votin"
+      },
+      {
+        "topic": "Python: Loops",
+        "chapter": "Text Coding",
+        "description": "Python: for loops; while loops; Syntax debugging, turtle , sorting(bubble) Learning outcomes: Explain why loops are useful for repeating a task without writing the same code again and again. Use a for loop with the range() function to repeat a block a fixed number of times. Generate a multiplication table using a loop. Use a while loop to repeat a block as long as a condition stays True. Find and fix common syntax errors in loops (syntax debugging). Draw shapes and patterns using loops with Turtle graphics. Arrange a list of numbers in order using the bubble sort algorithm."
+      }
+    ]
+  },
+  "Grade 7": {
+    "ICT": [
+      {
+        "topic": "Advanced Data Processing",
+        "chapter": "Data & The Smart World",
+        "description": "MS Excel / Google Sheets: Multi-step formulas; VLOOKUP; Working across multiple sheets; Data validation. Learning outcomes: Explain what multi-step formulas are and use them to solve complex calculations in a spreadsheet. Use the VLOOKUP function to find and retrieve data from large tables. Work with multiple sheets in a single workbook and link data across sheets. Apply data validation rules to control what users can enter in a cell. Create dropdown lists and input messages for user-friendly data entry. Process and organize a large dataset using advanced spreadsheet techniques."
+      },
+      {
+        "topic": "How AI Speaks: Chatbots & NLP",
+        "chapter": "Data & The Smart World",
+        "description": "Dialogflow / AI Tools: Natural Language Processing (NLP); The AI Project Cycle; Training a chatbot to answer questions. Learning outcomes: Explain what a chatbot is and describe how it communicates with users. Differentiate between rule-based chatbots and AI-powered chatbots. Define Natural Language Processing (NLP) and explain why computers need it to understand human language. Identify intents and entities in user messages. Describe the process of training a chatbot using training phrases and responses. Use Google Dialogflow to create a simple chatbot with intents, entities, and responses. Apply the AI Project Cycle to plan, build, test, an"
+      },
+      {
+        "topic": "Advanced HTML & Web Forms",
+        "chapter": "Makers & Web Creators",
+        "description": "Web Compiler: Embedding media; creating input forms; building tables in HTML. Learning outcomes: Embed images, audio and video into a webpage using the <img>, <audio> and <video> tags. Embed another webpage inside an HTML page using the <iframe> tag. Build a table with <table>, <tr> and <td> to organise data into rows and columns. Add header cells to a table with <th>, and merge cells across columns or rows using colspan and rowspan. Create a form using <form> and <input> fields to collect input from a visitor. Link a <label> to its <input> using matching for and id attributes, and build a dropdown with <select>, <option> and <button>. Apply "
+      },
+      {
+        "topic": "Mobile App Development",
+        "chapter": "Makers & Web Creators",
+        "description": "MIT App Inventor: UI/UX basics; Drag-and-drop app design; Block-based logic for mobile devices; Event triggers. Learning outcomes: Explain what mobile applications are and how they differ from desktop software. Identify the key components of the MIT App Inventor interface. Design a user interface (UI) using buttons, labels, images, and text boxes. Understand basic User Experience (UX) principles for mobile apps. Use blocks to add functionality to app components. Create a simple interactive mobile application. Test and debug an app using the emulator or a connected device."
+      },
+      {
+        "topic": "The Maker Lab: Coding Arduino",
+        "chapter": "Advanced Text Coding",
+        "description": "Tinkercad Circuits / Arduino IDE: Microcontrollers; Writing C++ block/text code to blink LEDs and read basic sensors. Learning outcomes: Explain what a microcontroller is, and describe the Arduino board and the Arduino IDE. Identify the two required parts of an Arduino sketch, setup() and loop(), and explain what each one does. Write and run a sketch that blinks an LED using pinMode(), digitalWrite() and delay(). Wire a basic sensor to an Arduino and read its value using analogRead(). Use Serial.begin() and Serial.println() to view sensor readings on a computer's Serial Monitor. Explain how digital and analog signals let code sense and contro"
+      },
+      {
+        "topic": "Python: Lists & Functions",
+        "chapter": "Advanced Text Coding",
+        "description": "Python (IDLE): Libraries in Python; Defining and calling reusable def functions; Code modularity. Learning outcomes: Create a list to store many items together and read items using their index. Add and remove items in a list using methods such as append() and remove(). Loop through a list to process every item. Explain what a function is and why it makes code reusable and modular. Define a function using def and call it in a program. Send information into a function using parameters and get answers back using return. Combine lists and functions to build a \"Grade Average Calculator\"."
+      }
+    ]
+  },
+  "Grade 8": {
+    "ICT": [
+      {
+        "topic": "Introduction to Data Science",
+        "chapter": "Data & The Smart World (Foundation / Digital Literacy)",
+        "description": "Excel / Intro to Python: The Data Lifecycle; Reading arrays; Building interactive data dashboards; Visualizing complex patterns. Learning outcomes: Define Data Science and explain its importance in the modern world. Describe the stages of the Data Lifecycle and explain the purpose of each stage. Differentiate between structured and unstructured data with examples. Create and interpret interactive data dashboards using Excel and Power BI. Identify patterns and trends in datasets through visualization techniques. Explain how Python libraries like pandas and matplotlib are used for data analysis. Apply basic data science concepts to analyze real"
+      },
+      {
+        "topic": "AI Ethics & Cyber Law",
+        "chapter": "Data & The Smart World (Foundation / Digital Literacy)",
+        "description": "Theory / Case Studies: Deepfakes; AI bias; Data Privacy; Intellectual Property (IP); Copyrights; Creative Commons; FOSS. Learning outcomes: Explain why ethics and human responsibility matter in AI-based decision-making. Identify deepfakes and evaluate their responsible and irresponsible use. Explain how AI bias occurs and describe ways to reduce it. Apply safe data-sharing habits and describe key provisions of India's DPDP Act. Differentiate between copyright, patent, and trademark, and apply fair-use principles to school projects. Identify and use Creative Commons and open-source (FOSS) resources responsibly. Describe key provisions of India"
+      },
+      {
+        "topic": "The IoT World (Smart Hardware)",
+        "chapter": "Makers & Web Creators (Creation / Organization)",
+        "description": "Arduino IDE / Tinkercad: The Internet of Things (IoT); Connecting multiple sensors (temperature, ultrasonic) to trigger complex physical outputs. Learning outcomes: Explain what the Internet of Things (IoT) is, and describe how a smart device senses, decides and acts. Wire and read values from a temperature sensor and an ultrasonic distance sensor connected to a microcontroller. Use if/else logic, with comparison operators, to make a decision based on a sensor reading. Combine two sensor readings with && and || to trigger a complex output involving more than one actuator. Use the Serial Monitor to track more than one sensor’s readings side by"
+      },
+      {
+        "topic": "Interactive Web: Intro to JavaScript",
+        "chapter": "Makers & Web Creators (Creation / Organization)",
+        "description": "Web Compiler / Notepad: Completing the Web stack; JS basics; alert(); connecting JavaScript to HTML buttons to make pages interactive. Learning outcomes: After completing this chapter, students will be able to: Explain what JavaScript is, why it's called a scripting language, and how it completes the web stack alongside HTML and CSS. Add JavaScript to a page using inline, internal, and external methods, and use alert() and console.log() to display or check output. Declare and update variables using let, const, and var, and join text using the + operator. Write conditional logic with if/else, comparing values using relational operators and ==="
+      },
+      {
+        "topic": "Python: Dictionaries & Logic",
+        "chapter": "Advanced Text Coding (Coding / Application)",
+        "description": "Python (IDLE): Storing complex data using Key-Value pairs (Dictionaries); Nested logic; Advanced string manipulation. Learning outcomes: Explain what a key-value pair is and create a dictionary to store paired data. Access, add, change, and remove values in a dictionary using their keys. Loop through a dictionary to read every key and value. Use nested logic (a decision inside another decision) to handle layered conditions. Combine dictionaries with nested logic to model real data, such as an employee database. Use advanced string methods such as upper(), strip(), split(), and join(). Build an interactive \"Digital Glossary\" using a dictionary"
+      },
+      {
+        "topic": "Python Capstone: File Handling",
+        "chapter": "Advanced Text Coding (Coding / Application)",
+        "description": "Python (IDLE): Reading from and writing to external text files (.txt); Building a complete, persistent text-based application. Learning outcomes: Explain why data stored in variables is lost when a program ends, and how files keep data permanently. Open a file using the open() function and the correct file mode (read, write, or append). Write data to a text file using write() and add data safely using append mode. Use the with statement so files are always closed correctly. Read data back from a file using read() and by looping through its lines. Handle the situation where a file does not exist yet. Build a complete, persistent application - "
+      }
+    ]
+  },
+  "Grade 9": {
+    "ICT": [
+      {
+        "topic": "Computer Systems & Number Systems",
+        "chapter": "Foundation",
+        "description": "Hardware, software, CPU/memory, data representation and binary/decimal/hexadecimal number systems."
+      },
+      {
+        "topic": "Python Fundamentals",
+        "chapter": "Foundation",
+        "description": "Variables, data types, operators, expressions and simple programs with input()/print()."
+      },
+      {
+        "topic": "Web Development with HTML & CSS",
+        "chapter": "Web & Creation",
+        "description": "Semantic HTML5, forms, media; CSS box model, colours, fonts and responsive layouts."
+      },
+      {
+        "topic": "Introduction to JavaScript",
+        "chapter": "Web & Creation",
+        "description": "JavaScript variables, functions, events and basic DOM manipulation."
+      },
+      {
+        "topic": "Python Control Flow & Functions",
+        "chapter": "Coding & AI",
+        "description": "Conditionals, for/while loops, functions, parameters, return values and modular code."
+      },
+      {
+        "topic": "Introduction to AI & Data",
+        "chapter": "Coding & AI",
+        "description": "AI concepts, the AI project cycle, data handling, training a simple model and AI ethics."
+      }
+    ]
+  },
+  "Grade 10": {
+    "ICT": [
+      {
+        "topic": "Advanced Python: Lists, Tuples & Dictionaries",
+        "chapter": "Foundation",
+        "description": "Python collections, indexing, iteration and common methods for structured data."
+      },
+      {
+        "topic": "Databases & SQL Basics",
+        "chapter": "Foundation",
+        "description": "Relational DB concepts and SQL: SELECT, INSERT, UPDATE, DELETE, WHERE, ORDER BY."
+      },
+      {
+        "topic": "Dynamic Web with JavaScript",
+        "chapter": "Web & App",
+        "description": "DOM manipulation, forms, events and small interactive web apps."
+      },
+      {
+        "topic": "App Development",
+        "chapter": "Web & App",
+        "description": "UI/UX design and building a working interactive app."
+      },
+      {
+        "topic": "Data Science with Python",
+        "chapter": "Coding & AI",
+        "description": "Analysing data with pandas and visualising with matplotlib."
+      },
+      {
+        "topic": "AI Project & Ethics",
+        "chapter": "Coding & AI",
+        "description": "Build/test an end-to-end AI project; bias, privacy and responsible use; capstone."
+      }
+    ]
+  },
+  "Grade 11": {
+    "ICT": [
+      {
+        "topic": "Computer Systems & Organisation",
+        "chapter": "Computer Systems",
+        "description": "Computer organisation, hardware/software, memory, Boolean logic and number systems."
+      },
+      {
+        "topic": "Getting Started with Python",
+        "chapter": "Programming with Python",
+        "description": "Python tokens, data types (Number, String, List, Tuple, Dictionary), variables, operators, I/O."
+      },
+      {
+        "topic": "Conditional & Iterative Statements",
+        "chapter": "Programming with Python",
+        "description": "if/if-else/nested if; for/while loops; range(); break/continue; algorithms & flowcharts."
+      },
+      {
+        "topic": "Strings, Lists & Tuples",
+        "chapter": "Programming with Python",
+        "description": "String, list and tuple operations, traversal, slicing and built-in methods."
+      },
+      {
+        "topic": "Dictionaries & Functions",
+        "chapter": "Programming with Python",
+        "description": "Dictionaries; built-in/module/user-defined functions; parameters, return values and scope."
+      },
+      {
+        "topic": "Society, Law & Ethics",
+        "chapter": "Society, Law & Ethics",
+        "description": "Digital footprint, IP rights, plagiarism, FOSS/Creative Commons, cyber crime, safety and e-waste."
+      }
+    ]
+  },
+  "Grade 12": {
+    "ICT": [
+      {
+        "topic": "Functions & Recursion",
+        "chapter": "Programming with Python",
+        "description": "User-defined functions, argument passing, scope, recursion and program efficiency."
+      },
+      {
+        "topic": "Exception Handling & File Handling",
+        "chapter": "Programming with Python",
+        "description": "try-except-finally; text, binary and CSV files; relative/absolute paths; read/write."
+      },
+      {
+        "topic": "Data Structures: Stacks",
+        "chapter": "Programming with Python",
+        "description": "Stacks, push/pop, list-based implementation and applications."
+      },
+      {
+        "topic": "Computer Networks",
+        "chapter": "Computer Networks",
+        "description": "Network types, topologies, devices, protocols (TCP/IP, HTTP), web and security basics."
+      },
+      {
+        "topic": "Database Management & SQL",
+        "chapter": "Database Management",
+        "description": "DBMS, tables/keys, SQL queries, aggregate functions, GROUP BY, ORDER BY and joins."
+      },
+      {
+        "topic": "Python-SQL Connectivity & Project",
+        "chapter": "Database Management",
+        "description": "Interface Python with MySQL: connect, query, fetch; capstone project."
+      }
+    ]
+  }
 }

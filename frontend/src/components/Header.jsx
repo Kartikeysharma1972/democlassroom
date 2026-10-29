@@ -3,13 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const titles = {
-  '/':                { label: 'Dashboard',                sub: 'Welcome back — pick a tool to start.' },
+  '/':                { label: 'Dashboard',                sub: 'Welcome back - pick a tool to start.' },
   '/worksheet':       { label: 'Worksheet Generator',      sub: 'Print-ready worksheets with Bloom\'s taxonomy levels and answer keys.' },
-  '/lesson-plan':     { label: 'Lesson Plan Generator',    sub: 'Complete lesson plans aligned to CBSE / NCERT / state boards.' },
+  '/lesson-plan':     { label: 'Lesson Plan Generator',    sub: 'Complete lesson plans with objectives, activities and assessment.' },
   '/class-activity':  { label: 'Class Activity Generator', sub: 'Group activities and projects mapped to learning outcomes.' },
   '/question-paper':  { label: 'Question Paper Generator', sub: 'Full question papers with sections, marks, and answer keys.' },
   '/teacher-insights':{ label: 'Teacher Insights',         sub: 'Analytics and insights from your classroom.' },
-  '/code-debugger':   { label: 'Code Debugger',            sub: 'Paste student code — AI finds bugs and teaches the fix.' },
+  '/code-debugger':   { label: 'Code Debugger',            sub: 'Paste student code - AI finds bugs and teaches the fix.' },
   '/feedback':        { label: 'Feedback Writer',          sub: 'Personalized student feedback with star ratings.' },
   '/vocabulary':      { label: 'Vocabulary Mastery',       sub: 'Grade-calibrated vocabulary worksheets with matching, fill-in-blank, and sentence writing.' },
   '/comprehension':   { label: 'Reading Comprehension',    sub: 'AI-generated reading passages with text-dependent questions and vocabulary in context.' },
@@ -18,7 +18,7 @@ const titles = {
 export default function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const info = titles[pathname] || titles['/']
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
@@ -50,7 +50,7 @@ export default function Header() {
       top: 0,
       zIndex: 50,
     }}>
-      {/* Left — page title */}
+      {/* Left - page title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0 }}>
         <div style={{ minWidth: 0 }}>
           <div style={{
@@ -71,7 +71,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Right — search hint + status + user */}
+      {/* Right - search hint + status + user */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         {/* AI status pill */}
         <div style={{
@@ -157,30 +157,6 @@ export default function Header() {
                 Dashboard
               </button>
 
-              <button type="button" className="dropdown-item" onClick={() => setMenuOpen(false)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="3"/>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-                Account settings
-              </button>
-
-              <button type="button" className="dropdown-item" onClick={() => setMenuOpen(false)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                Help & support
-              </button>
-
-              <div className="dropdown-divider" />
-
-              <button type="button" className="dropdown-item danger" onClick={() => { setMenuOpen(false); logout(); navigate('/dashboard') }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                  <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
-                Sign out
-              </button>
             </div>
           )}
         </div>

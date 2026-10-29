@@ -6,6 +6,8 @@ export default defineConfig({
   server: {
     port: 5176,
     strictPort: true,
+    // Allow tunnelled hosts (ngrok) so the app can be shared from a laptop.
+    allowedHosts: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8001',

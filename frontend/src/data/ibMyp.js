@@ -1,6 +1,6 @@
 // IB MYP assessment model reference data.
 // Powers the narrative Feedback Writer: each subject group is assessed against
-// four criteria (A–D), every criterion scored 1–8 as a *descriptor level* (not a
+// four criteria (A-D), every criterion scored 1-8 as a *descriptor level* (not a
 // pass/fail mark). Feedback also captures an ATL skill focus (the "how") and
 // Learner Profile observations (the "who").
 
@@ -91,8 +91,8 @@ export const MYP_SUBJECT_GROUPS = [
 export const getSubjectGroup = (key) =>
   MYP_SUBJECT_GROUPS.find(g => g.key === key) || null
 
-// ── Achievement level bands (1–8) with human-friendly descriptors ──
-// A "4" is not a fail — it means the student is developing that skill.
+// ── Achievement level bands (1-8) with human-friendly descriptors ──
+// A "4" is not a fail - it means the student is developing that skill.
 export const LEVEL_BANDS = [
   { min: 7, max: 8, label: 'Exemplary',  color: '#059669', bg: '#ecfdf5', border: '#a7f3d0' },
   { min: 5, max: 6, label: 'Proficient', color: '#2563eb', bg: '#eff6ff', border: '#bfdbfe' },
@@ -109,18 +109,18 @@ export const bandForLevel = (level) => {
 // Level options for the selector (0 = not assessed this term).
 export const LEVEL_OPTIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-// ── ATL skills — Approaches to Learning (the "how") ──
+// ── ATL skills - Approaches to Learning (the "how") ──
 export const ATL_CLUSTERS = [
   { key: 'communication',   name: 'Communication',   desc: 'Exchanging thoughts, messages and information; reading, writing and using language to gather and communicate.' },
-  { key: 'social',          name: 'Social',          desc: 'Collaboration — working effectively with others, managing conflict, sharing responsibility.' },
+  { key: 'social',          name: 'Social',          desc: 'Collaboration - working effectively with others, managing conflict, sharing responsibility.' },
   { key: 'self_management', name: 'Self-management',  desc: 'Organization, time and task management, managing state of mind, and reflection.' },
-  { key: 'research',        name: 'Research',         desc: 'Information and media literacy — finding, interpreting, judging and creating information.' },
+  { key: 'research',        name: 'Research',         desc: 'Information and media literacy - finding, interpreting, judging and creating information.' },
   { key: 'thinking',        name: 'Thinking',         desc: 'Critical thinking, creative thinking and transfer of skills across contexts.' },
 ]
 
 export const getAtlCluster = (key) => ATL_CLUSTERS.find(c => c.key === key) || null
 
-// ── Learner Profile — the character traits of the IB culture (the "who") ──
+// ── Learner Profile - the character traits of the IB culture (the "who") ──
 export const LEARNER_PROFILE = [
   { key: 'inquirer',     name: 'Inquirer',      desc: 'Curious; develops skills for inquiry and research.' },
   { key: 'knowledgeable',name: 'Knowledgeable', desc: 'Explores concepts and ideas across a range of disciplines.' },

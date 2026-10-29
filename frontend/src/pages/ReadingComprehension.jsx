@@ -101,10 +101,9 @@ export default function ReadingComprehension() {
           let evt
           try { evt = JSON.parse(line.slice(6)) } catch { continue }
 
-          if (evt.type === 'progress' || evt.type === 'status') {
-            setStreamStatus(evt.message)
-          } else if (evt.type === 'retry') {
-            setStreamStatus(`Retrying (attempt ${evt.attempt})…`)
+          if (evt.type === 'progress' || evt.type === 'status' || evt.type === 'retry') {
+            // Model/provider chatter ("Attempt 1: calling ...", "switching to ...")
+            // is internal - the button just keeps saying "Generating...".
           } else if (evt.type === 'complete') {
             setComprehension(evt.comprehension)
             setTabs(prev => {

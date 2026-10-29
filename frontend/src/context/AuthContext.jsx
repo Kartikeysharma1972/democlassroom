@@ -5,7 +5,7 @@ const AuthContext = createContext()
 const API = window.location.hostname === 'localhost' ? 'http://localhost:8001' : window.location.origin
 
 export function AuthProvider({ children }) {
-  // Launched from the Codevidhya portal (already authenticated) — start with a
+  // Launched from the Codevidhya portal (already authenticated) - start with a
   // demo teacher so the app opens straight to the dashboard, no portal handoff
   // or login screen required. A real portal handoff token (if present) still
   // upgrades this via /api/auth/me below.

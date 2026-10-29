@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Shown when Classroom AI is opened without a valid session. Sign-in lives on
-// the Codevidhya portal now, so there is no local login form to fall back to —
+// the Codevidhya portal now, so there is no local login form to fall back to -
 // we just guide the user back to the portal.
 export default function PortalSessionNotice({ app = 'this app' }) {
   const goToPortal = () => {
@@ -25,7 +25,7 @@ export default function PortalSessionNotice({ app = 'this app' }) {
       }}>
         <h1 style={{ fontSize: 24, fontWeight: 800, color: '#0f172a', margin: 0 }}>Session not found</h1>
         <p style={{ marginTop: 12, fontSize: 14, color: '#475569', lineHeight: 1.6 }}>
-          Please sign in through the Codevidhya portal — it takes you straight
+          Please sign in through the Codevidhya portal - it takes you straight
           into {app} with no second login.
         </p>
         <button

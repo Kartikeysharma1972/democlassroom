@@ -70,7 +70,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
   const fetchUrlRef = useRef({ controller: null, latest: null })
   const fetchYtRef = useRef({ controller: null, latest: null })
 
-  // Debounced auto-fetch for URL + YouTube tabs — no Fetch button needed.
+  // Debounced auto-fetch for URL + YouTube tabs - no Fetch button needed.
   useEffect(() => {
     if (!websiteUrl.trim()) return
     if (!/^https?:\/\/\S+\.\S+/.test(websiteUrl.trim())) return
@@ -199,7 +199,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
       setSourceLabel(`File: ${file.name} (${data.chars_indexed} chars)`)
       setAdditionalContext(`Reference file: ${file.name}`)
       setFileStatus(text
-        ? `✓ ${file.name} — ${data.chars_indexed} chars loaded as source material`
+        ? `✓ ${file.name} - ${data.chars_indexed} chars loaded as source material`
         : `✓ ${file.name} added`)
       autoFillFromSource(text)
     } catch (err) {
@@ -257,7 +257,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
         : `YouTube transcript (${data.chars} chars)`)
       setFileStatus(usedMetadata
         ? `✓ Loaded video title + description (${data.chars} chars).`
-        : `✓ Loaded YouTube transcript — ${data.chars} chars`)
+        : `✓ Loaded YouTube transcript - ${data.chars} chars`)
       autoFillFromSource(t)
     } catch (err) {
       if (err.name === 'AbortError') return
@@ -267,11 +267,11 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
   }
 
   // Ask the AI to suggest Topic + Learning Objective from the loaded source.
-  // ALWAYS overwrites — the teacher can edit afterwards. Switching source
+  // ALWAYS overwrites - the teacher can edit afterwards. Switching source
   // (URL → File → Standards → YouTube) always refreshes Topic + Objective.
   //
   // Surfaces status via setFileStatus so the teacher sees what's happening.
-  // Before this, both the !res.ok branch and the catch were silent — a
+  // Before this, both the !res.ok branch and the catch were silent - a
   // failed Groq call (quota / 429 / timeout) would leave the form empty
   // with no explanation and the teacher would conclude "auto-fill is
   // broken" when it had actually attempted and failed.
@@ -333,7 +333,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
   }
 
   // Switching to a different source tab resets the previous source so the
-  // teacher's intent is unambiguous — the new tab is the new source. We
+  // teacher's intent is unambiguous - the new tab is the new source. We
   // also reset the touched flags so the AI can refresh Topic + Objective
   // when the new source loads. Clicking the same tab again just closes it.
   const toggleTab = (tab) => {
@@ -503,7 +503,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
 
             {activeTab === 'Website' && (
               <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <p className="text-xs text-gray-500 mb-2">Paste a website URL — we'll fetch the article automatically and use it as the source.</p>
+                <p className="text-xs text-gray-500 mb-2">Paste a website URL - we'll fetch the article automatically and use it as the source.</p>
                 <input
                   type="url"
                   value={websiteUrl}
@@ -516,13 +516,13 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
                   style={{ '--tw-ring-color': '#1E88FF' }}
                 />
                 {fileStatus && <p className="text-xs text-gray-500 mt-2">{fileStatus}</p>}
-                {sourceLabel && <p className="text-xs text-green-600 mt-1 font-semibold">✓ {sourceLabel} — will be used as the source.</p>}
+                {sourceLabel && <p className="text-xs text-green-600 mt-1 font-semibold">✓ {sourceLabel} - will be used as the source.</p>}
               </div>
             )}
 
             {activeTab === 'YouTube' && (
               <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <p className="text-xs text-gray-500 mb-2">Paste a YouTube video URL — we'll fetch the transcript (or title + description) automatically.</p>
+                <p className="text-xs text-gray-500 mb-2">Paste a YouTube video URL - we'll fetch the transcript (or title + description) automatically.</p>
                 <input
                   type="url"
                   value={youtubeUrl}
@@ -535,7 +535,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
                   style={{ '--tw-ring-color': '#1E88FF' }}
                 />
                 {fileStatus && <p className="text-xs text-gray-500 mt-2">{fileStatus}</p>}
-                {sourceLabel && <p className="text-xs text-green-600 mt-1 font-semibold">✓ {sourceLabel} — will be used as the source.</p>}
+                {sourceLabel && <p className="text-xs text-green-600 mt-1 font-semibold">✓ {sourceLabel} - will be used as the source.</p>}
               </div>
             )}
 
@@ -548,7 +548,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
                     setStandardsText(e.target.value)
                     setAdditionalContext(e.target.value ? `Curriculum standards: ${e.target.value}` : '')
                   }}
-                  placeholder="e.g., CCSS.ELA-LITERACY.L.7.4 — Determine the meaning of unknown words using context clues..."
+                  placeholder="e.g., CCSS.ELA-LITERACY.L.7.4 - Determine the meaning of unknown words using context clues..."
                   rows={3}
                   className="w-full border border-gray-200 rounded px-2 py-1.5 text-xs text-gray-700 focus:outline-none resize-none focus:ring-1"
                   style={{ '--tw-ring-color': '#1E88FF' }}
@@ -566,7 +566,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
                 onChange={e => setGrade(e.target.value)}
                 className={`w-full border rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none appearance-none pr-8 ${grade ? 'border-gray-200 text-gray-700' : 'border-orange-300 text-gray-400'}`}
               >
-                <option value="" disabled>— Select Grade Level —</option>
+                <option value="" disabled>- Select Grade Level -</option>
                 {GRADE_LEVELS.map(g => (
                   <option key={g} value={g}>{g}</option>
                 ))}
@@ -597,7 +597,7 @@ export default function FormPage({ onGenerate, onBack, loading, error, prefillDa
           {(fileStatus.startsWith('Uploading') || fileStatus.startsWith('Fetching')) && (
             <div className="mb-2 flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-50 border border-orange-200">
               <div className="spinner" style={{ width: 12, height: 12, borderColor: '#1E88FF', borderTopColor: 'transparent' }} />
-              <span className="text-xs text-orange-700 font-semibold">{fileStatus} — please wait before generating.</span>
+              <span className="text-xs text-orange-700 font-semibold">{fileStatus} - please wait before generating.</span>
             </div>
           )}
           <div className="flex items-center gap-3">

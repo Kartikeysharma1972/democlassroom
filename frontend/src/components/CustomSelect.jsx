@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 
 /**
- * CustomSelect – always opens downward, works inside overflow:hidden containers.
+ * CustomSelect - always opens downward, works inside overflow:hidden containers.
  * Props mirror a native <select>: value, onChange, disabled, style, children (<option> elements).
  */
 export default function CustomSelect({ value, onChange, disabled, style, children, placeholder }) {

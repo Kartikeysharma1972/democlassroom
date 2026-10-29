@@ -96,7 +96,7 @@ function LearningStep({ index, error, fix }) {
   )
 }
 
-// ── Floating CS Tutor — CodeVidhya branded, CS-only ──────────────────────────
+// ── Floating CS Tutor - CodeVidhya branded, CS-only ──────────────────────────
 function CSTutorFab() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([
@@ -168,7 +168,7 @@ function CSTutorFab() {
       const msg = ev.error === 'not-allowed'
         ? 'Microphone permission denied.'
         : ev.error === 'no-speech'
-          ? 'Did not catch that — please try again.'
+          ? 'Did not catch that - please try again.'
           : `Voice error: ${ev.error}`
       setVoiceErr(msg)
       setTimeout(() => setVoiceErr(''), 3500)
@@ -221,7 +221,7 @@ function CSTutorFab() {
             }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 800, fontSize: 14 }}>CS Tutor</div>
-              <div style={{ fontSize: 11, opacity: 0.85 }}>by CodeVidhya</div>
+              <div style={{ fontSize: 11, opacity: 0.85 }}>by Codevidhya</div>
             </div>
             <button onClick={() => setOpen(false)} style={{
               background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff',
@@ -283,7 +283,7 @@ function CSTutorFab() {
                 width: 8, height: 8, borderRadius: '50%', background: '#dc2626',
                 animation: 'pulse 1s ease-in-out infinite',
               }} />
-              🎙️ Listening — speak now...
+              🎙️ Listening - speak now...
             </div>
           )}
           <div style={{
@@ -460,7 +460,7 @@ export default function CodeDebugger() {
       <div class="meta"><strong>Language:</strong> ${esc(runOutput.language)} ${runOutput.simulated ? '(AI Simulated)' : ''} &nbsp;&nbsp; <strong>Exit code:</strong> ${runOutput.exit_code}</div>
       <pre>${esc(runOutput.output || runOutput.error || '(no output)')}</pre>` : ''
 
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Debug Report — ${esc(date)}</title>
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Debug Report - ${esc(date)}</title>
 <style>
   body{font-family:'Segoe UI',Arial,sans-serif;max-width:900px;margin:0 auto;padding:40px;color:#1a1a2e;position:relative}
   .watermark{position:fixed;bottom:30px;right:30px;opacity:0.08;pointer-events:none;z-index:0}
@@ -584,7 +584,7 @@ ${runSection}
           <div>
             <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, letterSpacing: '-0.5px' }}>Code Debugger</h1>
             <p style={{ fontSize: 13.5, margin: '4px 0 0', opacity: 0.85, fontWeight: 500 }}>
-              Run code first — if it works, no fix needed. Otherwise, AI finds bugs, explains, and teaches the fix.
+              Run code first - if it works, no fix needed. Otherwise, AI finds bugs, explains, and teaches the fix.
             </p>
           </div>
           {hasErrors && (
@@ -702,7 +702,7 @@ ${runSection}
               }}>
                 <span>
                   {runOutput.exit_code === 0 ? '✅ Output' : '❌ Error'}
-                  {' — '}{runOutput.language}
+                  {' - '}{runOutput.language}
                   {runOutput.simulated ? ' (AI Simulated)' : ''}
                 </span>
                 <button onClick={() => setRunOutput(null)} style={{
@@ -720,14 +720,14 @@ ${runSection}
                   background: '#ecfdf5', padding: '8px 14px', fontSize: 12, color: '#059669',
                   fontWeight: 600, borderTop: '1.5px solid #a7f3d0',
                 }}>
-                  ✨ Code ran successfully — no fix needed! Use “Fix My Code” only if behaviour is wrong.
+                  ✨ Code ran successfully - no fix needed! Use “Fix My Code” only if behaviour is wrong.
                 </div>
               ) : (
                 <div style={{
                   background: '#fef2f2', padding: '8px 14px', fontSize: 12, color: '#dc2626',
                   fontWeight: 600, borderTop: '1.5px solid #fecaca',
                 }}>
-                  ⚠️ Your code has errors and cannot run — click <b>🔮 Fix My Code</b> to see the bugs and the corrected version.
+                  ⚠️ Your code has errors and cannot run - click <b>🔮 Fix My Code</b> to see the bugs and the corrected version.
                 </div>
               )}
             </div>
@@ -861,7 +861,7 @@ ${runSection}
                   }}>
                     <span style={{ fontSize: 18 }}>✅</span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: '#065f46' }}>
-                      Fix applied — your editor now contains the corrected code. Click <b>▶ Run Code</b> to verify.
+                      Fix applied - your editor now contains the corrected code. Click <b>▶ Run Code</b> to verify.
                     </span>
                   </div>
                 )}

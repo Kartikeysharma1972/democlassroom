@@ -35,14 +35,14 @@ function ProtectedLayout() {
     )
   }
 
-  // Login/portal-gate intentionally bypassed — the Codevidhya portal already
+  // Login/portal-gate intentionally bypassed - the Codevidhya portal already
   // authenticated the user, so we always render the app shell.
 
   return (
     <div className="app-shell">
       <Sidebar />
       <div className="main-content">
-        {/* Slim shared platform bar — ties the app back to the Codevidhya portal */}
+        {/* Slim shared platform bar - ties the app back to the Codevidhya portal */}
         <div style={{
           height: 36, background: '#0d1f3a', color: 'rgba(255,255,255,.85)', fontSize: 12,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px',

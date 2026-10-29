@@ -23,7 +23,7 @@ export const GRADE_OPTIONS = GRADES.map(g => ({
 
 // ──────────────────────────────────────────────────────────────────
 // Miscellaneous (non-core) subjects offered per grade band.
-// These are intentionally outside the CBSE TOC – curated for breadth.
+// These are intentionally outside the CBSE TOC - curated for breadth.
 // ──────────────────────────────────────────────────────────────────
 const PRIMARY_MISC = [
   'Art & Craft',
@@ -124,7 +124,7 @@ export function getCoreSubjects(grade) {
 }
 
 export function getMiscSubjects(grade) {
-  // Coding-only platform — no non-coding "misc" subjects.
+  // Coding-only platform - no non-coding "misc" subjects.
   return []
 }
 

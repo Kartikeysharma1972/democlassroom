@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
-import ChatHistory from '../components/ChatHistory'
 import UsageCounter from '../components/UsageCounter'
 import { RichTextToolbar } from '../components/OutputBox'
 import { useAuth } from '../context/AuthContext'
@@ -9,6 +8,10 @@ import { htmlStringToPdf, escapeHtml } from '../utils/pdf'
 
 const API = window.location.hostname === 'localhost' ? 'http://localhost:8001' : window.location.origin
 const STORAGE_KEY = 'classroom-qpaper-state'
+
+// Wipe any persisted result so the tool always opens fresh - no previous
+// session is restored. (The user wants a clean slate every time.)
+try { localStorage.removeItem(STORAGE_KEY) } catch {}
 
 /* ─── Reusable SelectDown ──────────────────────────── */
 function SelectDown({ value, onChange, options, placeholder }) {
@@ -61,7 +64,7 @@ function SelectDown({ value, onChange, options, placeholder }) {
 function TrackTabs({ value, onChange }) {
   return (
     <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-      {[{ key: 'core', label: 'CBSE / NCERT', icon: '📘' }, { key: 'misc', label: 'Miscellaneous', icon: '🌍' }].map(t => (
+      {[{ key: 'core', label: 'ICT', icon: '📘' }, { key: 'misc', label: 'Miscellaneous', icon: '🌍' }].map(t => (
         <button key={t.key} type="button" onClick={() => onChange(t.key)}
           style={{ flex: 1, padding: '10px 0', border: `1.5px solid ${value === t.key ? 'var(--accent)' : 'var(--border)'}`,
             borderRadius: 10, background: value === t.key ? 'var(--accent-soft)' : 'var(--bg)',
@@ -105,7 +108,7 @@ const Label = ({ children }) => (
 /* ─── PDF Generation ───────────────────────────────── */
 // mode: 'full' (question paper + answer key) | 'questions' (paper only) | 'answers' (answer key only)
 // Built as HTML and snapshotted to PDF so EVERY output language (Hindi, Tamil,
-// Urdu, …) renders correctly — jsPDF's text fonts only cover Latin scripts.
+// Urdu, …) renders correctly - jsPDF's text fonts only cover Latin scripts.
 async function downloadPaperPDF(data, grade, subject, difficulty, logoDataUrl, mode = 'full') {
   const showQuestions = mode === 'full' || mode === 'questions'
   const showAnswers   = mode === 'full' || mode === 'answers'
@@ -204,7 +207,6 @@ export default function QuestionPaperGenerator() {
 
   const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState('')
-  const [showHistory, setShowHistory] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
   const [dlOpen, setDlOpen]     = useState(false)
   const dlRef                   = useRef(null)
@@ -225,24 +227,6 @@ export default function QuestionPaperGenerator() {
   useEffect(() => { setSubject(''); setTopic('') }, [grade, subjectTrack])
   useEffect(() => { setTopic('') }, [subject])
 
-  // Persist
-  useEffect(() => {
-    try {
-      const s = JSON.parse(localStorage.getItem(STORAGE_KEY))
-      if (!s) return
-      if (s.grade) setGrade(s.grade)
-      if (s.subjectTrack) setSubjectTrack(s.subjectTrack)
-      if (s.difficulty) setDifficulty(s.difficulty)
-      if (s.numQ) setNumQ(s.numQ)
-      if (s.questionCategory) setQuestionCategory(s.questionCategory)
-      if (s.questionType) setQuestionType(s.questionType)
-      if (s.paper && s.mode === 'paper') { setPaper(s.paper); setMode('paper') }
-    } catch {}
-  }, [])
-
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ grade, subject, topic, subjectTrack, difficulty, numQ, questionCategory, questionType, paper, mode })) } catch {}
-  }, [grade, subject, topic, subjectTrack, difficulty, numQ, questionCategory, questionType, paper, mode])
 
   const handleLogoUpload = (e) => {
     const file = e.target.files?.[0]; if (!file) return
@@ -279,7 +263,7 @@ export default function QuestionPaperGenerator() {
       try { fetch(`${API}/api/save-chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ teacher_id: TEACHER_ID, tool_name: 'question-paper', topic, grade_level: grade, subject,
           request_data: { topic, grade, subject, numQ, difficulty, questionCategory, questionType },
-          response_preview: `Paper: ${data.title} — ${data.questions?.length} questions`,
+          response_preview: `Paper: ${data.title} - ${data.questions?.length} questions`,
           response_content: JSON.stringify(data) }) }) } catch {}
     } catch (e) { setError(e.message) }
     finally { setLoading(false) }
@@ -324,10 +308,6 @@ export default function QuestionPaperGenerator() {
   if (mode === 'setup') return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
-        <button onClick={() => setShowHistory(true)}
-          style={{ background: '#399aff', border: 'none', borderRadius: 8, padding: '8px 14px', cursor: 'pointer', color: 'white', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
-          📋 History
-        </button>
         <h1 style={{ flex: 1, fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-1)', margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
           <img src="/codevidhya_logo.jfif" alt="CodeVidhya"
             style={{ width: 36, height: 36, borderRadius: 10, background: '#fff', padding: 3, border: '1.5px solid #B6D9FF', objectFit: 'contain' }}
@@ -370,7 +350,7 @@ export default function QuestionPaperGenerator() {
               <SelectDown
                 value={topicList.some(t => (typeof t === 'string' ? t : (t.label || t.topic)) === topic) ? topic : ''}
                 onChange={setTopic}
-                options={topicList.map(t => typeof t === 'string' ? t : { value: t.label || t.topic, label: (t.chapter ? `${t.chapter} — ` : '') + (t.label || t.topic) })}
+                options={topicList.map(t => typeof t === 'string' ? t : { value: t.label || t.topic, label: (t.chapter ? `${t.chapter} - ` : '') + (t.label || t.topic) })}
                 placeholder="Select topic"
               />
             )}
@@ -395,7 +375,7 @@ export default function QuestionPaperGenerator() {
 
         <div><Label>Question Category</Label>
           <PillSelector value={questionCategory} onChange={setQuestionCategory} options={[
-            { value: 'ncert', icon: '📗', label: 'NCERT Based', desc: 'Textbook-aligned' },
+            { value: 'ncert', icon: '📗', label: 'Textbook Based', desc: 'Textbook-aligned' },
             { value: 'miscellaneous', icon: '🌐', label: 'Miscellaneous', desc: 'Broad knowledge' },
             { value: 'advanced', icon: '🚀', label: 'Advanced', desc: 'Competitive level' },
           ]} />
@@ -414,7 +394,7 @@ export default function QuestionPaperGenerator() {
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 600, fontSize: '0.85rem', color: 'var(--text-1)', marginBottom: 4 }}>🏫 School Logo / Watermark</div>
             <div style={{ fontSize: '0.76rem', color: 'var(--text-3)' }}>
-              {schoolLogoName ? `✅ ${schoolLogoName}` : 'Upload your school logo (PNG/JPG) — appears as watermark on all pages'}
+              {schoolLogoName ? `✅ ${schoolLogoName}` : 'Upload your school logo (PNG/JPG) - appears as watermark on all pages'}
             </div>
           </div>
           <label style={{ padding: '8px 16px', background: 'var(--accent-soft)', color: 'var(--accent)', border: '1.5px solid var(--accent)', borderRadius: 8, fontWeight: 600, fontSize: '0.8rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
@@ -432,7 +412,6 @@ export default function QuestionPaperGenerator() {
         </button>
       </div>
 
-      <ChatHistory isOpen={showHistory} onClose={() => setShowHistory(false)} teacherId={TEACHER_ID} onSelectChat={() => setShowHistory(false)} />
     </div>
   )
 
@@ -492,7 +471,7 @@ export default function QuestionPaperGenerator() {
               {dlOpen && !pdfLoading && (
                 <div style={{ position: 'absolute', right: 0, top: 'calc(100% + 6px)', zIndex: 60, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, width: 264, overflow: 'hidden', boxShadow: '0 12px 32px rgba(15,23,42,0.16)' }}>
                   {[
-                    { mode: 'questions', icon: '📄', accent: '#2563eb', label: 'Question Paper only', desc: 'For students — no answers' },
+                    { mode: 'questions', icon: '📄', accent: '#2563eb', label: 'Question Paper only', desc: 'For students - no answers' },
                     { mode: 'answers',   icon: '🔑', accent: '#d97706', label: 'Answer Key only',     desc: 'Separate sheet for the teacher' },
                     { mode: 'full',      icon: '🗂️', accent: '#0E7CF0', label: 'Full (Paper + Key)',   desc: 'Everything in one PDF' },
                   ].map(opt => (
@@ -643,7 +622,6 @@ export default function QuestionPaperGenerator() {
           ))}
         </div>
 
-        <ChatHistory isOpen={showHistory} onClose={() => setShowHistory(false)} teacherId={TEACHER_ID} onSelectChat={() => setShowHistory(false)} />
       </div>
     )
   }

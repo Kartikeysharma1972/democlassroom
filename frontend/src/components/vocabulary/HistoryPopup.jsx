@@ -25,11 +25,11 @@ function worksheetToHtml(w) {
   const block = (title, body) => parts.push(`<h2 style="font-size:18px;font-weight:700;margin:18px 0 8px;color:#0f172a">${esc(title)}</h2>${body}`)
 
   if (Array.isArray(w.vocab_words) && w.vocab_words.length) {
-    const items = w.vocab_words.map(v => `<li><strong>${esc(v.word)}</strong>${v.part_of_speech ? ` <em style="color:#6b7280">(${esc(v.part_of_speech)})</em>` : ''}${v.definition ? ` — ${esc(v.definition)}` : ''}</li>`).join('')
+    const items = w.vocab_words.map(v => `<li><strong>${esc(v.word)}</strong>${v.part_of_speech ? ` <em style="color:#6b7280">(${esc(v.part_of_speech)})</em>` : ''}${v.definition ? ` - ${esc(v.definition)}` : ''}</li>`).join('')
     block('Vocabulary Words', `<ul style="padding-left:22px;line-height:1.7">${items}</ul>`)
   }
   if (w.matching_section) {
-    const items = (w.matching_section.items || []).map(it => `<li><strong>${esc(it.word)}</strong> — ${esc(it.definition)}</li>`).join('')
+    const items = (w.matching_section.items || []).map(it => `<li><strong>${esc(it.word)}</strong> - ${esc(it.definition)}</li>`).join('')
     block(w.matching_section.title || 'Section 1: Match the Word to Its Meaning', `
       <p style="color:#475569;font-size:14px;margin:0 0 6px">${esc(w.matching_section.instructions)}</p>
       <ol style="padding-left:22px;line-height:1.7">${items}</ol>`)
@@ -47,7 +47,7 @@ function worksheetToHtml(w) {
       ${wb}
       <ol style="padding-left:22px;line-height:1.8">${sentences}</ol>`)
   }
-  // Sentence Writing — items live under `prompts` with {word, hint, example}
+  // Sentence Writing - items live under `prompts` with {word, hint, example}
   if (w.sentence_writing) {
     const prompts = (w.sentence_writing.prompts || []).map(p =>
       `<li><strong style="color:#1E88FF">${esc(p.word)}</strong>${p.hint ? `<br/><span style="color:#6b7280;font-size:12px;font-style:italic">💡 ${esc(p.hint)}</span>` : ''}${p.example ? `<br/><span style="color:#b45309;font-size:12px">Example: ${esc(p.example)}</span>` : ''}</li>`
@@ -68,7 +68,7 @@ function downloadTxt(text, filename) {
 }
 
 // Image-based PDF so any output language (Hindi, Tamil, Urdu, …) exports
-// correctly — jsPDF's text fonts only cover Latin scripts.
+// correctly - jsPDF's text fonts only cover Latin scripts.
 async function downloadPdf(text, filename, title) {
   const bodyHtml = escapeHtml(text)
     .split('\n')

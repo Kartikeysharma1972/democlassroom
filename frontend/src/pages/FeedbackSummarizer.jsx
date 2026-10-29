@@ -10,6 +10,10 @@ import {
 const API = window.location.hostname === 'localhost' ? 'http://localhost:8001' : window.location.origin
 const STORAGE_KEY = 'classroom-result-feedback-myp'
 
+// Wipe any persisted result so the tool always opens fresh - no previous
+// session is restored. (The user wants a clean slate every time.)
+try { localStorage.removeItem(STORAGE_KEY) } catch {}
+
 const TONES = [
   { value: 'constructive', label: '🛠️ Constructive' },
   { value: 'encouraging',  label: '🌟 Encouraging' },
@@ -18,7 +22,7 @@ const TONES = [
   { value: 'professional', label: '💼 Professional' },
 ]
 
-// Inline editable text block — uncontrolled so the caret never jumps; commits on blur.
+// Inline editable text block - uncontrolled so the caret never jumps; commits on blur.
 function EditableText({ value, editing, onChange, style }) {
   return (
     <div
@@ -64,9 +68,7 @@ export default function FeedbackSummarizer() {
   const [language, setLanguage] = useState('English')
   const [context, setContext] = useState('')
 
-  const [result, setResult] = useState(() => {
-    try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null } catch { return null }
-  })
+  const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
@@ -91,7 +93,7 @@ export default function FeedbackSummarizer() {
     if (!studentName.trim()) { setError('Student name is required.'); return }
     if (!gradeLevel) { setError('Please select a grade level.'); return }
     if (!group) { setError('Please select a subject group.'); return }
-    if (assessedCount === 0) { setError('Assess at least one criterion (set a level of 1–8).'); return }
+    if (assessedCount === 0) { setError('Assess at least one criterion (set a level of 1-8).'); return }
     setLoading(true); setResult(null)
     try {
       const criteria = group.criteria
@@ -135,9 +137,9 @@ export default function FeedbackSummarizer() {
   const editOverall = (val) => setResult(r => ({ ...r, overall: val }))
 
   const buildPlainText = (r) => {
-    const lines = [`${r._student} — ${r.subject || r.subject_group} (${r._grade})`, '']
+    const lines = [`${r._student} - ${r.subject || r.subject_group} (${r._grade})`, '']
     r.criteria?.forEach(c => {
-      lines.push(`Criterion ${c.key}: ${c.name} — ${c.level}/8 (${c.band})`)
+      lines.push(`Criterion ${c.key}: ${c.name} - ${c.level}/8 (${c.band})`)
       if (c.narrative) lines.push(c.narrative)
       if (c.action_step) lines.push(`Action Step: ${c.action_step}`)
       lines.push('')
@@ -233,7 +235,7 @@ export default function FeedbackSummarizer() {
   <div class="meta-cell"><div class="meta-label">Subject</div><div class="meta-value">${esc(r.subject || r.subject_group)}</div></div>
 </div>
 <table>
-  <thead><tr><th style="width:34%;">Assessment Criterion</th><th style="width:16%;text-align:center;">Level (1–8)</th><th>Teacher Narrative Feedback</th></tr></thead>
+  <thead><tr><th style="width:34%;">Assessment Criterion</th><th style="width:16%;text-align:center;">Level (1-8)</th><th>Teacher Narrative Feedback</th></tr></thead>
   <tbody>${critRows}</tbody>
 </table>
 ${atlBlock}${lpBlock}${overallBlock}
@@ -270,7 +272,7 @@ ${atlBlock}${lpBlock}${overallBlock}
           <div>
             <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, letterSpacing: '-0.5px' }}>Narrative Feedback Writer</h1>
             <p style={{ fontSize: 13.5, margin: '4px 0 0', opacity: 0.92, fontWeight: 500 }}>
-              IB MYP–style reports — score each criterion 1–8, and get skill-by-skill narrative feedback with action steps, ATL focus & Learner Profile notes.
+              IB MYP-style reports - score each criterion 1-8, and get skill-by-skill narrative feedback with action steps, ATL focus & Learner Profile notes.
             </p>
           </div>
         </div>
@@ -304,7 +306,7 @@ ${atlBlock}${lpBlock}${overallBlock}
             </div>
 
             {/* Criteria */}
-            <Field label={`📊 Assessment Criteria — score each 1–8 (${assessedCount} set)`} required>
+            <Field label={`📊 Assessment Criteria - score each 1-8 (${assessedCount} set)`} required>
               <div style={{ background: '#f8fafc', border: '1.5px solid #e2e8f0', borderRadius: 12, padding: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {group?.criteria.map(c => {
                   const lvl = levels[c.key] || 0
@@ -315,7 +317,7 @@ ${atlBlock}${lpBlock}${overallBlock}
                         <span style={{ fontSize: 13, color: '#334155', fontWeight: 600, flex: 1 }}>{c.name}</span>
                         <select value={lvl} onChange={e => setLevel(c.key, Number(e.target.value))} style={{ ...inputStyle, width: 'auto', padding: '6px 10px', fontSize: 12.5, fontWeight: 600 }}>
                           {LEVEL_OPTIONS.map(n => (
-                            <option key={n} value={n}>{n === 0 ? '— Not assessed' : `${n} · ${bandForLevel(n).label}`}</option>
+                            <option key={n} value={n}>{n === 0 ? '- Not assessed' : `${n} · ${bandForLevel(n).label}`}</option>
                           ))}
                         </select>
                       </div>
@@ -491,7 +493,7 @@ ${atlBlock}${lpBlock}${overallBlock}
               <div style={{ width: 72, height: 72, borderRadius: 20, background: '#EEF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, marginBottom: 16 }}>📋</div>
               <h3 style={{ fontSize: 17, fontWeight: 800, color: '#1a1a2e', margin: '0 0 6px' }}>Ready to Generate</h3>
               <p style={{ fontSize: 13.5, color: '#64748b', maxWidth: 320, lineHeight: 1.6, margin: 0 }}>
-                Pick a subject group, score each criterion 1–8, and generate a narrative, criterion-by-criterion report with action steps.
+                Pick a subject group, score each criterion 1-8, and generate a narrative, criterion-by-criterion report with action steps.
               </p>
               <div style={{ display: 'flex', gap: 6, marginTop: 18, flexWrap: 'wrap', justifyContent: 'center' }}>
                 {['🎯 Criterion-based', '🧭 ATL skills', '🌱 Learner Profile'].map(h => (

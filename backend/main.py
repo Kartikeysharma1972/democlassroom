@@ -4458,15 +4458,12 @@ if __name__ == "__main__":
 
     server = uvicorn.Server(config)
 
-    # Patch socket to allow reuse
-    original_socket = socket.socket
-    def patched_socket(*args, **kwargs):
-        sock = original_socket(*args, **kwargs)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        if hasattr(socket, 'SO_REUSEPORT'):
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-        return sock
-    socket.socket = patched_socket
+    # NOTE: do NOT monkey-patch socket.socket here. Replacing the class with a
+    # function breaks any module that subclasses it later - ssl.py does
+    # `class SSLSocket(socket)` on its first import, which then raises
+    # "function() argument 'code' must be code, not str". That killed the
+    # YouTube transcript fetch (the one outbound call that imports ssl lazily).
+    # uvicorn already sets SO_REUSEADDR on its own listening socket.
 
     try:
         import asyncio

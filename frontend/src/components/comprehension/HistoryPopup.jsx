@@ -25,7 +25,7 @@ function comprehensionToHtml(c) {
       <ol style="padding-left:22px;line-height:1.6">${qs}</ol>`)
   }
   if (c.annotation_guide) {
-    const syms = (c.annotation_guide.symbols || []).map(s => `<li><strong>${s.symbol}</strong> — ${s.meaning}</li>`).join('')
+    const syms = (c.annotation_guide.symbols || []).map(s => `<li><strong>${s.symbol}</strong> - ${s.meaning}</li>`).join('')
     block(c.annotation_guide.title || 'Annotation Guide', `
       <p style="color:#475569;font-size:14px;margin:0 0 6px">${c.annotation_guide.instructions || ''}</p>
       <ul style="padding-left:22px;line-height:1.6">${syms}</ul>`)
@@ -41,7 +41,7 @@ function comprehensionToHtml(c) {
       <ol style="padding-left:22px;line-height:1.8">${qs}</ol>`)
   }
   if (c.vocabulary_in_context) {
-    const items = (c.vocabulary_in_context.items || []).map(v => `<li><strong>${v.word || ''}</strong>${v.context_sentence ? ` — <em>${v.context_sentence}</em>` : ''}${v.definition ? `<br/><span style="color:#475569">${v.definition}</span>` : ''}</li>`).join('')
+    const items = (c.vocabulary_in_context.items || []).map(v => `<li><strong>${v.word || ''}</strong>${v.context_sentence ? ` - <em>${v.context_sentence}</em>` : ''}${v.definition ? `<br/><span style="color:#475569">${v.definition}</span>` : ''}</li>`).join('')
     block(c.vocabulary_in_context.title || 'Vocabulary in Context', `<ul style="padding-left:22px;line-height:1.7">${items}</ul>`)
   }
   if (c.after_reading) {
@@ -66,7 +66,7 @@ function downloadTxt(text, filename) {
 }
 
 // Image-based PDF so any output language (Hindi, Tamil, Urdu, …) exports
-// correctly — jsPDF's text fonts only cover Latin scripts.
+// correctly - jsPDF's text fonts only cover Latin scripts.
 async function downloadPdf(text, filename, title) {
   const bodyHtml = escapeHtml(text)
     .split('\n')
@@ -79,7 +79,7 @@ async function downloadPdf(text, filename, title) {
 }
 
 /**
- * HistoryPopup — a centered modal list of past comprehensions.
+ * HistoryPopup - a centered modal list of past comprehensions.
  * Click a row → opens HistoryItemEditor (contentEditable + EditorToolbar +
  * TXT/PDF download buttons + Load button to push it back into the result page).
  *

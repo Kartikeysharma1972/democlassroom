@@ -2,8 +2,8 @@
 // Universal PDF export.
 //
 // jsPDF's built-in fonts (helvetica/times/courier) only cover Latin-1, so any
-// non-Latin script — Hindi/Devanagari, Bengali, Tamil, Telugu, Urdu (RTL),
-// etc. — comes out as garbage boxes when drawn with doc.text(). To support
+// non-Latin script - Hindi/Devanagari, Bengali, Tamil, Telugu, Urdu (RTL),
+// etc. - comes out as garbage boxes when drawn with doc.text(). To support
 // EVERY output language we render the content as HTML in the browser (which
 // already shapes all these scripts correctly) and snapshot it with
 // html2canvas, then place the image into a multi-page A4 PDF.

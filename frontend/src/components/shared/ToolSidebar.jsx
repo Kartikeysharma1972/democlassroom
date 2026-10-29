@@ -43,16 +43,6 @@ const ITEMS = [
       </svg>
     ),
   },
-  {
-    label: 'History',
-    title: 'View session history',
-    icon: (
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18">
-        <circle cx="10" cy="10" r="7"/>
-        <polyline points="10,6 10,10 13,12"/>
-      </svg>
-    ),
-  },
 ]
 
 export default function ToolSidebar({ onAction, activeAction }) {

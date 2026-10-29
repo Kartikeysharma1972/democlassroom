@@ -5,10 +5,9 @@ import DOMPurify from 'dompurify'
 import ToolSidebar from '../../components/shared/ToolSidebar'
 import ExportDropdown from '../../components/shared/ExportDropdown'
 import EditorToolbar from '../../components/shared/EditorToolbar'
-import HistoryPopup from '../../components/comprehension/HistoryPopup'
 
 // Sanitize HTML before passing it to dangerouslySetInnerHTML. The HTML comes
-// from contentEditable serialization that includes LLM-generated text — a
+// from contentEditable serialization that includes LLM-generated text - a
 // poisoned source PDF/URL could prompt-inject the model into emitting an
 // <img onerror=...> inside a passage; once a teacher hits Save, that HTML
 // becomes savedHTML and is re-rendered on every subsequent view. DOMPurify
@@ -24,9 +23,6 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
   const [savedHTML, setSavedHTML] = useState(null)
   const editableRef = useRef(null)
   const [toast, setToast] = useState(null)
-  const [history, setHistory] = useState([])
-  const [showHistory, setShowHistory] = useState(false)
-  const [showAllHistory, setShowAllHistory] = useState(false)
   const [loadingAnswer, setLoadingAnswer] = useState(null)
   const [generatedAnswers, setGeneratedAnswers] = useState({})
   const contentRef = useRef(null)
@@ -130,12 +126,6 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
       setActiveSidebar(null)
       return
     }
-    if (label === 'History') {
-      // History now opens in a centered popup (with per-item Word-like editor + downloads).
-      setShowHistory(true)
-      setActiveSidebar('History')
-      return
-    }
   }
 
   const GRADE_WORD_LIMITS = {
@@ -171,7 +161,7 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
       }
       showToast('Copied to clipboard')
     } catch {
-      showToast('Copy failed — please select and copy manually')
+      showToast('Copy failed - please select and copy manually')
     }
   }
 
@@ -203,7 +193,7 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
       // Previously we always treated the response as a blob, so when the
       // backend errored (e.g. KeyError on a missing field → 500 with JSON
       // body), the user downloaded an .docx file containing the JSON error
-      // — Word reported it as corrupt. Bail out on !res.ok with the message.
+      // - Word reported it as corrupt. Bail out on !res.ok with the message.
       if (!res.ok) {
         let detail = `Export failed (HTTP ${res.status})`
         try { const j = await res.json(); if (j?.detail) detail = j.detail } catch {}
@@ -227,7 +217,7 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
   return (
     <div className="flex flex-col" style={{ background: '#FAF9F7', height: 'calc(100vh - var(--header-h))' }}>
 
-      {/* Tab bar + Export — matches Screenshot 4 */}
+      {/* Tab bar + Export - matches Screenshot 4 */}
       <div className="bg-white border-b border-gray-200 flex items-center px-4 gap-2" style={{ minHeight: 44 }}>
         <div className="flex items-center gap-0 flex-1 overflow-x-auto">
           {tabs.map((tab, idx) => (
@@ -285,18 +275,11 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
         </div>
       )}
 
-      {/* Editor toolbar — outside scroll area so it stays fixed while scrolling */}
+      {/* Editor toolbar - outside scroll area so it stays fixed while scrolling */}
       {isEditMode && (
         <EditorToolbar onDone={() => { setSavedHTML(editableRef.current?.innerHTML || editableHTML); setIsEditMode(false); setActiveSidebar(null) }} />
       )}
 
-      {/* Centered History popup with per-item Word-like editor + downloads */}
-      <HistoryPopup
-        open={showHistory}
-        onClose={() => { setShowHistory(false); setActiveSidebar(null) }}
-        api={api}
-        onLoadFromHistory={(item) => onLoadFromHistory?.(item)}
-      />
 
       {/* Main layout */}
       <div className="flex flex-1 overflow-hidden">
@@ -323,7 +306,7 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
               ref={contentRef}
               className="bg-white rounded-xl shadow-sm border border-gray-100 p-10 min-h-[800px]"
             >
-              {/* Title — matches Screenshot 4 "How Rain Happens" */}
+              {/* Title - matches Screenshot 4 "How Rain Happens" */}
               <h1 className="text-2xl font-bold text-gray-900 mb-6">
                 {passage.title || formData.topic}
               </h1>
@@ -353,7 +336,7 @@ export default function ResultPage({ comprehension, formData, tabs, onNewTab, on
                 </div>
               )}
 
-              {/* Annotation Guide — matches Screenshot 4 bullet list */}
+              {/* Annotation Guide - matches Screenshot 4 bullet list */}
               {ag.symbols && (
                 <div className="mb-6">
                   <h2 className="text-base font-bold text-gray-800 mb-2 pb-1 border-b border-gray-200">

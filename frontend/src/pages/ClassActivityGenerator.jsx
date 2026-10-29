@@ -2,7 +2,6 @@ import React, { useState, useRef, useMemo } from 'react'
 import OutputBox from '../components/OutputBox'
 import CustomSelect from '../components/CustomSelect'
 import LanguageSelect from '../components/LanguageSelect'
-import ChatHistory from '../components/ChatHistory'
 import UsageCounter from '../components/UsageCounter'
 import ErrorToast from '../components/ErrorToast'
 import { useAuth } from '../context/AuthContext'
@@ -13,6 +12,10 @@ import {
 
 const API = window.location.hostname === 'localhost' ? 'http://localhost:8001' : window.location.origin
 const STORAGE_KEY = 'classroom-result-activity'
+
+// Wipe any persisted result so the tool always opens fresh - no previous
+// session is restored. (The user wants a clean slate every time.)
+try { localStorage.removeItem(STORAGE_KEY) } catch {}
 
 const activityTypes = [
   { value: 'group',      label: 'Group Activities',     icon: '👥' },
@@ -92,12 +95,12 @@ const ErrMsg = ({ msg }) => msg ? <div style={{ fontSize: '0.72rem', color: '#dc
 const HIDE_CORE_GRADES = ['Kindergarten', 'College']
 const isHideCoreGrade = (g) => HIDE_CORE_GRADES.includes(g)
 
-// ── Track tabs (Core / Suggestions / Type) — grade-aware ─────────────────
+// ── Track tabs (Core / Suggestions / Type) - grade-aware ─────────────────
 function TrackTabs({ value, onChange, coreCount, miscCount, disabled, grade, hideCoreWhenEmpty = false, showType = true }) {
   const hideCore = isHideCoreGrade(grade) || (hideCoreWhenEmpty && coreCount === 0)
   const miscLabel = isHideCoreGrade(grade) ? 'Suggestions' : 'Miscellaneous'
   const tabs = [
-    !hideCore && { key: 'core', label: 'Core (CBSE/NCERT)', count: coreCount, color: '#10b981', bg: '#ecfdf5', border: '#bbf7d0' },
+    !hideCore && { key: 'core', label: 'Core', count: coreCount, color: '#10b981', bg: '#ecfdf5', border: '#bbf7d0' },
     { key: 'misc', label: miscLabel, count: miscCount, color: '#f59e0b', bg: '#fffbeb', border: '#fcd34d' },
     showType && { key: 'type', label: '✏️ Type', count: null, color: '#4EA3FF', bg: '#EEF6FF', border: '#B6D9FF' },
   ].filter(Boolean)
@@ -142,10 +145,9 @@ export default function ClassActivityGenerator() {
   const [subjectTrack, setSubjectTrack] = useState('core')
   const [topicTrack, setTopicTrack]     = useState('core')
   const [customTopic, setCustomTopic]   = useState('')
-  const [result, setResult]   = useState(() => localStorage.getItem(STORAGE_KEY) || '')
+  const [result, setResult]   = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors]   = useState({})
-  const [showHistory, setShowHistory] = useState(false)
   const [limitError, setLimitError] = useState('')
   const usageCounterRef = useRef(null)
   const [sourceMaterial, setSourceMaterial] = useState('')
@@ -306,15 +308,6 @@ export default function ClassActivityGenerator() {
         {/* ── LEFT PANEL ── */}
         <div className="card fade-up" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', maxHeight: PAGE_H, padding: 0 }}>
           <div style={{ padding: '20px 24px', flexShrink: 0, borderBottom: '1.5px solid var(--border)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <button onClick={() => setShowHistory(true)} title="Chat History" style={{
-                background: ACCENT, border: 'none', borderRadius: 8,
-                padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
-                color: 'white', fontSize: '0.85rem', fontWeight: 600, transition: 'all 0.2s'
-              }}>
-                History
-              </button>
-            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 40, height: 40, background: '#fff', border: `1.5px solid ${ACCENT_MID}`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img src="/codevidhya_logo.jfif" alt="CodeVidhya"
@@ -334,21 +327,21 @@ export default function ClassActivityGenerator() {
           <div style={FORM_BODY}>
             <div style={{ height: 8 }}/>
 
-            {/* STEP 1 — Grade */}
+            {/* STEP 1 - Grade */}
             <div className="form-group">
               <label className="form-label">Grade Level <span style={{ color: '#ef4444' }}>*</span></label>
               <CustomSelect value={form.grade_level} onChange={e => onGradeChange(e.target.value)}
                 style={{ borderColor: errors.grade_level ? '#fca5a5' : ACCENT_MID }}>
-                <option value="">— Select Grade —</option>
+                <option value="">- Select Grade -</option>
                 {GRADE_OPTIONS.map(o => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
               </CustomSelect>
               <ErrMsg msg={errors.grade_level} />
             </div>
 
-            {/* STEP 2 — Subject (Core / Suggestions / Type tabs) */}
+            {/* STEP 2 - Subject (Core / Suggestions / Type tabs) */}
             <div className="form-group">
               <label className="form-label">
-                Subject <span style={{ color: '#ef4444' }}>*</span>
+                Subject <span style={{ fontWeight: 500, color: 'var(--text-3)' }}>(As per customization)</span> <span style={{ color: '#ef4444' }}>*</span>
                 {subjectLocked && <span style={{ fontSize: '0.7rem', color: 'var(--text-3)', fontWeight: 500, marginLeft: 6 }}>(select a grade first)</span>}
               </label>
               <TrackTabs
@@ -375,14 +368,14 @@ export default function ClassActivityGenerator() {
               ) : (
                 <CustomSelect value={form.subject} onChange={e => onSubjectChange(e.target.value)}
                   style={{ borderColor: errors.subject ? '#fca5a5' : ACCENT_MID, opacity: subjectLocked ? 0.5 : 1 }}>
-                  <option value="">{subjectLocked ? 'Pick grade first…' : (subjectTrack === 'core' ? '— Pick CBSE subject —' : (isHideCoreGrade(form.grade_level) ? '— Pick a suggestion —' : '— Pick miscellaneous subject —'))}</option>
+                  <option value="">{subjectLocked ? 'Pick grade first…' : (subjectTrack === 'core' ? '- Pick subject -' : (isHideCoreGrade(form.grade_level) ? '- Pick a suggestion -' : '- Pick miscellaneous subject -'))}</option>
                   {subjectOptions.map(s => <option key={s} value={s}>{s}</option>)}
                 </CustomSelect>
               )}
               <ErrMsg msg={errors.subject} />
             </div>
 
-            {/* STEP 3 — Topic (Core/Misc tabs) */}
+            {/* STEP 3 - Topic (Core/Misc tabs) */}
             <div className="form-group">
               <label className="form-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span>Topic <span style={{ color: '#ef4444' }}>*</span></span>
@@ -407,10 +400,10 @@ export default function ClassActivityGenerator() {
                   <option value="">
                     {topicLocked ? 'Pick subject first…' :
                       (topicTrack === 'core'
-                        ? '— Pick NCERT chapter / topic —'
-                        : (isHideCoreGrade(form.grade_level) ? '— Pick a suggested topic —' : '— Pick miscellaneous topic —'))}
+                        ? '- Pick chapter / topic -'
+                        : (isHideCoreGrade(form.grade_level) ? '- Pick a suggested topic -' : '- Pick miscellaneous topic -'))}
                   </option>
-                  {topicOptions.map(t => <option key={t.label} value={t.label}>{t.chapter ? `${t.chapter} — ${t.label}` : t.label}</option>)}
+                  {topicOptions.map(t => <option key={t.label} value={t.label}>{t.chapter ? `${t.chapter} - ${t.label}` : t.label}</option>)}
                 </CustomSelect>
               )}
 
@@ -423,7 +416,7 @@ export default function ClassActivityGenerator() {
                       border: `1px solid ${topicTrack === 'core' ? '#bbf7d0' : '#fcd34d'}`, borderRadius: 8,
                       fontSize: '0.72rem', color: 'var(--text-2)', lineHeight: 1.5 }}>
                       <strong style={{ color: topicTrack === 'core' ? '#047857' : '#b45309' }}>
-                        {topicTrack === 'core' ? 'NCERT scope:' : 'Topic scope:'}
+                        {'Topic scope:'}
                       </strong> {sel.description}
                     </div>
                   )
@@ -446,7 +439,7 @@ export default function ClassActivityGenerator() {
               <ErrMsg msg={errors.topic} />
             </div>
 
-            {/* Activity Types — multi-select */}
+            {/* Activity Types - multi-select */}
             <div className="form-group">
               <label className="form-label">
                 Activity Types
@@ -587,16 +580,6 @@ export default function ClassActivityGenerator() {
           </div>
         </div>
       </div>
-
-      <ChatHistory
-        isOpen={showHistory}
-        onClose={() => setShowHistory(false)}
-        teacherId={TEACHER_ID}
-        onSelectChat={(chat) => {
-          saveResult(chat.content || chat.preview)
-          setShowHistory(false)
-        }}
-      />
     </div>
   )
 }
