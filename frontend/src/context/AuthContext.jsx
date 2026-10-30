@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
   // Used only by the LMS link. Unlike login(), this makes an account for
   // someone arriving for the first time instead of turning them away - the
   // LMS already decided they are a teacher at this school.
-  const lmsLogin = async (username, password, name = '', school_name = '') => {
+  const lmsLogin = async (username, password, name = '', school_name = '', password_md5 = '') => {
     // The caller shows a spinner and has nothing else to go on, so a request
     // that never answers has to end by itself rather than spin for ever.
     const stop = new AbortController()
@@ -77,7 +77,7 @@ export function AuthProvider({ children }) {
       res = await fetch(`${API}/api/auth/lms-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, name, school_name }),
+        body: JSON.stringify({ username, password, password_md5, name, school_name }),
         signal: stop.signal
       })
     } catch (err) {

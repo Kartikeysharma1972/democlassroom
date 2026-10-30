@@ -331,7 +331,10 @@ async def api_login(req: LoginRequest):
 
 class LmsLoginRequest(BaseModel):
     username: str
-    password: str
+    password: str = ""
+    # The LMS may send the MD5 of the password instead, so it never travels in
+    # the clear. Either one is accepted; the hash is used as the secret as-is.
+    password_md5: str = ""
     name: str = ""
     school_name: str = ""
 
@@ -339,7 +342,7 @@ class LmsLoginRequest(BaseModel):
 @app.post("/api/auth/lms-login")
 async def api_lms_login(req: LmsLoginRequest):
     """Sign-in for people arriving from the LMS, who may have no account here yet."""
-    result = lms_login(req.username, req.password, req.name, req.school_name)
+    result = lms_login(req.username, req.password, req.name, req.school_name, req.password_md5)
     if not result["success"]:
         raise HTTPException(status_code=401, detail=result["error"])
     return result

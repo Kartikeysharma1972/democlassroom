@@ -47,6 +47,10 @@ def init_auth_tables():
     conn.close()
 
 
+def _md5(value: str) -> str:
+    return hashlib.md5(value.encode()).hexdigest()
+
+
 def _hash_password(password: str, salt: str) -> str:
     return hashlib.sha256((password + salt).encode()).hexdigest()
 
@@ -88,7 +92,23 @@ def register_user(name: str, email: str, password: str, school_name: str = "") -
     }
 
 
-def lms_login(username: str, password: str, name: str = "", school_name: str = "") -> dict:
+def _credential_matches(supplied: str, row) -> bool:
+    """True when `supplied` unlocks `row`, whether it is the password or its MD5.
+
+    An account the LMS created holds the MD5 as its secret, because that is all
+    the link ever carried. Accepting the MD5 of whatever was typed as well means
+    the same teacher can also sign in on the form with their real password.
+    """
+    salt = row["salt"]
+    stored = row["password_hash"]
+    return (
+        _hash_password(supplied, salt) == stored
+        or _hash_password(_md5(supplied), salt) == stored
+    )
+
+
+def lms_login(username: str, password: str = "", name: str = "", school_name: str = "",
+              password_md5: str = "") -> dict:
     """Sign in whoever the LMS sent, making them an account on first arrival.
 
     Teachers live in the LMS, not here, so the first time one follows the link
@@ -101,7 +121,12 @@ def lms_login(username: str, password: str, name: str = "", school_name: str = "
     the LMS decides what a username and password look like, not us.
     """
     username = (username or "").strip().lower()
-    if not username or not password:
+
+    # The LMS may send the password already hashed so it never travels in the
+    # clear. MD5 cannot be reversed, and it does not need to be: the hash is
+    # simply what we treat as the secret, and the same hash arrives every time.
+    credential = (password_md5 or "").strip().lower() or (password or "")
+    if not username or not credential:
         return {"success": False, "error": "Missing username or password"}
 
     conn = _get_conn()
@@ -111,7 +136,7 @@ def lms_login(username: str, password: str, name: str = "", school_name: str = "
     row = c.fetchone()
 
     if row:
-        if _hash_password(password, row["salt"]) != row["password_hash"]:
+        if not _credential_matches(credential, row):
             conn.close()
             return {"success": False, "error": "Invalid username or password"}
 
@@ -127,7 +152,7 @@ def lms_login(username: str, password: str, name: str = "", school_name: str = "
     c.execute(
         "INSERT INTO users (name, email, password_hash, salt, school_name, last_login) "
         "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
-        (display, username, _hash_password(password, salt), salt, (school_name or "").strip()),
+        (display, username, _hash_password(credential, salt), salt, (school_name or "").strip()),
     )
     conn.commit()
     user_id = c.lastrowid
@@ -154,7 +179,7 @@ def login_user(email: str, password: str) -> dict:
         conn.close()
         return {"success": False, "error": "Invalid email or password"}
 
-    if _hash_password(password, row["salt"]) != row["password_hash"]:
+    if not _credential_matches(password, row):
         conn.close()
         return {"success": False, "error": "Invalid email or password"}
 
