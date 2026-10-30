@@ -1,5 +1,7 @@
 import hashlib
+import hmac
 import os
+import re
 import secrets
 import json
 import time
@@ -105,6 +107,111 @@ def _credential_matches(supplied: str, row) -> bool:
         _hash_password(supplied, salt) == stored
         or _hash_password(_md5(supplied), salt) == stored
     )
+
+
+# The LMS signs each link with a secret both sides hold. Nothing about the
+# teacher's password travels, and a link is only good for a couple of minutes.
+#
+# Read when used, not at import: this module is imported before main.py calls
+# load_dotenv(), so reading it here at import time would always find nothing.
+def _lms_secret() -> str:
+    return os.environ.get("LMS_SHARED_SECRET", "")
+
+
+def _lms_max_age() -> int:
+    try:
+        return int(os.environ.get("LMS_LINK_MAX_AGE", "120"))
+    except ValueError:
+        return 120
+
+_EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+
+def verify_lms_link(email: str, ts, sig: str) -> dict:
+    """Check an LMS link and return the teacher it names.
+
+    The LMS builds the signature as
+
+        hash_hmac('sha256', email + '|' + ts, secret)
+
+    so the same string is rebuilt here and compared in constant time. A link
+    older than LMS_LINK_MAX_AGE seconds is refused, which is what stops one
+    being saved and reused later.
+    """
+    secret = _lms_secret()
+    if not secret:
+        return {"success": False, "error": "LMS sign-in is not configured on this server"}
+
+    email = (email or "").strip().lower()
+    sig = (sig or "").strip().lower()
+
+    try:
+        ts = int(ts)
+    except (TypeError, ValueError):
+        return {"success": False, "error": "Invalid or expired link"}
+
+    if not _EMAIL.match(email) or not sig:
+        return {"success": False, "error": "Invalid or expired link"}
+
+    expected = hmac.new(
+        secret.encode(),
+        f"{email}|{ts}".encode(),
+        hashlib.sha256,
+    ).hexdigest()
+
+    # compare_digest, not ==, so a wrong signature cannot be guessed a
+    # character at a time from how long the comparison takes.
+    if not hmac.compare_digest(expected, sig):
+        return {"success": False, "error": "Invalid or expired link"}
+
+    if abs(time.time() - ts) > _lms_max_age():
+        return {"success": False, "error": "This link has expired. Please open it from the LMS again."}
+
+    return {"success": True, "email": email}
+
+
+def lms_sign_in(email: str, ts, sig: str, name: str = "", school_name: str = "") -> dict:
+    """Sign a teacher in from a signed LMS link, making their account if needed."""
+    checked = verify_lms_link(email, ts, sig)
+    if not checked["success"]:
+        return checked
+
+    email = checked["email"]
+    conn = _get_conn()
+    c = conn.cursor()
+
+    c.execute("SELECT id, name, email, school_name FROM users WHERE email = ?", (email,))
+    row = c.fetchone()
+
+    if row:
+        c.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (row["id"],))
+        conn.commit()
+        token = _create_token(conn, row["id"])
+        user = {"id": row["id"], "name": row["name"], "email": row["email"], "school_name": row["school_name"]}
+        conn.close()
+        return {"success": True, "token": token, "user": user, "created": False}
+
+    # First arrival. There is no password to store - this teacher only ever
+    # reaches us through a signed link - so the slot gets an unguessable value
+    # rather than anything derived from what the link carried.
+    salt = secrets.token_hex(16)
+    display = (name or "").strip() or email.split("@")[0]
+    c.execute(
+        "INSERT INTO users (name, email, password_hash, salt, school_name, last_login) "
+        "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+        (display, email, _hash_password(secrets.token_urlsafe(32), salt), salt, (school_name or "").strip()),
+    )
+    conn.commit()
+    user_id = c.lastrowid
+    token = _create_token(conn, user_id)
+    conn.close()
+
+    return {
+        "success": True,
+        "token": token,
+        "user": {"id": user_id, "name": display, "email": email, "school_name": (school_name or "").strip()},
+        "created": True,
+    }
 
 
 def lms_login(username: str, password: str = "", name: str = "", school_name: str = "",

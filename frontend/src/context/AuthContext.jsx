@@ -96,6 +96,36 @@ export function AuthProvider({ children }) {
     return data
   }
 
+  // Sign-in from a link the LMS signed. No password travels - the signature
+  // is what proves the LMS vouched for this address, and the server checks it.
+  const lmsLinkSignIn = async ({ email, ts, sig, name = '', school = '' }) => {
+    const stop = new AbortController()
+    const timer = setTimeout(() => stop.abort(), 15000)
+
+    let res
+    try {
+      res = await fetch(`${API}/api/auth/lms-link`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, ts: Number(ts), sig, name, school_name: school }),
+        signal: stop.signal
+      })
+    } catch (err) {
+      throw new Error(err.name === 'AbortError'
+        ? 'Signing in took too long. Please sign in below.'
+        : 'Could not reach the server. Please sign in below.')
+    } finally {
+      clearTimeout(timer)
+    }
+
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.detail || 'That sign-in link did not work.')
+    localStorage.setItem('auth_token', data.token)
+    setToken(data.token)
+    setUser(data.user)
+    return data
+  }
+
   const register = async (name, email, password, school_name) => {
     const res = await fetch(`${API}/api/auth/register`, {
       method: 'POST',
@@ -131,7 +161,7 @@ export function AuthProvider({ children }) {
   const isAuthenticated = Boolean(token) || Boolean(readHandoffUser())
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, lmsLogin, register, logout, teacherId, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, token, loading, login, lmsLogin, lmsLinkSignIn, register, logout, teacherId, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   )

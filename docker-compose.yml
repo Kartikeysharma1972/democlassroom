@@ -25,6 +25,10 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-5-5}
       CLASSROOM_DB_PATH: /data/classroomai.db
+      # Shared with the LMS, which signs each sign-in link with it. Without
+      # one, links from the LMS are refused rather than quietly let through.
+      LMS_SHARED_SECRET: ${LMS_SHARED_SECRET:-}
+      LMS_LINK_MAX_AGE: ${LMS_LINK_MAX_AGE:-120}
       PORT: 8001
     volumes:
       - classroom-data:/data
