@@ -104,8 +104,30 @@ Set these in the environment, or in `backend/.env` for local work. Copy
 | `ANTHROPIC_API_KEY` | no | Arms the paid fallback below. Leave it unset and the app behaves exactly as before. |
 | `ANTHROPIC_MODEL` | no | Defaults to `claude-opus-5-5`. |
 | `ANTHROPIC_EFFORT` | no | Defaults to `medium`. |
+| `VITE_REQUIRE_LOGIN` | no | Build-time. `true` makes the sign-in page compulsory; off by default. |
 
 Never commit real keys. `.env` is gitignored; `.env.example` is the template.
+
+## Who the app thinks you are
+
+The app is normally opened from the Codevidhya portal or an LMS, which have
+already signed the person in. They arrive with `?cv_handoff=<base64 JSON>`:
+
+```json
+{ "token": "<optional session token>",
+  "user": { "id": "4812", "name": "Priya Sharma",
+            "email": "priya@school.edu", "school_name": "DPS Jaipur" } }
+```
+
+`user.id` must be the LMS's own stable id for that person - not their name or
+email. It is what scopes saved history, so each teacher sees their own work and
+nobody else's. Sent without one, the app falls back to a shared demo identity
+rather than filing the work under a guessed key.
+
+Classroom AI also has its own sign-in page at `/login`, wired to the accounts
+in this app's database. It is not compulsory, because the usual entry points
+have already authenticated the person and the demo link is handed out as a QR
+code. Build with `VITE_REQUIRE_LOGIN=true` to require it.
 
 ## When the keys run out
 
