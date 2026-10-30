@@ -1,0 +1,193 @@
+/* The Codevidhya sign-in, carried over from the portal and widened into a
+   role chooser. Scoped under .cv-login so nothing here reaches the dashboard,
+   which is styled with Tailwind. */
+
+.cv-login {
+  --cv-blue:     #1E88FF;
+  --cv-blue-700: #0A63C4;
+  --bar-blue:    #1E6FB8;
+  --bar-blue-2:  #1256A0;
+  --band-1:      #d7e7f8;
+  --band-2:      #f2f8ff;
+  --band-3:      #c9ddf3;
+  --ink:         #1a2436;
+  --muted:       #64748b;
+  --line:        #d7dfea;
+  --shadow-sm:   0 1px 3px rgba(12, 42, 85, 0.12);
+
+  min-height: 100vh;
+  background: #fff;
+  color: var(--ink);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Banner ─────────────────────────────────── */
+.cv-login .cv-banner {
+  margin: 26px auto 0;
+  width: 100%;
+  max-width: 1020px;
+  background: linear-gradient(180deg, var(--band-1) 0%, var(--band-2) 46%, #e6f0fb 58%, var(--band-3) 100%);
+  border-bottom: 4px solid var(--cv-blue);
+  border-top: 1px solid #eaf3fe;
+  box-shadow: inset 0 1px 0 #fff, var(--shadow-sm);
+  display: flex; align-items: center; gap: 20px;
+  padding: 18px 30px;
+}
+.cv-login .b-logo { width: 62px; height: 62px; flex: none; }
+.cv-login .b-logo img { width: 100%; height: 100%; object-fit: contain; }
+.cv-login .b-title {
+  font-size: clamp(1.5rem, 4vw, 2.35rem);
+  font-weight: 800; letter-spacing: -0.5px; color: #0c2a55;
+  text-shadow: 0 1px 0 #fff; line-height: 1.12;
+}
+.cv-login .b-title span {
+  background: linear-gradient(90deg, var(--cv-blue), #57b0ff, var(--cv-blue-700), var(--cv-blue));
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: cv-flow 6s linear infinite;
+}
+@keyframes cv-flow { to { background-position: 300% 0; } }
+.cv-login .b-sub {
+  font-size: clamp(0.95rem, 2.4vw, 1.35rem);
+  font-weight: 700; color: #21447a; margin-top: 2px; text-shadow: 0 1px 0 #fff;
+}
+
+/* ── Stage ──────────────────────────────────── */
+.cv-login .cv-stage {
+  flex: 1;
+  width: 100%; max-width: 1020px; margin: 0 auto;
+  padding: 38px 30px 32px;
+}
+
+.cv-login .cv-ask {
+  text-align: center; margin: 0 0 26px;
+  font-size: 1.5rem; font-weight: 600; color: var(--ink);
+}
+
+/* ── The two boxes ──────────────────────────── */
+.cv-login .cv-roles {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  max-width: 720px; margin: 0 auto;
+}
+.cv-login .cv-role {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 10px; padding: 34px 22px;
+  background: #fff; border: 1.5px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow-sm); cursor: pointer; font-family: inherit;
+  transition: border-color .18s, box-shadow .18s, transform .18s;
+}
+.cv-login .cv-role:hover,
+.cv-login .cv-role:focus-visible {
+  border-color: var(--cv-blue); outline: none;
+  box-shadow: 0 6px 22px rgba(30, 136, 255, 0.18);
+  transform: translateY(-2px);
+}
+.cv-login .cv-role-icon {
+  width: 60px; height: 60px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #eaf3ff, #d8e7fb); color: var(--cv-blue-700);
+}
+.cv-login .cv-role-icon svg { width: 28px; height: 28px; }
+.cv-login .cv-role-label { font-size: 1.22rem; font-weight: 700; color: #0c2a55; }
+.cv-login .cv-role-blurb { font-size: 0.86rem; color: var(--muted); line-height: 1.45; }
+
+/* ── Login / sign-up panel ──────────────────── */
+.cv-login .cv-panel {
+  max-width: 440px; margin: 0 auto;
+  background: #fff; border: 1.5px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow-sm); padding: 24px 26px 26px;
+}
+.cv-login .cv-back {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer; font-family: inherit;
+  color: var(--bar-blue-2); font-size: 0.85rem; font-weight: 600;
+  padding: 0; margin-bottom: 14px;
+}
+.cv-login .cv-back:hover { text-decoration: underline; }
+.cv-login .cv-panel-title { margin: 0; font-size: 1.3rem; font-weight: 700; color: #0c2a55; }
+.cv-login .cv-panel-sub { margin: 4px 0 0; font-size: 0.85rem; color: var(--muted); }
+
+.cv-login .cv-tabs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  background: #f1f5fa; border-radius: 9px; padding: 4px; margin: 18px 0 6px;
+}
+.cv-login .cv-tabs button {
+  padding: 8px 10px; border: none; border-radius: 6px; cursor: pointer;
+  font-family: inherit; font-size: 0.9rem; font-weight: 600;
+  background: transparent; color: var(--muted); transition: background .15s, color .15s;
+}
+.cv-login .cv-tabs button.is-on {
+  background: #fff; color: #0c2a55; box-shadow: var(--shadow-sm);
+}
+
+.cv-login .cv-panel label {
+  display: block; font-size: 0.9rem; color: var(--ink); margin: 13px 0 4px;
+}
+.cv-login .cv-panel input {
+  width: 100%; padding: 9px 11px; font-family: inherit;
+  /* Anything under 16px makes iOS Safari zoom the page on focus. */
+  font-size: 16px;
+  border: 1px solid #b9c8dc; border-radius: 6px; background: #fff; color: var(--ink);
+  transition: border-color .2s, box-shadow .2s;
+}
+.cv-login .cv-panel input:focus {
+  outline: none; border-color: var(--cv-blue);
+  box-shadow: 0 0 0 3px rgba(30, 136, 255, 0.18);
+}
+
+.cv-login .cv-finyear { margin: 16px 0 4px; font-size: 0.9rem; color: var(--muted); }
+.cv-login .cv-finyear b { font-weight: 800; color: var(--ink); margin-left: 6px; }
+
+.cv-login .cv-submit {
+  width: 100%; margin-top: 14px;
+  background: linear-gradient(180deg, var(--cv-blue), var(--cv-blue-700));
+  border: none; border-radius: 8px; padding: 11px 20px;
+  font-family: inherit; font-size: 1rem; font-weight: 700; color: #fff;
+  cursor: pointer; box-shadow: 0 2px 10px rgba(30, 136, 255, 0.3);
+  transition: filter .15s, transform .15s;
+}
+.cv-login .cv-submit:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
+.cv-login .cv-submit:disabled { opacity: 0.62; cursor: default; }
+
+.cv-login .cv-err { color: #c0392b; font-size: 0.86rem; margin-top: 10px; min-height: 1.1em; }
+.cv-login .cv-warn { color: #c0392b; font-size: 0.82rem; line-height: 1.5; margin-top: 12px; }
+
+/* ── Footer ─────────────────────────────────── */
+.cv-login .cv-bar {
+  width: 100%; max-width: 1020px; margin: 0 auto;
+  height: 12px; background: linear-gradient(180deg, var(--bar-blue), #1256A0);
+  box-shadow: var(--shadow-sm);
+}
+.cv-login .cv-foot {
+  width: 100%; max-width: 1020px; margin: 8px auto 36px;
+  padding: 12px 30px 0; text-align: right;
+  color: var(--muted); font-size: 0.82rem; line-height: 1.4;
+}
+.cv-login .cv-foot .pw { color: #9aa9bd; font-size: 0.78rem; }
+.cv-login .cv-foot .brand-mark { color: var(--cv-blue); font-weight: 800; }
+.cv-login .cv-foot .brand-mark b { color: #E8961E; }
+.cv-login .cv-foot .dom { font-weight: 500; color: #9aa9bd; }
+
+/* ── Phone ──────────────────────────────────── */
+@media (max-width: 760px) {
+  .cv-login .cv-banner { margin-top: 0; padding: 14px 16px; gap: 13px; }
+  .cv-login .b-logo { width: 46px; height: 46px; }
+  .cv-login .cv-stage { padding: 24px 16px 26px; }
+
+  /* Side by side the boxes get too narrow to read, so they stack and the
+     icon moves beside the words instead of above them. */
+  .cv-login .cv-roles { grid-template-columns: 1fr; gap: 14px; }
+  .cv-login .cv-role {
+    display: grid; grid-template-columns: 46px 1fr; grid-template-rows: auto auto;
+    column-gap: 15px; row-gap: 2px; text-align: left; padding: 18px; align-items: center;
+  }
+  .cv-login .cv-role-icon { width: 46px; height: 46px; grid-row: 1 / 3; }
+  .cv-login .cv-role-icon svg { width: 22px; height: 22px; }
+  .cv-login .cv-role-label { font-size: 1.05rem; align-self: end; }
+  .cv-login .cv-role-blurb { font-size: 0.8rem; align-self: start; }
+
+  .cv-login .cv-panel { padding: 20px 18px 22px; }
+  .cv-login .cv-foot { text-align: center; margin-bottom: 24px; }
+}

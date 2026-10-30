@@ -1,0 +1,59 @@
+# Both halves of the product, from this one repo.
+#
+#   docker compose up --build
+#
+#   Classroom AI   http://localhost:8001   teachers
+#   Admin portal   http://localhost:5002   principals
+#
+# They share one SQLite file: Classroom AI writes it, the admin portal reads
+# it. That is why the volume is mounted into both.
+#
+# For a real deployment, replace the two PUBLIC_* values below with the
+# addresses each service will answer on. They are compiled into the browser
+# bundles at build time, so changing them means rebuilding, not restarting.
+
+services:
+  classroom-ai:
+    build:
+      context: .
+      args:
+        # Where the Admin box on the sign-in page points. Leave it out and the
+        # box says the portal is not set up rather than linking nowhere.
+        VITE_ADMIN_PORTAL_URL: ${PUBLIC_ADMIN_URL:-http://localhost:5002}
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY:?set GROQ_API_KEY in .env}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-5-5}
+      CLASSROOM_DB_PATH: /data/classroomai.db
+      PORT: 8001
+    volumes:
+      - classroom-data:/data
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+
+  admin-portal:
+    build:
+      context: ./admin-portal
+      args:
+        VITE_CLASSROOM_AI_URL: ${PUBLIC_CLASSROOM_URL:-http://localhost:8001}
+    environment:
+      # Read-only: the portal reports on this data, it never writes it.
+      CLASSROOM_DB_PATH: /data/classroomai.db
+      # Admin accounts are the portal's own, and must outlive the container.
+      ADMIN_DB_PATH: /admin/admin.db
+      CLASSROOM_AI_URL: http://classroom-ai:8001
+      JWT_SECRET: ${ADMIN_JWT_SECRET:?set ADMIN_JWT_SECRET in .env}
+      PORT: 5002
+    volumes:
+      - classroom-data:/data
+      - admin-data:/admin
+    ports:
+      - "5002:5002"
+    depends_on:
+      - classroom-ai
+    restart: unless-stopped
+
+volumes:
+  classroom-data:
+  admin-data:

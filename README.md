@@ -5,7 +5,67 @@ pick a grade, a subject and a chapter, and get back a lesson plan, worksheet,
 question paper or set of class activities. It also includes language tools and
 a code debugger for computer-science lessons.
 
-This repository is the demo build prepared for deployment.
+This repository is the demo build prepared for deployment. It holds two
+services:
+
+| Service | Who it is for | Port |
+|---|---|---|
+| **Classroom AI** (repo root) | Teachers | 8001 |
+| **Admin portal** (`admin-portal/`) | Principals and coordinators | 5002 |
+
+They share one SQLite file: Classroom AI writes it, the admin portal only
+reads it. `admin-portal/README.md` covers that side on its own.
+
+## Deploying both
+
+```bash
+cp .env.example .env     # fill in GROQ_API_KEY and ADMIN_JWT_SECRET
+docker compose up --build
+```
+
+Classroom AI comes up on 8001 and the admin portal on 5002.
+
+Two of the settings are compiled into the browser bundles rather than read at
+run time, so **changing them needs a rebuild, not a restart**:
+
+| Setting | What it is |
+|---|---|
+| `PUBLIC_CLASSROOM_URL` | Where Classroom AI answers, e.g. `https://aitutor.codevidhya.com` |
+| `PUBLIC_ADMIN_URL` | Where the admin portal answers; the Admin box on the sign-in page links here |
+
+Leave `PUBLIC_ADMIN_URL` unset and the Admin box says the portal is not set up
+rather than linking to an address that is not there.
+
+Two volumes must survive a redeploy or data is lost: `classroom-data` holds
+every teacher account and everything they have generated, and `admin-data`
+holds the admin accounts.
+
+### Signing in
+
+One page at `/login` asks whether a teacher or an admin is signing in, and the
+teacher side has both a login and a sign-up tab.
+
+An LMS links straight in, with no form in the way:
+
+```
+/login/?username=<lms username>&password_md5=<md5 of their password>
+```
+
+The password itself never appears in the URL. Nothing is decrypted - MD5 is
+one way - the hash is simply what the account's secret is set to, and the same
+hash arrives on every visit. A teacher with no account here yet gets one made
+on first arrival, so every LMS user can follow the link. `name` and `school`
+may be added to the link and are used once, to give that new account something
+readable.
+
+`make-lms-link.py` builds one of these links for testing:
+
+```bash
+python make-lms-link.py rahul.mehta Teach@2026 "Rahul Mehta" "DPS Jaipur" https://aitutor.codevidhya.com
+```
+
+Without those parameters the page shows the ordinary sign-in, so a link shared
+by hand still asks for a password.
 
 ## The tools
 

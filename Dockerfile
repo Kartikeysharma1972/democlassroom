@@ -8,6 +8,11 @@ RUN npm install --include=dev
 COPY frontend/ ./
 ARG VITE_PORTAL_URL=http://localhost:3000/
 ENV VITE_PORTAL_URL=$VITE_PORTAL_URL
+# Where the Admin box on the sign-in page points. Compiled into the bundle, so
+# it belongs here rather than in the runtime environment. Left empty, the box
+# says the portal is not set up instead of linking nowhere.
+ARG VITE_ADMIN_PORTAL_URL=
+ENV VITE_ADMIN_PORTAL_URL=$VITE_ADMIN_PORTAL_URL
 RUN npm run build
 
 # ---- Stage 2: Python backend (serves the built frontend from ../frontend/dist) ----
