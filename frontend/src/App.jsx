@@ -1,5 +1,5 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard'
 import WorksheetGenerator from './pages/WorksheetGenerator'
 import LessonPlanGenerator from './pages/LessonPlanGenerator'
 import TeacherInsights from './pages/TeacherInsights'
+import History from './pages/History.jsx'
+import Login from './pages/Login.jsx'
 import QuestionPaperGenerator from './pages/QuestionPaperGenerator'
 import ClassActivityGenerator from './pages/ClassActivityGenerator'
 import CodeDebugger from './pages/CodeDebugger'
@@ -15,8 +17,20 @@ import FeedbackSummarizer from './pages/FeedbackSummarizer'
 import VocabularyMastery from './pages/VocabularyMastery'
 import ReadingComprehension from './pages/ReadingComprehension'
 
+// Classroom AI carries its own sign-in page, but the app is normally entered
+// from the portal or the LMS, which have already authenticated the person -
+// and the demo link is handed out as a QR code that nobody has a password for.
+// So the gate is opt-in: set VITE_REQUIRE_LOGIN=true to make /login compulsory.
+const REQUIRE_LOGIN = String(import.meta.env.VITE_REQUIRE_LOGIN) === 'true'
+
 function ProtectedLayout() {
-  const { user, loading } = useAuth()
+  const { user, loading, isAuthenticated } = useAuth()
+  // On a phone the sidebar slides in over the page instead of taking a column.
+  const [navOpen, setNavOpen] = useState(false)
+  const location = useLocation()
+
+  // Tapping a tool should leave the menu closed on the page it opened.
+  useEffect(() => { setNavOpen(false) }, [location.pathname])
 
   if (loading) {
     return (
@@ -35,12 +49,14 @@ function ProtectedLayout() {
     )
   }
 
-  // Login/portal-gate intentionally bypassed - the Codevidhya portal already
-  // authenticated the user, so we always render the app shell.
+  if (REQUIRE_LOGIN && !isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
 
   return (
     <div className="app-shell">
-      <Sidebar />
+      <Sidebar open={navOpen} />
+      {navOpen && <div className="nav-backdrop" onClick={() => setNavOpen(false)} />}
       <div className="main-content">
         {/* Slim shared platform bar - ties the app back to the Codevidhya portal */}
         <div style={{
@@ -48,9 +64,9 @@ function ProtectedLayout() {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px',
         }}>
           <a href={import.meta.env.VITE_PORTAL_URL || 'http://localhost:3000/'} style={{ color: 'inherit', textDecoration: 'none' }}>◂ Codevidhya <b>AI</b> Platform</a>
-          <span style={{ color: 'rgba(255,255,255,.55)' }}>Classroom AI · Teaching Assistant</span>
+          <span className="platform-bar-tag" style={{ color: 'rgba(255,255,255,.55)' }}>Classroom AI · Teaching Assistant</span>
         </div>
-        <Header />
+        <Header onMenu={() => setNavOpen(v => !v)} navOpen={navOpen} />
         <div className="page-body">
           <Outlet />
         </div>
@@ -70,6 +86,7 @@ export default function App() {
 
           <Route path="/class-activity" element={<ClassActivityGenerator />} />
           <Route path="/teacher-insights" element={<TeacherInsights />} />
+          <Route path="/history" element={<History />} />
           <Route path="/question-paper" element={<QuestionPaperGenerator />} />
           <Route path="/code-debugger" element={<CodeDebugger />} />
           <Route path="/feedback" element={<FeedbackSummarizer />} />
@@ -77,6 +94,7 @@ export default function App() {
           <Route path="/comprehension" element={<ReadingComprehension />} />
         </Route>
 
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </BrowserRouter>

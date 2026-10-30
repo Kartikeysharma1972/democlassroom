@@ -596,7 +596,7 @@ ${runSection}
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, position: 'relative', zIndex: 1 }}>
+      <div className="split-pane" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, position: 'relative', zIndex: 1 }}>
         {/* LEFT - INPUT */}
         <div style={{
           background: '#fff', borderRadius: 18, border: '1.5px solid #e2e8f0',

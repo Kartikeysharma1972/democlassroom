@@ -4,12 +4,24 @@ const AuthContext = createContext()
 
 const API = window.location.hostname === 'localhost' ? 'http://localhost:8001' : window.location.origin
 
+// The demo identity the app falls back to when it was opened directly rather
+// than from the LMS. Everything it saves is filed under this one id.
+const DEMO_USER = { id: 'demo', name: 'Teacher', email: 'teacher@codevidhya.com', school_name: 'Codevidhya' }
+
+// Written by the cv_handoff reader in main.jsx before React mounts.
+function readHandoffUser() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('cv_user') || 'null')
+    return stored && stored.id ? stored : null
+  } catch { return null }
+}
+
 export function AuthProvider({ children }) {
-  // Launched from the Codevidhya portal (already authenticated) - start with a
-  // demo teacher so the app opens straight to the dashboard, no portal handoff
-  // or login screen required. A real portal handoff token (if present) still
-  // upgrades this via /api/auth/me below.
-  const [user, setUser] = useState({ id: 'demo', name: 'Teacher', email: 'teacher@codevidhya.com', school_name: 'Codevidhya' })
+  // Launched from the Codevidhya portal or the LMS (already authenticated) -
+  // start with whoever the handoff named, falling back to a demo teacher so the
+  // app still opens straight to the dashboard when there was no handoff. A real
+  // portal token (if present) still upgrades this via /api/auth/me below.
+  const [user, setUser] = useState(() => readHandoffUser() || DEMO_USER)
   const [token, setToken] = useState(() => localStorage.getItem('auth_token') || '')
   const [loading, setLoading] = useState(false)
 
@@ -71,14 +83,22 @@ export function AuthProvider({ children }) {
       headers: { 'Authorization': `Bearer ${token}` }
     }).catch(() => {})
     localStorage.removeItem('auth_token')
+    localStorage.removeItem('cv_user')
     setToken('')
     setUser(null)
   }
 
+  // Scopes saved history. It is derived from the LMS id so each person only
+  // ever sees their own work, and stays the same across their sessions.
   const teacherId = user ? `teacher-${user.id}` : 'teacher-demo-123'
 
+  // `user` is never empty - it falls back to the demo teacher - so this is what
+  // tells the difference between someone who actually signed in or arrived from
+  // the LMS and someone who just opened the URL.
+  const isAuthenticated = Boolean(token) || Boolean(readHandoffUser())
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, teacherId }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, teacherId, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   )

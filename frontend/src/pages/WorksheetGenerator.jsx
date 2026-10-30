@@ -278,7 +278,7 @@ export default function WorksheetGenerator() {
     <div style={{ position: 'relative', height: '100%' }}>
       {limitError && <ErrorToast message={limitError} duration={5000} onClose={() => setLimitError('')} />}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: 24, alignItems: 'start', height: PAGE_H }}>
+      <div className="split-pane" style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: 24, alignItems: 'start', height: PAGE_H }}>
 
         {/* ── LEFT PANEL ── */}
         <div className="card fade-up" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', maxHeight: PAGE_H, padding: 0 }}>

@@ -1,0 +1,173 @@
+/* The Codevidhya portal's ERP-style sign-in, carried over for Classroom AI.
+   The portal serves these rules from its own stylesheet, which this app does
+   not load, so the parts the page needs are restated here and scoped under
+   .erp-login. Kept visually identical on purpose - people recognise it. */
+
+.erp-login {
+  --cv-blue:     #1E88FF;
+  --cv-blue-700: #0A63C4;
+  --bar-blue:    #1E6FB8;
+  --bar-blue-2:  #1256A0;
+  --band-1:      #d7e7f8;
+  --band-2:      #f2f8ff;
+  --band-3:      #c9ddf3;
+  --ink:         #1a2436;
+  --muted:       #64748b;
+  --line:        #d7dfea;
+  --line-soft:   #e8eef6;
+  --shadow-sm:   0 1px 3px rgba(12, 42, 85, 0.12);
+
+  min-height: 100vh;
+  background: #fff;
+  color: var(--ink);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Banner ─────────────────────────────────── */
+.erp-login .erp-banner {
+  margin: 26px auto 0;
+  max-width: 1020px;
+  background: linear-gradient(180deg, var(--band-1) 0%, var(--band-2) 46%, #e6f0fb 58%, var(--band-3) 100%);
+  border-bottom: 4px solid var(--cv-blue);
+  border-top: 1px solid #eaf3fe;
+  box-shadow: inset 0 1px 0 #fff, var(--shadow-sm);
+  display: flex; align-items: center; gap: 20px;
+  padding: 18px 30px;
+}
+.erp-login .b-logo { width: 62px; height: 62px; flex: none; }
+.erp-login .b-logo img { width: 100%; height: 100%; object-fit: contain; }
+.erp-login .b-text { line-height: 1.12; }
+.erp-login .b-title {
+  font-size: clamp(1.5rem, 4vw, 2.35rem);
+  font-weight: 800; letter-spacing: -0.5px; color: #0c2a55;
+  text-shadow: 0 1px 0 #fff;
+}
+.erp-login .b-title span {
+  background: linear-gradient(90deg, var(--cv-blue), #57b0ff, var(--cv-blue-700), var(--cv-blue));
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: cv-flow 6s linear infinite;
+}
+@keyframes cv-flow { to { background-position: 300% 0; } }
+.erp-login .b-sub {
+  font-size: clamp(0.95rem, 2.4vw, 1.35rem);
+  font-weight: 700; color: #21447a; margin-top: 2px;
+  text-shadow: 0 1px 0 #fff;
+}
+
+/* ── Stage ──────────────────────────────────── */
+.erp-login .login-stage {
+  max-width: 1020px; margin: 0 auto; padding: 30px 30px 26px;
+  display: grid; grid-template-columns: 1fr 1px 1.15fr; gap: 34px;
+  align-items: start;
+}
+.erp-login .divider { background: var(--line); width: 1px; align-self: stretch; }
+
+.erp-login .welcome-col { text-align: center; padding-top: 6px; }
+.erp-login .welcome-col h2 {
+  font-size: 1.5rem; font-weight: 600; color: var(--ink); margin: 0 0 20px;
+}
+.erp-login .welcome-col .crest { width: clamp(240px, 60vw, 340px); margin: 8px auto 0; }
+.erp-login .welcome-col .crest img { width: 100%; height: auto; object-fit: contain; display: block; }
+
+/* ── Form ───────────────────────────────────── */
+.erp-login .login-form h3 {
+  font-size: 1.5rem; font-weight: 600; color: #0c2a55; margin: 0 0 14px;
+}
+.erp-login .login-form label {
+  display: block; font-size: 1rem; color: var(--ink); margin: 12px 0 4px;
+}
+.erp-login .login-form input[type="text"],
+.erp-login .login-form input[type="password"] {
+  width: 100%; max-width: 320px;
+  padding: 7px 9px; font-size: 0.95rem; font-family: inherit;
+  border: 1px solid #b9c8dc; border-radius: 3px; background: #fff; color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.erp-login .login-form input:focus {
+  outline: none; border-color: var(--cv-blue);
+  box-shadow: 0 0 0 3px rgba(30, 136, 255, 0.18);
+}
+
+.erp-login .finyear { margin: 16px 0 6px; font-size: 1rem; }
+.erp-login .finyear b { font-weight: 800; margin-left: 10px; }
+
+.erp-login .captcha-head { color: var(--bar-blue-2); font-size: 1.05rem; margin: 16px 0 8px; }
+.erp-login .captcha-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.erp-login .captcha-box {
+  font-weight: 800; font-size: 1.2rem; letter-spacing: 3px;
+  background: #cfd8e4; color: #1a2436;
+  padding: 6px 12px; border-radius: 3px; user-select: none;
+  font-style: italic; text-decoration: line-through rgba(0, 0, 0, 0.25);
+  min-width: 86px; text-align: center;
+}
+.erp-login .captcha-refresh {
+  background: none; border: none; cursor: pointer; color: var(--bar-blue-2);
+  display: grid; place-items: center; padding: 4px;
+}
+.erp-login .captcha-refresh svg { width: 20px; height: 20px; }
+.erp-login .captcha-row input { max-width: 150px !important; }
+
+.erp-login .login-actions {
+  display: flex; align-items: center; gap: 18px; margin-top: 18px; flex-wrap: wrap;
+}
+.erp-login .btn-login {
+  background: linear-gradient(180deg, #f6f9fd, #e6eef8);
+  border: 1px solid #9fb4d0; border-radius: 3px;
+  padding: 7px 20px; font-size: 0.98rem; font-weight: 600; color: var(--ink);
+  font-family: inherit; cursor: pointer; box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, background 0.15s, border-color 0.15s;
+}
+.erp-login .btn-login:hover:not(:disabled) {
+  background: linear-gradient(180deg, #eaf3ff, #d8e7fb);
+  border-color: var(--cv-blue); transform: translateY(-1px);
+}
+.erp-login .btn-login:disabled { opacity: 0.65; cursor: default; }
+.erp-login .login-actions .forgot {
+  color: var(--bar-blue-2); text-decoration: underline; font-size: 0.95rem;
+}
+
+.erp-login .login-err { color: #c0392b; font-size: 0.9rem; margin-top: 8px; min-height: 1.1em; }
+.erp-login .login-warn { color: #c0392b; font-size: 0.92rem; line-height: 1.5; margin-top: 16px; }
+
+/* ── Footer ─────────────────────────────────── */
+.erp-login .erp-bar {
+  max-width: 1020px; margin: 0 auto;
+  height: 12px; background: linear-gradient(180deg, var(--bar-blue), #1256A0);
+  box-shadow: var(--shadow-sm);
+}
+.erp-login .erp-foot {
+  max-width: 1020px; margin: 8px auto 40px;
+  padding: 12px 30px 0;
+  text-align: right; color: var(--muted); font-size: 0.82rem; line-height: 1.4;
+}
+.erp-login .erp-foot .pw { color: #9aa9bd; font-size: 0.78rem; }
+.erp-login .erp-foot .brand-mark { color: var(--cv-blue); font-weight: 800; }
+.erp-login .erp-foot .brand-mark b { color: #E8961E; }
+.erp-login .erp-foot .dom { font-weight: 500; color: #9aa9bd; }
+
+/* ── Phone ──────────────────────────────────── */
+@media (max-width: 820px) {
+  .erp-login .erp-banner {
+    margin-top: 0; padding: 14px 16px; gap: 13px;
+  }
+  .erp-login .b-logo { width: 46px; height: 46px; }
+
+  /* The welcome column reads as an introduction, so it stays above the form
+     rather than beside it; the hairline rule becomes a horizontal one. */
+  .erp-login .login-stage {
+    grid-template-columns: 1fr; gap: 20px; padding: 20px 16px;
+  }
+  .erp-login .divider { width: auto; height: 1px; align-self: auto; }
+  .erp-login .welcome-col .crest { width: clamp(200px, 66vw, 280px); }
+
+  .erp-login .login-form input[type="text"],
+  .erp-login .login-form input[type="password"] {
+    max-width: none;
+    /* Anything under 16px makes iOS Safari zoom the page on focus. */
+    font-size: 16px; padding: 10px 11px;
+  }
+  .erp-login .captcha-row input { max-width: 150px !important; }
+  .erp-login .btn-login { padding: 11px 24px; font-size: 1rem; }
+  .erp-login .erp-foot { text-align: center; margin-bottom: 26px; }
+}

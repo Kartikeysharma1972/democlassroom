@@ -85,6 +85,9 @@ body {
 
 .main-content {
   flex: 1;
+  /* A flex item defaults to min-width:auto, which refuses to shrink below its
+     content - on a phone that pushed the whole page wider than the screen. */
+  min-width: 0;
   margin-left: var(--sidebar-w);
   display: flex;
   flex-direction: column;
@@ -431,8 +434,96 @@ body {
 .markdown-output ol li { list-style: decimal; }
 .markdown-output ul li { list-style: disc; }
 
+/* ── PHONES AND SMALL TABLETS ──────────────────
+   The app is also opened from a QR code, so most of these visits are on a
+   phone. Below 900px the sidebar stops taking a column and slides in over the
+   page instead, and the two-pane tool screens stack. The page layouts are
+   written as inline styles, so the overrides here have to be !important to
+   reach them. */
 @media (max-width: 900px) {
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .main-content { margin-left: 0; }
-  .page-body { padding: 20px 16px; }
+  .page-body { padding: 16px 14px; }
+
+  /* Off-canvas navigation */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform .22s ease;
+    box-shadow: 0 0 40px rgba(0,0,0,.18);
+    width: 270px !important;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .nav-backdrop {
+    position: fixed; inset: 0; z-index: 99;
+    background: rgba(8,15,30,.45);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle { display: inline-flex !important; }
+
+  /* The form/output split becomes one column that scrolls with the page,
+     instead of two fixed-height panes side by side. */
+  .split-pane {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    gap: 16px !important;
+  }
+  .split-pane > * { max-height: none !important; min-width: 0 !important; }
+
+  /* Header: shrink the padding and let the long tool name ellipsis rather
+     than set the width of the page. */
+  .main-content > header {
+    min-width: 0;
+    padding: 0 14px !important;
+    gap: 10px;
+  }
+  .main-content > header > div { min-width: 0; }
+  /* The page title gives up room first: it truncates, while the avatar and
+     the menu button keep their full size. */
+  .main-content > header > div:first-child { overflow: hidden; }
+  .main-content > header > div:first-child div {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .main-content > header > div:last-child { flex-shrink: 0; }
+  /* Decorative blurred shapes are positioned past the edge by design; on a
+     phone they would otherwise add a sideways scroll to every page. */
+  .page-body { overflow-x: hidden; }
+
+  /* Pinned to the hero's top-right corner on a wide screen; on a phone that
+     corner is already taken, so it sits in the flow above the greeting. */
+  .access-badge {
+    position: static !important;
+    align-self: flex-start;
+    margin-bottom: 12px;
+    font-size: 13px !important;
+    padding: 8px 16px !important;
+  }
+
+  .auto-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* The platform bar keeps the back link and drops the strapline. */
+  .platform-bar-tag { display: none; }
+}
+
+@media (max-width: 560px) {
+  .page-body { padding: 14px 12px; }
+  /* The avatar alone identifies the signed-in person; the name and school
+     reappear in the dropdown, so the chip need not carry them across the
+     narrowest header. */
+  .user-chip-text { display: none; }
+  /* Reassurance that costs a third of the header - the tools say the same
+     thing by working. */
+  .ai-status-pill { display: none !important; }
+  .auto-grid { grid-template-columns: 1fr !important; }
+  /* Touch targets: anything tappable gets a finger-sized box. */
+  .sidebar a, .sidebar button { min-height: 42px; }
+}
+
+/* Hidden on desktop, where the sidebar is always on screen. */
+.nav-toggle {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 38px; height: 38px; flex-shrink: 0;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  background: var(--surface, #fff); color: var(--text-2);
+  cursor: pointer; padding: 0;
 }

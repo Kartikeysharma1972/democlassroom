@@ -164,7 +164,7 @@ export default function Dashboard() {
           background: 'radial-gradient(circle, rgba(168,85,247,0.32) 0%, transparent 70%)',
           borderRadius: '50%',
         }} />
-        <div style={{
+        <div className="access-badge" style={{
           position: 'absolute', top: 22, right: 24, zIndex: 2,
           display: 'inline-flex', alignItems: 'center', gap: 8,
           background: '#fff', color: '#1E88FF',
@@ -189,7 +189,7 @@ export default function Dashboard() {
         }} />
 
         <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: 280 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               fontSize: 11, fontWeight: 700,
@@ -272,7 +272,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── STATS ── */}
-      <div className="fade-up-1" style={{
+      <div className="fade-up-1 auto-grid" style={{
         display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 14, marginBottom: 28,
       }}>
@@ -332,7 +332,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── TOOL CARDS ── */}
-      <div className="fade-up-2" style={{
+      <div className="fade-up-2 auto-grid" style={{
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
         gap: 14, marginBottom: 28,
       }}>
@@ -444,7 +444,7 @@ export default function Dashboard() {
             letterSpacing: '-0.2px',
           }}>Pro tips for new teachers</h3>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+        <div className="auto-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
           {quickTips.map((t, i) => (
             <div key={i} style={{
               padding: 14, borderRadius: 12,

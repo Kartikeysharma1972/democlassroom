@@ -9,13 +9,14 @@ const titles = {
   '/class-activity':  { label: 'Class Activity Generator', sub: 'Group activities and projects mapped to learning outcomes.' },
   '/question-paper':  { label: 'Question Paper Generator', sub: 'Full question papers with sections, marks, and answer keys.' },
   '/teacher-insights':{ label: 'Teacher Insights',         sub: 'Analytics and insights from your classroom.' },
+  '/history':         { label: 'History',                  sub: 'Everything you have generated, newest first.' },
   '/code-debugger':   { label: 'Code Debugger',            sub: 'Paste student code - AI finds bugs and teaches the fix.' },
   '/feedback':        { label: 'Feedback Writer',          sub: 'Personalized student feedback with star ratings.' },
   '/vocabulary':      { label: 'Vocabulary Mastery',       sub: 'Grade-calibrated vocabulary worksheets with matching, fill-in-blank, and sentence writing.' },
   '/comprehension':   { label: 'Reading Comprehension',    sub: 'AI-generated reading passages with text-dependent questions and vocabulary in context.' },
 }
 
-export default function Header() {
+export default function Header({ onMenu, navOpen = false }) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -52,6 +53,16 @@ export default function Header() {
     }}>
       {/* Left - page title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0 }}>
+        {/* Only rendered at phone widths, where the sidebar is off-canvas. */}
+        <button className="nav-toggle" onClick={onMenu}
+          aria-label={navOpen ? 'Close menu' : 'Open menu'} aria-expanded={navOpen}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2.2" strokeLinecap="round">
+            {navOpen
+              ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
+              : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>}
+          </svg>
+        </button>
         <div style={{ minWidth: 0 }}>
           <div style={{
             fontSize: 16, fontWeight: 700, color: 'var(--text-1)',
@@ -74,7 +85,7 @@ export default function Header() {
       {/* Right - search hint + status + user */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         {/* AI status pill */}
-        <div style={{
+        <div className="ai-status-pill" style={{
           display: 'flex', alignItems: 'center', gap: 7,
           padding: '6px 12px', borderRadius: 100,
           background: '#ecfdf5', border: '1px solid #a7f3d0',
@@ -115,7 +126,7 @@ export default function Header() {
               letterSpacing: '0.3px',
               boxShadow: '0 2px 8px rgba(30, 136, 255,0.3)',
             }}>{initials}</div>
-            <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
+            <div className="user-chip-text" style={{ textAlign: 'left', lineHeight: 1.2 }}>
               <div style={{
                 fontSize: 12.5, fontWeight: 600, color: 'var(--text-1)',
                 maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
