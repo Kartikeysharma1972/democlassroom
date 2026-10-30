@@ -40,9 +40,33 @@ function finYear() {
   return `${start}-${String(start + 1).slice(2)}`;
 }
 
+// The LMS links in with the teacher's credentials on the query string, e.g.
+//   /login?username=abc&password=xyz
+// Reading them here means that link opens the dashboard with no form in the
+// way, while the same page without them asks who is signing in as usual.
+function readLinkCredentials() {
+  const q = new URLSearchParams(window.location.search);
+  const username = q.get('username') || q.get('userid') || q.get('user');
+  const password = q.get('password') || q.get('pass');
+  return username && password ? { username, password } : null;
+}
+
+// Credentials on a URL end up in browser history and in server logs, so they
+// come off the address bar before anything else happens.
+function stripCredentialsFromUrl() {
+  const q = new URLSearchParams(window.location.search);
+  ['username', 'userid', 'user', 'password', 'pass'].forEach(k => q.delete(k));
+  const qs = q.toString();
+  window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : ''));
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const { login, register } = useAuth();
+
+  // Held from the first render so the page never flashes the role chooser
+  // before the automatic sign-in has had its go.
+  const [linkSignIn, setLinkSignIn] = useState(() => Boolean(readLinkCredentials()));
 
   const [role, setRole] = useState(null);      // null = the two boxes
   const [mode, setMode] = useState('login');   // 'login' | 'signup'
@@ -51,7 +75,29 @@ export default function Login() {
   const [busy, setBusy] = useState(false);
   const firstField = useRef(null);
 
-  useEffect(() => { if (role) firstField.current?.focus(); }, [role, mode]);
+  useEffect(() => {
+    if (role === 'teacher' && !linkSignIn) firstField.current?.focus();
+  }, [role, mode, linkSignIn]);
+
+  useEffect(() => {
+    const creds = readLinkCredentials();
+    if (!creds) return;
+    stripCredentialsFromUrl();
+
+    let cancelled = false;
+    login(creds.username.trim(), creds.password)
+      .then(() => { if (!cancelled) navigate('/dashboard', { replace: true }); })
+      .catch(err => {
+        if (cancelled) return;
+        // Fall back to the normal page rather than stranding anyone on a
+        // spinner, and say why their link did not work.
+        setRole('teacher');
+        setError(err.message || 'That sign-in link did not work. Please sign in below.');
+        setLinkSignIn(false);
+      });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
 
@@ -91,6 +137,17 @@ export default function Login() {
   };
 
   const current = role ? ROLES[role] : null;
+
+  if (linkSignIn) {
+    return (
+      <div className="cv-login">
+        <div className="cv-stage cv-stage-center">
+          <div className="cv-spinner" />
+          <p className="cv-note">Signing you in...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="cv-login">
