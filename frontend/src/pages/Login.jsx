@@ -87,6 +87,9 @@ export default function Login() {
             <label htmlFor="userid">User ID</label>
             <input id="userid" type="text" ref={firstField}
               placeholder="Enter userid" autoComplete="username"
+              /* Phone keyboards capitalise the first letter, which would turn a
+                 user ID into one nobody has. */
+              autoCapitalize="none" autoCorrect="off" spellCheck={false}
               value={userid} onChange={e => setUserid(e.target.value)} />
 
             <label htmlFor="password">Password</label>
