@@ -13,6 +13,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from openai import OpenAI
+try:
+    import anthropic
+except ImportError:  # the paid fallback is optional
+    anthropic = None
 from dotenv import load_dotenv
 import os
 import json
@@ -161,6 +165,12 @@ class _RotatingCompletions:
                     print(f"[groq] key #{i + 1} unavailable (rate-limit/capacity) — trying next key…", file=sys.stderr)
                     continue
                 raise
+        if anthropic_fallback.available:
+            print("[groq] pool exhausted - falling back to Anthropic", file=sys.stderr)
+            try:
+                return anthropic_fallback.create(**kwargs)
+            except Exception as fb_err:  # noqa: BLE001
+                print(f"[anthropic] fallback failed: {fb_err}", file=sys.stderr)
         print("[groq] all keys exhausted (rate-limited)", file=sys.stderr)
         raise last_err
 
@@ -183,6 +193,107 @@ class RotatingGroq:
 
 client = RotatingGroq(_GROQ_KEYS, _GROQ_BASE_URL)
 print(f"[groq] loaded {len(_GROQ_KEYS)} API key(s) for rotation", file=sys.stderr)
+
+# ─── Paid Anthropic fallback ───────────────────────────────────────────────
+# Groq stays the primary provider. This runs only once every key in the pool
+# has come back rate-limited, so a busy minute costs a little money instead of
+# showing the teacher an error. Leave ANTHROPIC_API_KEY unset to disable it.
+_ANTHROPIC_KEY    = (os.getenv("ANTHROPIC_API_KEY") or "").strip()
+_ANTHROPIC_MODEL  = os.getenv("ANTHROPIC_MODEL", "claude-opus-5-5")
+_ANTHROPIC_EFFORT = os.getenv("ANTHROPIC_EFFORT", "medium")
+# Thinking is always on in this model family and spends from max_tokens, so
+# the budget needs headroom or a long answer gets cut off mid-sentence.
+_ANTHROPIC_HEADROOM = 2000
+# Routes a safety refusal to another model instead of returning nothing.
+_ANTHROPIC_BETAS = ["server-side-fallback-2026-07-01"]
+
+
+class _ShimDelta:
+    def __init__(self, content):
+        self.content = content
+
+
+class _ShimMessage:
+    def __init__(self, content):
+        self.content = content
+
+
+class _ShimChoice:
+    def __init__(self, content, streaming):
+        if streaming:
+            self.delta = _ShimDelta(content)
+        else:
+            self.message = _ShimMessage(content)
+
+
+class _ShimResponse:
+    """Just enough of an OpenAI completion for the call sites in this file."""
+    def __init__(self, content, streaming=False):
+        self.choices = [_ShimChoice(content, streaming)]
+
+
+class AnthropicFallback:
+    def __init__(self, api_key):
+        self._client = anthropic.Anthropic(api_key=api_key) if (anthropic and api_key) else None
+
+    @property
+    def available(self):
+        return self._client is not None
+
+    @staticmethod
+    def _split_messages(messages):
+        """OpenAI carries system turns inside `messages`; Anthropic takes them apart."""
+        system, convo = [], []
+        for m in messages or []:
+            role = m.get("role")
+            content = m.get("content", "")
+            if role == "system":
+                system.append(content)
+            else:
+                convo.append({
+                    "role": "assistant" if role == "assistant" else "user",
+                    "content": content,
+                })
+        joined = "\n\n".join(system)
+        if not convo:
+            convo = [{"role": "user", "content": joined or "Hello"}]
+        return joined, convo
+
+    def _params(self, kwargs):
+        system, convo = self._split_messages(kwargs.get("messages"))
+        # `temperature` is rejected outright by current Claude models - the
+        # sampling parameters were removed, so it is dropped rather than mapped.
+        params = {
+            "model": _ANTHROPIC_MODEL,
+            "max_tokens": int(kwargs.get("max_tokens") or 4096) + _ANTHROPIC_HEADROOM,
+            "messages": convo,
+            "output_config": {"effort": _ANTHROPIC_EFFORT},
+            "betas": _ANTHROPIC_BETAS,
+            "fallbacks": "default",
+        }
+        if system:
+            params["system"] = system
+        return params
+
+    def create(self, **kwargs):
+        params = self._params(kwargs)
+        if kwargs.get("stream"):
+            return self._stream(params)
+        msg = self._client.beta.messages.create(**params)
+        text = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
+        return _ShimResponse(text)
+
+    def _stream(self, params):
+        with self._client.beta.messages.stream(**params) as stream:
+            for piece in stream.text_stream:
+                yield _ShimResponse(piece, streaming=True)
+
+
+anthropic_fallback = AnthropicFallback(_ANTHROPIC_KEY)
+if anthropic_fallback.available:
+    print(f"[anthropic] paid fallback armed ({_ANTHROPIC_MODEL}, effort={_ANTHROPIC_EFFORT})", file=sys.stderr)
+elif _ANTHROPIC_KEY and not anthropic:
+    print("[anthropic] ANTHROPIC_API_KEY is set but the anthropic package is missing", file=sys.stderr)
 
 # ─── AUTH MODELS & ENDPOINTS ─────────────────────────
 
