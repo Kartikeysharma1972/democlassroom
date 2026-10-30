@@ -17,11 +17,11 @@ import FeedbackSummarizer from './pages/FeedbackSummarizer'
 import VocabularyMastery from './pages/VocabularyMastery'
 import ReadingComprehension from './pages/ReadingComprehension'
 
-// Classroom AI carries its own sign-in page, but the app is normally entered
-// from the portal or the LMS, which have already authenticated the person -
-// and the demo link is handed out as a QR code that nobody has a password for.
-// So the gate is opt-in: set VITE_REQUIRE_LOGIN=true to make /login compulsory.
-const REQUIRE_LOGIN = String(import.meta.env.VITE_REQUIRE_LOGIN) === 'true'
+// Classroom AI is entered through its own sign-in page. Arriving from the
+// portal or the LMS still skips it, because the cv_handoff token means that
+// person has already been authenticated there - see isAuthenticated.
+// Set VITE_REQUIRE_LOGIN=false to open the app without signing in.
+const REQUIRE_LOGIN = String(import.meta.env.VITE_REQUIRE_LOGIN) !== 'false'
 
 function ProtectedLayout() {
   const { user, loading, isAuthenticated } = useAuth()
