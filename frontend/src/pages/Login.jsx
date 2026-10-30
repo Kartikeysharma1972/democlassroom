@@ -138,6 +138,12 @@ export default function Login() {
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
 
   const pick = useCallback((next) => {
+    // Admin sign-in lives in the portal, so go there rather than showing a
+    // panel whose only content is a second button saying the same thing.
+    if (next === 'admin' && ADMIN_PORTAL) {
+      window.location.href = `${ADMIN_PORTAL.replace(/\/$/, '')}/login?role=admin`;
+      return;
+    }
     setRole(next);
     setMode('login');
     setError('');
@@ -232,23 +238,10 @@ export default function Login() {
               <>
                 <h2 className="cv-panel-title">Admin</h2>
                 <p className="cv-panel-sub">{current.blurb}</p>
-                {ADMIN_PORTAL ? (
-                  <>
-                    <p className="cv-note">
-                      The admin portal is a separate site. Sign in there to see
-                      how your staff are using Classroom AI.
-                    </p>
-                    <a className="cv-submit cv-submit-link"
-                      href={`${ADMIN_PORTAL.replace(/\/$/, '')}/login?role=admin`}>
-                      Open the admin portal
-                    </a>
-                  </>
-                ) : (
-                  <p className="cv-note">
-                    The admin portal is not set up on this site yet. Ask your
-                    Codevidhya contact for the address, or sign in as a teacher.
-                  </p>
-                )}
+                <p className="cv-note">
+                  The admin portal is not set up on this site yet. Ask your
+                  Codevidhya contact for the address, or sign in as a teacher.
+                </p>
               </>
             ) : (
             <>
