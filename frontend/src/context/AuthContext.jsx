@@ -67,12 +67,28 @@ export function AuthProvider({ children }) {
   // someone arriving for the first time instead of turning them away - the
   // LMS already decided they are a teacher at this school.
   const lmsLogin = async (username, password, name = '', school_name = '') => {
-    const res = await fetch(`${API}/api/auth/lms-login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, name, school_name })
-    })
-    const data = await res.json()
+    // The caller shows a spinner and has nothing else to go on, so a request
+    // that never answers has to end by itself rather than spin for ever.
+    const stop = new AbortController()
+    const timer = setTimeout(() => stop.abort(), 15000)
+
+    let res
+    try {
+      res = await fetch(`${API}/api/auth/lms-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, name, school_name }),
+        signal: stop.signal
+      })
+    } catch (err) {
+      throw new Error(err.name === 'AbortError'
+        ? 'Signing in took too long. Please sign in below.'
+        : 'Could not reach the server. Please sign in below.')
+    } finally {
+      clearTimeout(timer)
+    }
+
+    const data = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(data.detail || 'Sign-in failed')
     localStorage.setItem('auth_token', data.token)
     setToken(data.token)
