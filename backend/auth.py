@@ -88,6 +88,60 @@ def register_user(name: str, email: str, password: str, school_name: str = "") -
     }
 
 
+def lms_login(username: str, password: str, name: str = "", school_name: str = "") -> dict:
+    """Sign in whoever the LMS sent, making them an account on first arrival.
+
+    Teachers live in the LMS, not here, so the first time one follows the link
+    from it there is nobody to sign in as. Rather than turn them away, their
+    account is created from what the link carried. On every later visit it is
+    an ordinary sign-in, so a wrong password is still refused - the account
+    only appears once.
+
+    The usual sign-up rules (an address with an @, six characters) do not apply:
+    the LMS decides what a username and password look like, not us.
+    """
+    username = (username or "").strip().lower()
+    if not username or not password:
+        return {"success": False, "error": "Missing username or password"}
+
+    conn = _get_conn()
+    c = conn.cursor()
+
+    c.execute("SELECT id, name, email, password_hash, salt, school_name FROM users WHERE email = ?", (username,))
+    row = c.fetchone()
+
+    if row:
+        if _hash_password(password, row["salt"]) != row["password_hash"]:
+            conn.close()
+            return {"success": False, "error": "Invalid username or password"}
+
+        c.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (row["id"],))
+        conn.commit()
+        token = _create_token(conn, row["id"])
+        user = {"id": row["id"], "name": row["name"], "email": row["email"], "school_name": row["school_name"]}
+        conn.close()
+        return {"success": True, "token": token, "user": user, "created": False}
+
+    salt = secrets.token_hex(16)
+    display = (name or "").strip() or username.split("@")[0]
+    c.execute(
+        "INSERT INTO users (name, email, password_hash, salt, school_name, last_login) "
+        "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+        (display, username, _hash_password(password, salt), salt, (school_name or "").strip()),
+    )
+    conn.commit()
+    user_id = c.lastrowid
+    token = _create_token(conn, user_id)
+    conn.close()
+
+    return {
+        "success": True,
+        "token": token,
+        "user": {"id": user_id, "name": display, "email": username, "school_name": (school_name or "").strip()},
+        "created": True,
+    }
+
+
 def login_user(email: str, password: str) -> dict:
     email = email.strip().lower()
     conn = _get_conn()

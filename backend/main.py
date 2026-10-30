@@ -24,7 +24,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from database import db
 from mcp_tools import get_chat_history, check_usage_limit, increment_usage
-from auth import register_user, login_user, verify_token, logout_user
+from auth import register_user, login_user, lms_login, verify_token, logout_user
 
 # ─── VOCABULARY MASTERY & READING COMPREHENSION TOOL IMPORTS ─────
 import re as _re_mod
@@ -328,6 +328,22 @@ async def api_login(req: LoginRequest):
     if not result["success"]:
         raise HTTPException(status_code=401, detail=result["error"])
     return result
+
+class LmsLoginRequest(BaseModel):
+    username: str
+    password: str
+    name: str = ""
+    school_name: str = ""
+
+
+@app.post("/api/auth/lms-login")
+async def api_lms_login(req: LmsLoginRequest):
+    """Sign-in for people arriving from the LMS, who may have no account here yet."""
+    result = lms_login(req.username, req.password, req.name, req.school_name)
+    if not result["success"]:
+        raise HTTPException(status_code=401, detail=result["error"])
+    return result
+
 
 @app.post("/api/auth/logout")
 async def api_logout(request: Request):

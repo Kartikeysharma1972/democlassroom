@@ -48,21 +48,26 @@ function readLinkCredentials() {
   const q = new URLSearchParams(window.location.search);
   const username = q.get('username') || q.get('userid') || q.get('user');
   const password = q.get('password') || q.get('pass');
-  return username && password ? { username, password } : null;
+  // Optional, and only used the first time someone arrives, to give their
+  // account a readable name instead of the username.
+  const name = q.get('name') || q.get('fullname') || '';
+  const school = q.get('school') || q.get('school_name') || '';
+  return username && password ? { username, password, name, school } : null;
 }
 
 // Credentials on a URL end up in browser history and in server logs, so they
 // come off the address bar before anything else happens.
 function stripCredentialsFromUrl() {
   const q = new URLSearchParams(window.location.search);
-  ['username', 'userid', 'user', 'password', 'pass'].forEach(k => q.delete(k));
+  ['username', 'userid', 'user', 'password', 'pass', 'name', 'fullname', 'school', 'school_name']
+    .forEach(k => q.delete(k));
   const qs = q.toString();
   window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : ''));
 }
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, register } = useAuth();
+  const { login, lmsLogin, register } = useAuth();
 
   // Held from the first render so the page never flashes the role chooser
   // before the automatic sign-in has had its go.
@@ -85,7 +90,7 @@ export default function Login() {
     stripCredentialsFromUrl();
 
     let cancelled = false;
-    login(creds.username.trim(), creds.password)
+    lmsLogin(creds.username.trim(), creds.password, creds.name, creds.school)
       .then(() => { if (!cancelled) navigate('/dashboard', { replace: true }); })
       .catch(err => {
         if (cancelled) return;

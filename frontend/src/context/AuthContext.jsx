@@ -63,6 +63,23 @@ export function AuthProvider({ children }) {
     return data
   }
 
+  // Used only by the LMS link. Unlike login(), this makes an account for
+  // someone arriving for the first time instead of turning them away - the
+  // LMS already decided they are a teacher at this school.
+  const lmsLogin = async (username, password, name = '', school_name = '') => {
+    const res = await fetch(`${API}/api/auth/lms-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, name, school_name })
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.detail || 'Sign-in failed')
+    localStorage.setItem('auth_token', data.token)
+    setToken(data.token)
+    setUser(data.user)
+    return data
+  }
+
   const register = async (name, email, password, school_name) => {
     const res = await fetch(`${API}/api/auth/register`, {
       method: 'POST',
@@ -98,7 +115,7 @@ export function AuthProvider({ children }) {
   const isAuthenticated = Boolean(token) || Boolean(readHandoffUser())
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, teacherId, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, token, loading, login, lmsLogin, register, logout, teacherId, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   )
