@@ -44,6 +44,12 @@ function finYear() {
 //   /login?username=abc&password=xyz
 // Reading them here means that link opens the dashboard with no form in the
 // way, while the same page without them asks who is signing in as usual.
+// The LMS may instead issue one opaque token holding everything, encrypted
+// with a key only the two servers have.
+function readTokenLink() {
+  return new URLSearchParams(window.location.search).get('token') || null;
+}
+
 // The LMS signs each link rather than putting a password on it:
 //   /login/?email=<address>&ts=<unix seconds>&sig=<hmac sha256 of "email|ts">
 // Only the server can check the signature, so all this does is notice one.
@@ -81,7 +87,7 @@ function readLinkCredentials() {
 function stripCredentialsFromUrl() {
   const q = new URLSearchParams(window.location.search);
   ['username', 'userid', 'user', 'password', 'pass', 'password_md5', 'md5', 'pwd',
-    'email', 'ts', 'sig',
+    'email', 'ts', 'sig', 'token',
     'name', 'fullname', 'school', 'school_name'].forEach(k => q.delete(k));
   const qs = q.toString();
   window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : ''));
@@ -89,12 +95,12 @@ function stripCredentialsFromUrl() {
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, lmsLogin, lmsLinkSignIn, register } = useAuth();
+  const { login, lmsLogin, lmsLinkSignIn, lmsTokenSignIn, register } = useAuth();
 
   // Held from the first render so the page never flashes the role chooser
   // before the automatic sign-in has had its go.
   const [linkSignIn, setLinkSignIn] = useState(
-    () => Boolean(readSignedLink() || readLinkCredentials())
+    () => Boolean(readTokenLink() || readSignedLink() || readLinkCredentials())
   );
 
   const [role, setRole] = useState(null);      // null = the two boxes
@@ -111,15 +117,18 @@ export default function Login() {
   useEffect(() => {
     // A signed link is the LMS's normal route; the username/password form of
     // the link is kept for anything still sending that.
-    const signed = readSignedLink();
-    const creds = signed ? null : readLinkCredentials();
-    if (!signed && !creds) return;
+    const token = readTokenLink();
+    const signed = token ? null : readSignedLink();
+    const creds = token || signed ? null : readLinkCredentials();
+    if (!token && !signed && !creds) return;
     stripCredentialsFromUrl();
 
     let cancelled = false;
-    const attempt = signed
-      ? lmsLinkSignIn(signed)
-      : lmsLogin(creds.username.trim(), creds.password, creds.name, creds.school, creds.passwordMd5);
+    const attempt = token
+      ? lmsTokenSignIn(token)
+      : signed
+        ? lmsLinkSignIn(signed)
+        : lmsLogin(creds.username.trim(), creds.password, creds.name, creds.school, creds.passwordMd5);
 
     attempt
       .then(() => { if (!cancelled) navigate('/dashboard', { replace: true }); })

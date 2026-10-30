@@ -1,3 +1,4 @@
+import base64
 import hashlib
 import hmac
 import os
@@ -170,13 +171,112 @@ def verify_lms_link(email: str, ts, sig: str) -> dict:
     return {"success": True, "email": email}
 
 
+def _lms_token_key() -> bytes:
+    """The AES key, which is SHA-256 of the secret both sides hold.
+
+    Per the Moodle plugin: key = hash('sha256', $secret, true) - the raw 32
+    bytes, not the hex of them.
+    """
+    secret = os.environ.get("LMS_TOKEN_SECRET") or os.environ.get("LMS_SHARED_SECRET") or ""
+    return hashlib.sha256(secret.encode()).digest() if secret else b""
+
+
+def _lms_token_max_age() -> int:
+    try:
+        return int(os.environ.get("LMS_TOKEN_MAX_AGE", "600"))
+    except ValueError:
+        return 600
+
+
+def _decrypt_lms_token(token: str) -> dict:
+    """Open a sign-in token from the Moodle plugin.
+
+    base64url, no padding, and once decoded:
+
+        IV (12 bytes) | GCM tag (16) | ciphertext (the rest)
+
+    AES-256-GCM with no AAD. Note the tag sits in the middle, where PHP's
+    openssl_decrypt wants it as its own argument; Python expects it appended
+    to the ciphertext, so the two are put back together here.
+
+    Inside is {"email": ..., "ts": unix seconds}.
+    """
+    key = _lms_token_key()
+    if not key:
+        return {"success": False, "error": "LMS token sign-in is not configured on this server"}
+
+    token = (token or "").strip()
+    try:
+        blob = base64.urlsafe_b64decode(token + "=" * (-len(token) % 4))
+    except Exception:
+        return {"success": False, "error": "Invalid sign-in token"}
+
+    if len(blob) <= 28:
+        return {"success": False, "error": "Invalid sign-in token"}
+
+    iv, tag, cipher = blob[:12], blob[12:28], blob[28:]
+
+    try:
+        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+        plain = AESGCM(key).decrypt(iv, cipher + tag, None)
+    except Exception:
+        # A wrong key, a tampered token and a truncated one all land here:
+        # GCM authenticates before it decrypts, so none of them can be told
+        # apart, and none of them should be.
+        return {"success": False, "error": "Invalid sign-in token"}
+
+    try:
+        data = json.loads(plain.decode("utf-8"))
+        if not isinstance(data, dict):
+            raise ValueError
+    except (UnicodeDecodeError, ValueError):
+        return {"success": False, "error": "Invalid sign-in token"}
+
+    email = str(data.get("email") or "").strip().lower()
+    if not _EMAIL.match(email):
+        return {"success": False, "error": "Invalid sign-in token"}
+
+    try:
+        ts = int(data["ts"])
+    except (KeyError, TypeError, ValueError):
+        return {"success": False, "error": "Invalid sign-in token"}
+
+    if abs(time.time() - ts) > _lms_token_max_age():
+        return {"success": False,
+                "error": "This link has expired. Please open it from the LMS again."}
+
+    return {
+        "success": True,
+        "email": email,
+        "name": str(data.get("name") or data.get("fullname") or "").strip(),
+        "school_name": str(data.get("school") or data.get("school_name") or "").strip(),
+    }
+
+
+def lms_token_sign_in(token: str) -> dict:
+    """Sign a teacher in from an encrypted token, making their account if needed."""
+    opened = _decrypt_lms_token(token)
+    if not opened["success"]:
+        return opened
+    return _sign_in_email(opened["email"], opened["name"], opened["school_name"])
+
+
 def lms_sign_in(email: str, ts, sig: str, name: str = "", school_name: str = "") -> dict:
     """Sign a teacher in from a signed LMS link, making their account if needed."""
     checked = verify_lms_link(email, ts, sig)
     if not checked["success"]:
         return checked
 
-    email = checked["email"]
+    return _sign_in_email(checked["email"], name, school_name)
+
+
+def _sign_in_email(email: str, name: str = "", school_name: str = "") -> dict:
+    """Find or create the teacher with this address and hand back a session.
+
+    Reached only once something else has established that the LMS really did
+    vouch for this address - a verified signature, or a token that opened with
+    the shared key.
+    """
     conn = _get_conn()
     c = conn.cursor()
 

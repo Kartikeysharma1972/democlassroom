@@ -29,6 +29,9 @@ services:
       # one, links from the LMS are refused rather than quietly let through.
       LMS_SHARED_SECRET: ${LMS_SHARED_SECRET:-}
       LMS_LINK_MAX_AGE: ${LMS_LINK_MAX_AGE:-120}
+      # The Moodle plugin encrypts its token with this instead of signing.
+      LMS_TOKEN_SECRET: ${LMS_TOKEN_SECRET:-}
+      LMS_TOKEN_MAX_AGE: ${LMS_TOKEN_MAX_AGE:-600}
       PORT: 8001
     volumes:
       - classroom-data:/data

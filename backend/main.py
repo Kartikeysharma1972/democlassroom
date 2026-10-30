@@ -24,7 +24,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from database import db
 from mcp_tools import get_chat_history, check_usage_limit, increment_usage
-from auth import register_user, login_user, lms_login, lms_sign_in, verify_token, logout_user
+from auth import (register_user, login_user, lms_login, lms_sign_in,
+                  lms_token_sign_in, verify_token, logout_user)
 
 # ─── VOCABULARY MASTERY & READING COMPREHENSION TOOL IMPORTS ─────
 import re as _re_mod
@@ -360,6 +361,19 @@ class LmsLinkRequest(BaseModel):
 async def api_lms_link(req: LmsLinkRequest):
     """Sign-in from a link the LMS signed. No password is involved."""
     result = lms_sign_in(req.email, req.ts, req.sig, req.name, req.school_name)
+    if not result["success"]:
+        raise HTTPException(status_code=403, detail=result["error"])
+    return result
+
+
+class LmsTokenRequest(BaseModel):
+    token: str
+
+
+@app.post("/api/auth/lms-token")
+async def api_lms_token(req: LmsTokenRequest):
+    """Sign-in from an encrypted token the LMS issued."""
+    result = lms_token_sign_in(req.token)
     if not result["success"]:
         raise HTTPException(status_code=403, detail=result["error"])
     return result

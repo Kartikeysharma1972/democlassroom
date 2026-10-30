@@ -23,6 +23,14 @@ import ReadingComprehension from './pages/ReadingComprehension'
 // Set VITE_REQUIRE_LOGIN=false to open the app without signing in.
 const REQUIRE_LOGIN = String(import.meta.env.VITE_REQUIRE_LOGIN) !== 'false'
 
+// An unknown path is usually a stale bookmark, but it is also where an LMS
+// link arrives when that system points at a path of its own. Keeping the query
+// means the sign-in that follows still sees the token.
+function CatchAll() {
+  const { search } = useLocation()
+  return <Navigate to={(search.includes('token=') || search.includes('sig=') ? '/login' : '/dashboard') + search} replace />
+}
+
 function ProtectedLayout() {
   const { user, loading, isAuthenticated } = useAuth()
   // On a phone the sidebar slides in over the page instead of taking a column.
@@ -50,7 +58,10 @@ function ProtectedLayout() {
   }
 
   if (REQUIRE_LOGIN && !isAuthenticated) {
-    return <Navigate to="/login" replace />
+    // Carry the query across. An LMS link lands on whatever path that system
+    // was configured with, and everything identifying the teacher is in the
+    // query - drop it here and the sign-in page has nothing to work with.
+    return <Navigate to={'/login' + location.search} replace />
   }
 
   return (
@@ -95,7 +106,7 @@ export default function App() {
         </Route>
 
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<CatchAll />} />
       </Routes>
     </BrowserRouter>
   )
