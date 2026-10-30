@@ -439,9 +439,13 @@ function renderBoldItalic(text, color, keyBase) {
   )
 }
 
-// Inline $..$ requires non-space right inside the delimiters so plain currency
-// ("$5 and $10") is not swallowed as a formula.
-const MATH_RE = /(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\$(?!\s)[^$\n]*?(?<!\s)\$|\\\([\s\S]+?\\\))/g
+// Inline math is matched two ways:
+//   1. anything between $..$ that contains a backslash - a TeX command, which
+//      currency never has, so "$ \frac{\sum x}{n} $" renders even though the
+//      model padded the delimiters with spaces;
+//   2. the tight form with no space right inside the delimiters, so plain
+//      currency ("$5 and $10") is still not swallowed as a formula.
+const MATH_RE = /(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\$[^$\n]*?\\[^$\n]*?\$|\$(?!\s)[^$\n]*?(?<!\s)\$|\\\([\s\S]+?\\\))/g
 
 function InlineLine({ text, color }) {
   if (!text) return null
@@ -542,12 +546,12 @@ function RenderedOutput({ text }) {
   if (tableBuffer.length > 0) renderBlocks.push({ type: 'table', rows: [...tableBuffer] })
 
   return (
-    <div style={{ fontFamily: 'var(--font, "Inter", system-ui, sans-serif)', fontSize: '0.92rem', lineHeight: 1.8, color: '#334155' }}>
+    <div style={{ fontFamily: 'var(--font, "Inter", system-ui, sans-serif)', fontSize: '0.85rem', lineHeight: 1.75, color: '#334155' }}>
       {headerFills.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8, marginBottom: 24, paddingBottom: 16, borderBottom: '2px solid #e5e7eb' }}>
           {headerFills.map(label => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: '0.84rem', fontWeight: 700, color: '#0a0a0a', minWidth: 70 }}>{label}:</span>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0a0a0a', minWidth: 70 }}>{label}:</span>
               <div style={{ width: 200, borderBottom: '1.5px solid #94a3b8', height: 22 }} />
             </div>
           ))}
@@ -559,7 +563,7 @@ function RenderedOutput({ text }) {
         if (b.type === 'banner') return (
           <div key={i} style={{
             marginTop: 30, marginBottom: 16,
-            fontWeight: 800, fontSize: '1.2rem', color: '#1d4ed8',
+            fontWeight: 800, fontSize: '1.1rem', color: '#1d4ed8',
             textTransform: 'uppercase', letterSpacing: '0.5px', lineHeight: 1.4,
             paddingBottom: 9, borderBottom: '2.5px solid #1d4ed8',
             display: 'flex', alignItems: 'center', gap: 10,
@@ -588,7 +592,7 @@ function RenderedOutput({ text }) {
                     <circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2"/><path d="m17 6 3 3"/><path d="m14 9 2.5 2.5"/>
                   </svg>
                 </span>
-                <span style={{ fontWeight: 800, fontSize: '1.02rem', color: '#92400e', letterSpacing: '-0.2px' }}>
+                <span style={{ fontWeight: 800, fontSize: '0.95rem', color: '#92400e', letterSpacing: '-0.2px' }}>
                   <InlineLine text={b.text} color="#92400e" />
                 </span>
                 <span style={{
@@ -603,7 +607,7 @@ function RenderedOutput({ text }) {
           return (
             <div key={i} style={{
               fontWeight: 800,
-              fontSize: isH1 ? '1.32rem' : isH2 ? '1.12rem' : isH3 ? '1rem' : '0.9rem',
+              fontSize: isH1 ? '1.2rem' : isH2 ? '1.02rem' : isH3 ? '0.92rem' : '0.84rem',
               color: isH1 ? '#0f172a' : isH2 ? '#1e293b' : isH3 ? '#1d4ed8' : '#334155',
               textTransform: b.level === 4 ? 'uppercase' : 'none',
               marginTop: isH1 ? 28 : isH2 ? 24 : 16, marginBottom: isH1 || isH2 ? 10 : 5,
@@ -621,13 +625,13 @@ function RenderedOutput({ text }) {
         }
         if (b.type === 'question') return (
           <div key={i} style={{ marginTop: 16, marginBottom: 4, display: 'flex', gap: 8, alignItems: 'flex-start', paddingLeft: 2 }}>
-            <span style={{ fontWeight: 800, color: '#2563eb', minWidth: 28, textAlign: 'right', fontSize: '0.9rem', paddingTop: 1, flexShrink: 0 }}>{b.num}.</span>
+            <span style={{ fontWeight: 800, color: '#2563eb', minWidth: 28, textAlign: 'right', fontSize: '0.84rem', paddingTop: 1, flexShrink: 0 }}>{b.num}.</span>
             <span style={{ color: '#1e293b', fontWeight: 500, flex: 1 }}><InlineLine text={b.text} color="#1e293b" /></span>
           </div>
         )
         if (b.type === 'option') return (
           <div key={i} style={{ paddingLeft: 42, marginBottom: 3, display: 'flex', gap: 8, alignItems: 'baseline' }}>
-            <span style={{ fontWeight: 700, color: '#2563eb', minWidth: 24, fontSize: '0.84rem', background: '#eff6ff', borderRadius: 4, padding: '1px 6px', textAlign: 'center', flexShrink: 0 }}>{b.label}</span>
+            <span style={{ fontWeight: 700, color: '#2563eb', minWidth: 24, fontSize: '0.78rem', background: '#eff6ff', borderRadius: 4, padding: '1px 6px', textAlign: 'center', flexShrink: 0 }}>{b.label}</span>
             <span style={{ color: '#334155' }}><InlineLine text={b.text} color="#334155" /></span>
           </div>
         )
@@ -643,9 +647,9 @@ function RenderedOutput({ text }) {
           const header = rows[0], body = rows.slice(1)
           return (
             <div key={i} style={{ margin: '14px 0', overflowX: 'auto', borderRadius: 10, border: '1.5px solid #e2e8f0' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.78rem' }}>
                 <thead><tr style={{ background: '#f0f7ff' }}>{header.map((h, hi) => (
-                  <th key={hi} style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 700, color: '#0a0a0a', borderBottom: '2px solid #bfdbfe', fontSize: '0.82rem' }}>{h}</th>
+                  <th key={hi} style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 700, color: '#0a0a0a', borderBottom: '2px solid #bfdbfe', fontSize: '0.78rem' }}>{h}</th>
                 ))}</tr></thead>
                 <tbody>{body.map((row, ri) => (
                   <tr key={ri} style={{ background: ri % 2 === 0 ? '#fff' : '#f8fafc' }}>{row.map((cell, ci) => (
@@ -844,7 +848,7 @@ export default function OutputBox({ result, loading, toolName = 'output', icon, 
           {loading && (
             <div className="loader">
               <div className="spinner"/>
-              <p>Generating with AI...</p>
+              <p>Generating...</p>
             </div>
           )}
           {result && !loading && !editing && (

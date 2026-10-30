@@ -173,7 +173,10 @@ class _RotatingChat:
 class RotatingGroq:
     """Drop-in for OpenAI client that rotates Groq keys on rate-limit errors."""
     def __init__(self, keys, base_url):
-        self._clients = [OpenAI(api_key=k, base_url=base_url) for k in keys]
+        # max_retries=0: a 429 must surface immediately so we can switch keys.
+        # The SDK's own backoff would stall each attempt for tens of seconds,
+        # and rotating across the pool is both faster and more effective.
+        self._clients = [OpenAI(api_key=k, base_url=base_url, max_retries=0) for k in keys]
         self._idx = 0
         self.chat = _RotatingChat(self)
 
@@ -496,7 +499,12 @@ def get_language_directive(language: str) -> str:
     )
 
 
-def scale_tokens_for_language(max_tok: int, language: str, cap: int = 12000) -> int:
+# Free-tier Groq allows 8,000 tokens/minute per key (prompt + completion), so a
+# single request may never budget more than this for its completion.
+MAX_COMPLETION_TOKENS = 5200
+
+
+def scale_tokens_for_language(max_tok: int, language: str, cap: int = MAX_COMPLETION_TOKENS) -> int:
     """Non-Latin scripts (Hindi, Telugu, Tamil, etc.) tokenize into ~2-3x more
     tokens than English for the same content. The per-tool max_tokens budgets are
     tuned for English, so regional output gets silently truncated mid-paper —
@@ -504,7 +512,7 @@ def scale_tokens_for_language(max_tok: int, language: str, cap: int = 12000) -> 
     languages (capped so we stay within the model's completion limit)."""
     lang = (language or "English").strip()
     if not lang or lang == "English":
-        return max_tok
+        return min(max_tok, MAX_COMPLETION_TOKENS)
     return min(cap, int(max_tok * 2.2))
 
 
@@ -514,9 +522,8 @@ def _friendly_ai_error(e: Exception) -> HTTPException:
     msg = str(e)
     if "rate_limit" in msg or "429" in msg or "tokens per day" in msg.lower():
         return HTTPException(status_code=429, detail=(
-            "Daily AI usage limit reached for now. This resets within a few hours — "
-            "please try again later. (Tip: regional languages use more of the daily "
-            "quota than English.)"
+            "The AI is busy right now - too many requests in the last minute. "
+            "Please wait about a minute and try again."
         ))
     return HTTPException(status_code=500, detail=f"AI error: {msg}")
 
@@ -2697,23 +2704,103 @@ def debug_code(req: CodeDebugRequest):
 
 # ─── RUN CODE (executes Python/JS/TS locally; AI-simulates others) ─────────────
 
+def _clean_runner_paths(text: str, tmp_path: str, shown_as: str) -> str:
+    """Replace the throwaway temp file path with a friendly name.
+
+    Tracebacks otherwise read C:\\Users\\...\\Temp\\tmpab12cd.py, which means
+    nothing to a student and leaks the host path on a shared screen.
+    """
+    if not text:
+        return text
+    import os as _os
+    for p in (tmp_path, _os.path.basename(tmp_path)):
+        if p:
+            text = text.replace(p, shown_as)
+    return text
+
+
 def _detect_lang_from_code(code: str) -> str:
+    """Best-effort language guess for the 'auto-detect' option.
+
+    A wrong guess is expensive: Python and JS/TS are really executed, so code
+    that was never Python used to come back as a confusing interpreter error.
+    Markers are scored rather than first-match, because several languages
+    share tokens ("func " is Go and Swift, "println" is Rust and Kotlin).
+    """
     s = code.strip()
     if not s:
         return "Python"
-    if "#include" in s or ("int main(" in s and ("printf(" in s or "cout" in s)):
-        return "C++" if "cout" in s or "std::" in s else "C"
-    if "public static void main" in s or "System.out.println" in s:
-        return "Java"
-    if s.startswith("<!DOCTYPE") or "<html" in s.lower():
+    low = s.lower()
+    first_line = low.split("\n", 1)[0]
+
+    # Unmistakable openers.
+    if "<?php" in low:
+        return "PHP"
+    if low.startswith("<!doctype html") or "<html" in low or "</body>" in low:
         return "HTML"
-    if "def " in s and ("print(" in s or ":" in s):
+    if s.startswith("#!") and ("bash" in first_line or "/sh" in first_line or "zsh" in first_line):
+        return "Shell/Bash"
+    if low.lstrip().startswith(("select ", "insert into", "update ", "delete from",
+                                "create table", "alter table", "drop table", "with ")):
+        return "SQL"
+
+    # Weighted markers: (substring, weight).
+    rules = {
+        "Rust":       [("fn main(", 6), ("println!", 6), ("let mut ", 4), ("use std::", 4),
+                       ("-> i32", 3), ("&str", 3), ("impl ", 2)],
+        "Kotlin":     [("fun main(", 7), ("fun ", 3), ("val ", 2), ("companion object", 4),
+                       ("?: ", 2)],
+        "Go":         [("package main", 7), ("func main(", 5), ("fmt.", 5), (":=", 3)],
+        "C#":         [("using system", 7), ("console.writeline", 7), ("namespace ", 4),
+                       ("static void main", 4)],
+        "Java":       [("public static void main", 7), ("system.out.print", 7),
+                       ("public class ", 3), ("import java", 5)],
+        "C++":        [("#include <iostream>", 7), ("std::", 5), ("cout <<", 6),
+                       ("using namespace std", 5)],
+        "C":          [("#include <stdio.h>", 7), ("printf(", 5), ("scanf(", 5),
+                       ("int main(void)", 3)],
+        "Swift":      [("import foundation", 7), ("guard let", 5), ("func ", 2),
+                       ("var ", 1), ("let ", 2)],
+        "Ruby":       [("puts ", 7), ("require '", 5), (" do |", 5), ("attr_accessor", 6),
+                       ("elsif", 4)],
+        "TypeScript": [(": number", 5), (": string", 5), (": boolean", 5), ("interface ", 4),
+                       (": void", 4), ("as const", 3)],
+        "JavaScript": [("console.log(", 5), ("document.", 5), ("=>", 2), ("function ", 2),
+                       ("require(", 2), ("const ", 1), ("let ", 1)],
+        "Python":     [("def ", 4), ("elif ", 5), ("self.", 4), ("__name__", 6),
+                       ("print(", 2), ("import ", 1)],
+    }
+
+    scores = {}
+    for lang, markers in rules.items():
+        total = sum(w for m, w in markers if m in low)
+        if total:
+            scores[lang] = total
+
+    # Ruby blocks end with a bare "end" line - a strong signal Python never has.
+    for line in s.splitlines():
+        if line.strip() == "end":
+            scores["Ruby"] = scores.get("Ruby", 0) + 4
+            break
+
+    # CSS: rule blocks with no programming keywords anywhere.
+    if ("{" in s and ":" in s and ";" in s
+            and not any(k in low for k in ("function", "def ", "var ", "const ", "let ",
+                                           "print", "class ", "return", "#include", "=>"))):
+        scores["CSS"] = scores.get("CSS", 0) + 8
+
+    # Type annotations imply TypeScript even when JS markers also match.
+    if scores.get("TypeScript") and scores.get("JavaScript"):
+        scores["TypeScript"] += scores.pop("JavaScript")
+
+    # React variants keep the Node runner but name themselves correctly.
+    if "react" in low and ("/>" in s or "</" in s):
+        return "TypeScript (React)" if scores.get("TypeScript") else "JavaScript (React)"
+
+    if not scores:
         return "Python"
-    if "console.log(" in s or ("function " in s and "{" in s):
-        return "JavaScript"
-    if "package main" in s and "func " in s:
-        return "Go"
-    return "Python"
+    return max(scores.items(), key=lambda kv: kv[1])[0]
+
 
 @app.post("/api/run-code")
 def run_code(req: RunCodeRequest):
@@ -2738,7 +2825,8 @@ def run_code(req: RunCodeRequest):
                     capture_output=True, text=True, timeout=10,
                     env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
                 )
-                return {"output": proc.stdout[:5000], "error": proc.stderr[:2000],
+                return {"output": proc.stdout[:5000],
+                        "error": _clean_runner_paths(proc.stderr, tmp_path, "your_code.py")[:2000],
                         "exit_code": proc.returncode, "language": "Python", "simulated": False}
             finally:
                 try: os.unlink(tmp_path)
@@ -2759,13 +2847,26 @@ def run_code(req: RunCodeRequest):
                 f.write(run_str); tmp_path = f.name
             try:
                 proc = subprocess.run(["node", tmp_path], capture_output=True, text=True, timeout=8)
-                return {"output": proc.stdout[:5000], "error": proc.stderr[:2000],
+                return {"output": proc.stdout[:5000],
+                        "error": _clean_runner_paths(proc.stderr, tmp_path, "your_code.js")[:2000],
                         "exit_code": proc.returncode, "language": lang, "simulated": False}
             finally:
                 try: os.unlink(tmp_path)
                 except Exception: pass
         except Exception as e:
             return {"output": "", "error": str(e), "exit_code": -1, "language": lang, "simulated": False}
+
+    # HTML / CSS are markup, not programs. Running them used to return
+    # "(no output)", which reads like a failure. Report the structure instead
+    # so Run still tells the teacher something useful.
+    if lang_lower in ("html", "css"):
+        kind = "page" if lang_lower == "html" else "stylesheet"
+        lines = [l for l in code.splitlines() if l.strip()]
+        note = (f"{lang} is markup, not a program, so there is nothing to execute.\n"
+                f"Parsed {len(lines)} non-empty line(s) of {kind}. "
+                f"Use Debug to check it for mistakes.")
+        return {"output": note, "error": "", "exit_code": 0,
+                "language": lang, "simulated": False}
 
     # Fallback: AI-simulated execution for compiled / unsupported languages.
     # The model MUST be honest — if the code has compile/runtime bugs, return the
