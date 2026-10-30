@@ -145,7 +145,8 @@ export default function Login() {
                       The admin portal is a separate site. Sign in there to see
                       how your staff are using Classroom AI.
                     </p>
-                    <a className="cv-submit cv-submit-link" href={ADMIN_PORTAL}>
+                    <a className="cv-submit cv-submit-link"
+                      href={`${ADMIN_PORTAL.replace(/\/$/, '')}/login?role=admin`}>
                       Open the admin portal
                     </a>
                   </>
