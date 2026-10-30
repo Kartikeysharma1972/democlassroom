@@ -101,8 +101,23 @@ Set these in the environment, or in `backend/.env` for local work. Copy
 | `PORT` | no | Defaults to 8001. |
 | `CORS_ORIGINS` | no | Only needed if the frontend is served from a different origin. |
 | `WEBSHARE_PROXY_USERNAME` / `WEBSHARE_PROXY_PASSWORD` | no | Proxy for YouTube transcript fetching, if your host's IP is blocked. |
+| `ANTHROPIC_API_KEY` | no | Arms the paid fallback below. Leave it unset and the app behaves exactly as before. |
+| `ANTHROPIC_MODEL` | no | Defaults to `claude-opus-5-5`. |
+| `ANTHROPIC_EFFORT` | no | Defaults to `medium`. |
 
 Never commit real keys. `.env` is gitignored; `.env.example` is the template.
+
+## When the keys run out
+
+Every Groq key is tried before a request is allowed to fail. If all of them
+answer with a rate limit - a whole class generating at the same moment - and
+`ANTHROPIC_API_KEY` is set, the request is reissued against the Anthropic API
+rather than returning an error.
+
+This is a paid path and it sits behind the entire pool on purpose: Groq serves
+every ordinary request, and only the overflow reaches it. At `claude-opus-5-5`
+a lesson plan costs roughly $0.10, a worksheet about $0.07. Leaving the key
+unset disables the fallback entirely.
 
 ## Rate limits worth knowing
 
