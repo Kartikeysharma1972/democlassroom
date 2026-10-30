@@ -104,7 +104,7 @@ Set these in the environment, or in `backend/.env` for local work. Copy
 | `ANTHROPIC_API_KEY` | no | Arms the paid fallback below. Leave it unset and the app behaves exactly as before. |
 | `ANTHROPIC_MODEL` | no | Defaults to `claude-opus-5-5`. |
 | `ANTHROPIC_EFFORT` | no | Defaults to `medium`. |
-| `VITE_REQUIRE_LOGIN` | no | Build-time. `true` makes the sign-in page compulsory; off by default. |
+| `VITE_REQUIRE_LOGIN` | no | Build-time. Sign-in is required by default; set to `false` to open the app without it. |
 
 Never commit real keys. `.env` is gitignored; `.env.example` is the template.
 
@@ -124,10 +124,10 @@ email. It is what scopes saved history, so each teacher sees their own work and
 nobody else's. Sent without one, the app falls back to a shared demo identity
 rather than filing the work under a guessed key.
 
-Classroom AI also has its own sign-in page at `/login`, wired to the accounts
-in this app's database. It is not compulsory, because the usual entry points
-have already authenticated the person and the demo link is handed out as a QR
-code. Build with `VITE_REQUIRE_LOGIN=true` to require it.
+Opening the app any other way means signing in: Classroom AI has its own page
+at `/login`, wired to the accounts in this app's database, and a cold visit to
+any route lands there. Accounts are created through `POST /api/auth/register`.
+Build with `VITE_REQUIRE_LOGIN=false` to drop the requirement.
 
 ## When the keys run out
 
